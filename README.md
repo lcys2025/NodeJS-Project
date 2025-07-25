@@ -8,6 +8,9 @@ Course URL: https://www.scope.edu/programmes/ERB人才發展計劃/後端網站�
 Class Number: 10
 Class Starting Date: 4th July 2025
 
+Team email address: lcys2025@outlook.com
+Github account: same as Team email address
+
 Total Team Members: 4 people
 Team Member Name: 1.
                   2.
