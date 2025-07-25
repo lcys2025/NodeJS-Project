@@ -12,7 +12,7 @@ Total Team Members: 4 people
 Team Member Name: 1.
                   2.
                   3.
-                  4. YUHG, Wai Ming
+                  4. YUNG, Wai Ming
 
 
 Final Project Description:
