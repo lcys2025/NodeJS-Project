@@ -79,3 +79,15 @@ fabric.properties
 
 # ignore idea folder
 .idea
+
+######################################
+# Lcys specific <BEGIN>
+######################################
+# 1. Ignore all installed node modules
+node_modules
+# 2. Ignore MacOS system files
+.DS_Store
+######################################
+# Lcys specific <END>
+######################################
+
