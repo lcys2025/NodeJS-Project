@@ -1,9 +1,9 @@
 use erb;
 
-db.createCollection("erb");
+db.createCollection("user");
 
 db.runCommand({
-  insert: "erb",
+  insert: "user",
   documents: [
     { name : "Norris", username : "Norris", password : "123456" },
     { name : "Verstappen", username : "Verstappen", password : "123456" },
