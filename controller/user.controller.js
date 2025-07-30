@@ -1,5 +1,5 @@
 // controller/user.controller.js
-import User from "../models/User.js";
+import User from "../models/User.model.js";
 import StatusCodes from "../utils/StatusCodes.js";
 import { successResponse, errorResponse } from "../utils/responseHandler.js";
 
@@ -49,9 +49,16 @@ class UserController {
           errorResponse("User not found", StatusCodes.NOT_FOUND)
         );
       }
+
+      const userResponse = {
+        id: user._id,
+        username: user.username,
+        name: user.name,
+        email: user.email
+      };
       
       return res.status(StatusCodes.SUCCESS).json(
-        successResponse(user, "User retrieved successfully")
+        successResponse(userResponse, "User retrieved successfully")
       );
     } catch (error) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(
@@ -76,18 +83,29 @@ class UserController {
         );
       }
 
-      const user = new User();
-      user.username = username;
-      user.email = email;
-      // Hash the password before saving
-      let hashedPassword = await bcrypt.hash(password, 10);
-      user.password = hashedPassword;
-      user.name = name;
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Create new user
+      const user = new User({
+        username,
+        password: hashedPassword,
+        name,
+        email
+      });
 
       await user.save();
+
+      // Return success response without password
+      const userResponse = {
+        id: user._id,
+        username: user.username,
+        name: user.name,
+        email: user.email
+      };
       
       return res.status(StatusCodes.CREATED).json(
-        successResponse(user.username, `User created successfully`, StatusCodes.CREATED)
+        successResponse(userResponse, `User created successfully`, StatusCodes.CREATED)
       );
     } catch (error) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(
@@ -134,9 +152,17 @@ class UserController {
           errorResponse("User not found", StatusCodes.NOT_FOUND)
         );
       }
+
+      // Return success response without password
+      const userResponse = {
+        id: user._id,
+        username: user.username,
+        name: user.name,
+        email: user.email
+      };
       
       return res.status(StatusCodes.SUCCESS).json(
-        successResponse(user.username, "User updated successfully")
+        successResponse(userResponse, "User updated successfully")
       );
     } catch (error) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(
