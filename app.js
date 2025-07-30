@@ -35,6 +35,13 @@ mongoose.connect(process.env.MONGODB_URI, {
   process.exit(1);
 })
 
+// listen for connection events
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", () => {
+  console.log("MongoDB connection is open");
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
