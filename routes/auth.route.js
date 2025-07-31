@@ -10,6 +10,11 @@ const authController = new AuthController();
  * @desc Register a new user
  * @access Public
  */
+// before user interaction (output: empty form)
+router.get('/register', (req, res) => {
+  res.render('register');
+});
+// after user interaction (output: post response)
 router.post("/register", authController.register);
 
 /**
@@ -17,6 +22,11 @@ router.post("/register", authController.register);
  * @desc Login user
  * @access Public
  */
+// before user interaction (output: empty form)
+router.get('/login', (req, res) => {
+  res.render('login');
+});
+// after user interaction (output: post response)
 router.post("/login", authController.login);
 
 export default router;

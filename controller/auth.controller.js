@@ -16,6 +16,7 @@ class AuthController {
   register = async (req, res) => {
     try {
       const { username, password, name, email } = req.body;
+      console.log(username, password, name, email); // for testing debug
       
       // Validate required fields
       if (!username || !password || !name || !email) {
@@ -79,6 +80,7 @@ class AuthController {
   login = async (req, res) => {
     try {
       const { username, password } = req.body;
+      console.log(username, password); // for testing debug
       
       // Validate required fields
       if (!username || !password) {
