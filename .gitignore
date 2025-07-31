@@ -87,6 +87,8 @@ fabric.properties
 node_modules
 # 2. Ignore MacOS system files
 .DS_Store
+# 3. Ignore package-lock.json
+package-lock.json
 ######################################
 # Lcys specific <END>
 ######################################

@@ -10,7 +10,7 @@ import dotenv from "dotenv";
 
 import indexRouter from "./routes/index.js";
 import usersRouter from "./routes/user.route.js";
-import authRouter from "./routes/auth.routes.js";
+import authRouter from "./routes/auth.route.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,15 +26,13 @@ if (!process.env.MONGODB_URI) {
 }
 
 // connect mongodb and add success and failed callback
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log("connect mongodb successfully!")
-}).catch((err) => {
-  console.log("failed to connect mongodb!, error: ", err);
-  process.exit(1);
-})
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("connect mongodb successfully!")
+  }).catch((err) => {
+    console.log("failed to connect mongodb!, error: ", err);
+    process.exit(1);
+  })
 
 // listen for connection events
 const db = mongoose.connection;
