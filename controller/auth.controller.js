@@ -15,21 +15,13 @@ class AuthController {
    */
   register = async (req, res) => {
     try {
-      const { username, password, name, email } = req.body;
-      console.log(username, password, name, email); // for testing debug
+      const { password, name, email } = req.body;
+      console.log(password, name, email); // for testing debug
       
       // Validate required fields
-      if (!username || !password) {
+      if (!email || !password) {
         return res.status(StatusCodes.BAD_REQUEST).json(
-          errorResponse("Username, password are required", StatusCodes.BAD_REQUEST)
-        );
-      }
-
-      // Check if username already exists
-      const existingUser = await User.findOne({ username });
-      if (existingUser) {
-        return res.status(StatusCodes.CONFLICT).json(
-          errorResponse("Username already exists", StatusCodes.CONFLICT)
+          errorResponse("Email, password are required", StatusCodes.BAD_REQUEST)
         );
       }
 
@@ -46,7 +38,7 @@ class AuthController {
 
       // Create new user
       const user = new User({
-        username,
+        username: email,
         password: hashedPassword,
         name,
         email
@@ -57,7 +49,6 @@ class AuthController {
       // Return success response without password
       const userResponse = {
         id: user._id,
-        username: user.username,
         name: user.name,
         email: user.email
       };
@@ -79,18 +70,18 @@ class AuthController {
    */
   login = async (req, res) => {
     try {
-      const { username, password } = req.body;
-      console.log(username, password); // for testing debug
+      const { email, password } = req.body;
+      console.log(email, password);
       
       // Validate required fields
-      if (!username || !password) {
+      if (!email || !password) {
         return res.status(StatusCodes.BAD_REQUEST).json(
-          errorResponse("Username and password are required", StatusCodes.BAD_REQUEST)
+          errorResponse("Email and password are required", StatusCodes.BAD_REQUEST)
         );
       }
 
       // Find user by username
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ email });
       if (!user) {
         return res.status(StatusCodes.UNAUTHORIZED).json(
           errorResponse("Invalid username or password", StatusCodes.UNAUTHORIZED)
@@ -98,7 +89,7 @@ class AuthController {
       }
 
       // Compare passwords
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      const isPasswordValid = bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
         return res.status(StatusCodes.UNAUTHORIZED).json(
           errorResponse("Invalid username or password", StatusCodes.UNAUTHORIZED)
@@ -106,7 +97,7 @@ class AuthController {
       }
       
       // Prepare user data for response (exclude password)
-      const userData = {
+      const userResponse = {
         id: user._id,
         username: user.username,
         name: user.name,

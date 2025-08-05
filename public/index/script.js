@@ -1,32 +1,72 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector(".member-form");
-  form.addEventListener("submit", (e) => {
-    e.preventDefault(); 
-    alert("感謝您的加入！我們將盡快與您聯絡。");
-  });
+	const form = document.querySelector(".member-form");
+	
+	form.removeEventListener("submit", handleFormSubmit);
+	form.addEventListener("submit", handleFormSubmit);
 });
 
-const form = document.querySelector('.member-form');
+async function handleFormSubmit(event) {
+	event.preventDefault();
+	
+	const name = document.getElementById("name").value.trim();
+	const email = document.getElementById("email").value.trim();
+	const password = document.getElementById("password").value.trim();
+	const plan = document.getElementById("plan").value;
+	
+	// validate required fields
+	if (!name || !email || !password) {
+		alert("請填寫姓名、電子郵件和密碼！");
+		return;
+	}
+	
+	// validate email format
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	if (!emailRegex.test(email)) {
+		alert("請輸入有效的電子郵件地址！");
+    document.getElementById("email").value = "";
+    document.getElementById("email").focus();
+		return;
+	}
+	
+	// validate password strength
+	// const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+	// if (!passwordRegex.test(password)) {
+	// 	alert("密碼需包含大、小寫英文字母、數字，並至少八個字元！");
+	// 	return;
+	// }
+	
+	try {
+		// fetch API to submit the form data
+		const response = await fetch('/auth/register', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				name: name,
+				email: email,
+				password: password
+			})
+		});
+		
+		const result = await response.json();
+		
+    // registration success
+		if (response.ok) {
+			alert(`感謝你的申請，${name}！我們將透過 ${email} 聯絡你關於「${plan}」會員計劃。`);
+			event.target.reset();
+			window.location.href = '/auth/login';
+		} else {
+			// registration failed
+			alert(`註冊失敗: ${result.message || '請稍後再試'}`);
+		}
+	} catch (error) {
+		// network or server error
+		alert("註冊過程中發生錯誤，請稍後再試！");
+		console.error("Registration error:", error);
+	}
+}
 
-  form.addEventListener('submit', function(event) {
-    event.preventDefault(); 
-
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const plan = document.getElementById('plan').value;
-
-    if (!name || !email) {
-      alert("請填寫姓名和電子郵件！");
-      return;
-    }
-
-    alert(`感謝你的申請，${name}！我們將透過 ${email} 聯絡你關於「${plan}」會員計劃。`);
-    
-    form.reset(); 
-  });
-
-
-
-  function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function scrollToTop() {
+	window.scrollTo({ top: 0, behavior: "smooth" });
 }

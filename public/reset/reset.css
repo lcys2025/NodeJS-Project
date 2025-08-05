@@ -27,26 +27,37 @@ body {
   margin-bottom: 1rem;
 }
 
-.reset-box input {
+.reset-box form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.reset-box input,
+.reset-box button {
   width: 100%;
   padding: 0.7rem;
   margin: 0.5rem 0;
   border-radius: 5px;
   border: none;
+  box-sizing: border-box;
 }
 
 .reset-box button {
-  width: 100%;
-  padding: 0.7rem;
   background-color: #ffd700;
   color: #000;
-  border: none;
-  border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 0.5rem;
 }
 
 .reset-box button:hover {
   background-color: #ffcc00;
+}
+
+#backButton {
+  background-color: #6c757d;
+}
+
+#backButton:hover {
+  background-color: #5a6268;
 }

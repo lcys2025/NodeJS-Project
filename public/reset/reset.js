@@ -21,3 +21,7 @@ document.getElementById("resetForm").addEventListener("submit", function(e) {
     window.location.href = "login.html";
   }, 1500); 
 });
+
+document.getElementById('backButton').addEventListener('click', function() {
+  window.location.href = '/auth/login';
+});
