@@ -6,6 +6,19 @@ const router = express.Router();
 const authController = new AuthController();
 
 /**
+  * @route GET /auth/resetPassword
+  * @desc Render reset password page
+  * @access Public
+  */
+// before user interaction (output: empty form)
+router.get('/resetPassword', (req, res) => {
+  res.render('resetPassword');
+});
+router.post("/resetPassword", (req, res) => {
+  res.render("404");
+});
+
+/**
  * @route POST /auth/register
  * @desc Register a new user
  * @access Public

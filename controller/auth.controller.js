@@ -19,9 +19,9 @@ class AuthController {
       console.log(username, password, name, email); // for testing debug
       
       // Validate required fields
-      if (!username || !password || !name || !email) {
+      if (!username || !password) {
         return res.status(StatusCodes.BAD_REQUEST).json(
-          errorResponse("Username, password, name, and email are required", StatusCodes.BAD_REQUEST)
+          errorResponse("Username, password are required", StatusCodes.BAD_REQUEST)
         );
       }
 
