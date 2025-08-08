@@ -141,11 +141,9 @@ vite.config.ts.timestamp-*
 ######################################
 # Lcys specific <BEGIN>
 ######################################
-# 1. Ignore all installed node modules
-node_modules
-# 2. Ignore MacOS system files
+# 1. Ignore MacOS system files
 .DS_Store
-# 3. Ignore package-lock.json
+# 2. Ignore package-lock.json
 package-lock.json
 ######################################
 # Lcys specific <END>
