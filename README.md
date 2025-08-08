@@ -24,7 +24,7 @@ Team Member Name:
 
 1. 
 2. 
-3. Xiao, Guan li
+3. XIAO, Guan li
 4. YUNG, Wai Ming
 
 ## Final Project Description
