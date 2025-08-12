@@ -149,3 +149,5 @@ package-lock.json
 # Lcys specific <END>
 ######################################
 
+# ignore idea folder
+.idea

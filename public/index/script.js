@@ -29,18 +29,18 @@ async function handleFormSubmit(event) {
 	}
 	
 	// validate password strength
-	// const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-	// if (!passwordRegex.test(password)) {
-	// 	alert("密碼需包含大、小寫英文字母、數字，並至少八個字元！");
-	// 	return;
-	// }
+	const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+	if (!passwordRegex.test(password)) {
+		alert("密碼需包含大、小寫英文字母、數字，並至少八個字元！");
+		return;
+	}
 	
 	try {
 		// fetch API to submit the form data
 		const response = await fetch('/auth/register', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json'	
 			},
 			body: JSON.stringify({
 				name: name,

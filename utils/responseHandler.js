@@ -3,52 +3,30 @@
  * Provides consistent response format across the application
  */
 
-/**
- * Success response format
- * @param {any} data - Response data
- * @param {string} message - Success message
- * @param {number} statusCode - HTTP status code
- * @returns {Object} Formatted success response
- */
-const successResponse = (data = null, message = "Operation successful", statusCode = 200) => {
-  return {
+import StatusCodes from "./statusCodes.js";
+
+const createSuccessResponse = (res, data = null, message = "Operation successful", statusCode = StatusCodes.SUCCESS) => {
+
+  const resObject = {
     success: true,
-    data,
+    data: data ?? {},
     message,
     statusCode
   };
+
+  res.status(statusCode).json(resObject);
 };
 
-/**
- * Error response format
- * @param {string} message - Error message
- * @param {number} statusCode - HTTP status code
- * @param {any} errors - Detailed error information
- * @returns {Object} Formatted error response
- */
-const errorResponse = (message = "Operation failed", statusCode = 500, errors = null) => {
-  const response = {
+const createErrorResponse = (res, message = "Internal Server Error", statusCode = StatusCodes.INTERNAL_SERVER_ERROR, error = null) => {
+  
+  const resObject = {
     success: false,
+    error: error ?? {},
     message,
     statusCode
   };
-  
-  if (errors) {
-    response.errors = errors;
-  }
-  
-  return response;
+
+  res.status(statusCode).json(resObject);
 };
 
-/**
- * Async wrapper to handle try-catch blocks
- * @param {Function} fn - Async function to wrap
- * @returns {Function} Wrapped function with error handling
- */
-const asyncHandler = (fn) => {
-  return (req, res, next) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
-  };
-};
-
-export { successResponse, errorResponse, asyncHandler };
+export { createSuccessResponse, createErrorResponse };

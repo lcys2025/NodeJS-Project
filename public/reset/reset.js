@@ -1,27 +1,58 @@
-document.getElementById("resetForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const newPassword = document.getElementById("newPassword").value.trim();
-  const confirmPassword = document.getElementById("confirmPassword").value.trim();
+document.getElementById("resetForm").addEventListener("submit", handleResetPassword);
+document.getElementById("backButton").addEventListener("click", returnToLogin);
 
-  const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+async function handleResetPassword(e) {
+	e.preventDefault();
+	const newPassword = document.getElementById("newPassword").value.trim();
+	const confirmPassword = document.getElementById("confirmPassword").value.trim();
+	const email = document.getElementById("email").value.trim();
 
-  if (!strongPassword.test(newPassword)) {
-    alert("密碼需包含大、小寫英文字母、數字，並至少八個字元！");
-    return;
-  }
+	const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-  if (newPassword !== confirmPassword) {
-    alert("兩次輸入的密碼不一致！");
-    return;
-  }
+	if (!strongPassword.test(newPassword)) {
+		alert("密碼需包含大、小寫英文字母、數字，並至少八個字元！");
+		document.getElementById("newPassword").value = "";
+		document.getElementById("confirmPassword").value = "";
+		document.getElementById("newPassword").focus();
+		return;
+	}
 
-  alert("密碼重設成功！你將返回登入頁面。");
+	if (newPassword !== confirmPassword) {
+		alert("兩次輸入的密碼不一致！");
+		document.getElementById("newPassword").value = "";
+		document.getElementById("confirmPassword").value = "";
+		return;
+	}
 
-  setTimeout(() => {
-    window.location.href = "login.html";
-  }, 1500); 
-});
+	try {
+		// send request to server
+		const response = await fetch("/auth/resetPassword", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				email: email,
+				newPassword: newPassword,
+				confirmPassword: confirmPassword,
+			}),
+		});
+    const responseData = await response.json();
+		if (responseData.success) {
+			alert("密碼重設成功！你將返回登入頁面。");
+			setTimeout(() => {
+				window.location.href = "/auth/login";
+			}, 1500);
+		} else {
+			alert("密碼重設失敗！請稍後再試！");
+		}
+	} catch (error) {
+		// network or server error
+		alert("重置密碼過程中發生錯誤，請稍後再試！");
+		console.error("Registration error:", error);
+	}
+}
 
-document.getElementById('backButton').addEventListener('click', function() {
-  window.location.href = '/auth/login';
-});
+function returnToLogin() {
+	window.location.href = "/auth/login";
+}
