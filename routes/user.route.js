@@ -1,43 +1,62 @@
-// // routes/users.routes.js
+import User from "../models/User.model.js";
 import express from "express";
-// import UserController from "../controller/user.controller.js";
+import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
 
 const router = express.Router();
-// const userController = new UserController();
 
-// /**
-//  * @route GET /users
-//  * @desc Get all users
-//  * @access Public (for now, but should be protected in production)
-//  */
-// router.get("/", userController.getAllUsers);
+/**
+ * @route GET /users
+ * @desc Get all users
+ */
+router.get("/list", async (req, res, next) => {
+	try {
+		let userList = await User.find().select("name email username");
+		createSuccessResponse(res, userList);
+	} catch (error) {
+		createErrorResponse(res, (error = error));
+	}
+});
 
-// /**
-//  * @route GET /users/:username
-//  * @desc Get user by username
-//  * @access Public (for now, but should be protected in production)
-//  */
-// router.get("/:username", userController.getUserByUsername);
+/**
+ * @route GET /users/searchById/:id
+ * @desc Get user by id
+ */
+router.get("/searchById/:id", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		let user = await User.findOne({ _id: id }).select("name email username");
+		createSuccessResponse(res, user);
+	} catch (error) {
+		createErrorResponse(res, (error = error));
+	}
+});
 
-// /**
-//  * @route POST /users
-//  * @desc Create a new user (alternative to register)
-//  * @access Public
-//  */
-// router.post("/", userController.createUser);
+/**
+ * @route GET /users/searchByEmail/:email
+ * @desc Get user by email
+ */
+router.get("/searchByEmail/:email", async (req, res, next) => {
+	try {
+		const { email } = req.params;
+		let user = await User.findOne({ email: email }).select("name email username");
+		createSuccessResponse(res, user);
+	} catch (error) {
+		createErrorResponse(res, (error = error));
+	}
+});
 
-// /**
-//  * @route PUT /users/:username
-//  * @desc Update user by username
-//  * @access Public (for now, but should be protected in production)
-//  */
-// router.put("/:username", userController.updateUser);
-
-// /**
-//  * @route DELETE /users/:username
-//  * @desc Delete user by username
-//  * @access Public (for now, but should be protected in production)
-//  */
-// router.delete("/:username", userController.deleteUser);
+/**
+* @route GET /users/deleted/:id
+* @desc deleted user by id
+*/
+router.post("/deleted/:id", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		let user = await User.deleteOne({ _id: id });
+		createSuccessResponse(res, { id });
+	} catch (error) {
+		createErrorResponse(res, (error = error));
+	}
+});
 
 export default router;

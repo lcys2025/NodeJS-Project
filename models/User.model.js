@@ -1,26 +1,33 @@
 import mongoose from "mongoose";
-import { type } from "os";
+import validator from "validator";
 
 const userSchema = new mongoose.Schema(
 	{
-		name: {
-			type: String,
-			maxlength: 30,
-		},
+		name: { type: String, trim: true, maxlength: 30 },
 		username: {
 			type: String,
 			required: true,
 			unique: true,
 			minlength: 3,
 			maxlength: 30,
+			trim: true,
 		},
 		password: {
 			type: String,
-			minlength: 6,
+			minlength: 8,
+			required: true,
+			select: false,
 		},
 		email: {
 			type: String,
-			match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, "Please enter a valid email"],
+			required: true,
+			unique: true,
+			trim: true,
+			lowercase: true,
+			validate: {
+				validator: (v) => validator.isEmail(v),
+				message: "Please enter a valid email",
+			},
 		},
 	},
 	{

@@ -79,7 +79,7 @@ router.post("/login", async (req, res) => {
     }
 
     // find user by email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
     if (!user) {
       // generic message to avoid user enumeration
       return createErrorResponse(res, "Invalid username or password");
