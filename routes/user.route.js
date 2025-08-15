@@ -5,7 +5,7 @@ import { createSuccessResponse, createErrorResponse } from "../utils/responseHan
 const router = express.Router();
 
 /**
- * @route GET /users
+ * @route GET /user/list
  * @desc Get all users
  */
 router.get("/list", async (req, res, next) => {
@@ -18,7 +18,7 @@ router.get("/list", async (req, res, next) => {
 });
 
 /**
- * @route GET /users/searchById/:id
+ * @route GET /user/searchById/:id
  * @desc Get user by id
  */
 router.get("/searchById/:id", async (req, res, next) => {
@@ -32,7 +32,7 @@ router.get("/searchById/:id", async (req, res, next) => {
 });
 
 /**
- * @route GET /users/searchByEmail/:email
+ * @route GET /user/searchByEmail/:email
  * @desc Get user by email
  */
 router.get("/searchByEmail/:email", async (req, res, next) => {
@@ -46,7 +46,7 @@ router.get("/searchByEmail/:email", async (req, res, next) => {
 });
 
 /**
-* @route GET /users/deleted/:id
+* @route GET /user/deleted/:id
 * @desc deleted user by id
 */
 router.post("/deleted/:id", async (req, res, next) => {
