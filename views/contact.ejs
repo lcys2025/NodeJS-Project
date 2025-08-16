@@ -24,11 +24,16 @@
     </header>
 
     <section>
-        <h2>About Us</h2>
-        <p>At <%= company_name %>, we believe in empowering every individual to reach their peak physical potential. 
-        Inspired by the community-driven spirit of fitness hubs like Gym Town, our state-of-the-art facility 
-        offers a range of training programs, expert guidance, and a supportive atmosphere to help you achieve 
-        your health and fitness goals.</p>
+        <h2>Contact Us</h2>
+        <form onsubmit="alert('Email submitted!'); return false;">
+            <label>Name:</label><br>
+            <input type="text" name="name" required><br><br>
+            <label>Email:</label><br>
+            <input type="email" name="email" required><br><br>
+            <label>Message:</label><br>
+            <textarea name="message" required></textarea><br><br>
+            <button type="submit">Submit</button>
+        </form>
     </section>
 
     <button onclick="scrollToTop()" class="top-button">Back to top ↑</button>

@@ -12,6 +12,7 @@ import indexRouter from "./routes/index.js";
 import aboutRouter from "./routes/about.route.js";
 import servicesRouter from "./routes/services.route.js";
 import authRouter from "./routes/auth.route.js";
+import contactRouter from "./routes/contact.route.js";
 import userRouter from "./routes/user.route.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -57,6 +58,7 @@ app.use('/', indexRouter);
 app.use('/about', aboutRouter);
 app.use('/services', servicesRouter);
 app.use('/auth', authRouter);
+app.use('/contact', contactRouter);
 app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
