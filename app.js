@@ -9,8 +9,9 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 import indexRouter from "./routes/index.js";
-import userRouter from "./routes/user.route.js";
+import aboutRouter from "./routes/about.route.js";
 import authRouter from "./routes/auth.route.js";
+import userRouter from "./routes/user.route.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -52,9 +53,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/user', userRouter);
+app.use('/about', aboutRouter);
 app.use('/auth', authRouter);
-// app.use('/', notfoundRouter)
+app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
