@@ -1,0 +1,73 @@
+<!-- Add to views/bookings.ejs -->
+<div class="bookings-container">
+  <h2>My Bookings</h2>
+  
+  <% if (bookings.length === 0) { %>
+    <p>You have no bookings yet.</p>
+  <% } else { %>
+    <table class="bookings-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Trainer</th>
+          <th>Session Type</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% bookings.forEach(booking => { %>
+          <tr>
+            <td><%= booking.bookingDate %></td>
+            <td><%= booking.trainerId.name %></td>
+            <td><%= booking.sessionType %></td>
+            <td><%= booking.status %></td>
+            <td>
+              <% if (booking.status === 'pending') { %>
+                <button class="cancel-btn" data-id="<%= booking._id %>">Cancel</button>
+              <% } %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+  
+  <div class="actions">
+    <button id="newBookingBtn">Book New Session</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById("newBookingBtn").addEventListener("click", () => {
+    window.location.href = "/book";
+  });
+  
+  document.querySelectorAll(".cancel-btn").forEach(btn => {
+    btn.addEventListener("click", async function() {
+      const bookingId = this.dataset.id;
+      
+      try {
+        const response = await fetch(`/booking/${bookingId}/status`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ status: "cancelled" })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          alert("Booking cancelled successfully");
+          location.reload();
+        } else {
+          alert(`Failed to cancel booking: ${result.message}`);
+        }
+      } catch (error) {
+        console.error("Cancellation error:", error);
+        alert("Error cancelling booking");
+      }
+    });
+  });
+</script>

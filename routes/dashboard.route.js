@@ -1,0 +1,116 @@
+import express from "express";
+import Booking from "../models/Booking.model.js";
+import User from "../models/User.model.js";
+import dotenv from "dotenv";
+import { createErrorResponse } from "../utils/responseHandler.js";
+import StatusCodes from "../utils/statusCodes.js";
+
+dotenv.config();
+const router = express.Router();
+
+// Middleware to check authentication
+const isAuthenticated = (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect('/auth/login');
+  }
+  next();
+};
+
+// Dashboard main view
+router.get("/", isAuthenticated, async (req, res) => {
+  try {
+    const user = req.session.user;
+    let data = {};
+    
+    if (user.role === 'gymer') {
+      // Get upcoming bookings for gymer
+      data.bookings = await Booking.find({ 
+        userId: user.id,
+        bookingDate: { $gte: new Date().setHours(0,0,0,0) }
+      })
+        .populate('trainerId', 'name')
+        .sort({ bookingDate: 1 })
+        .limit(5);
+      
+      // Get available trainers
+      data.trainers = await User.find({ role: 'trainer' }).select('name _id');
+    } 
+    else if (user.role === 'trainer') {
+      // Get current month for calendar
+      const today = new Date();
+      const month = today.getMonth() + 1;
+      const year = today.getFullYear();
+      
+      // Get bookings for the month
+      const startDate = new Date(`${year}-${month}-01`);
+      const endDate = new Date(year, month, 0);
+      
+      data.bookings = await Booking.find({
+        trainerId: user.id,
+        bookingDate: { $gte: startDate, $lte: endDate }
+      }).populate('userId', 'name');
+      
+      // Format calendar data
+      data.calendar = {
+        month: today.toLocaleString('default', { month: 'long' }),
+        year: year,
+        days: []
+      };
+      
+      // Generate days for calendar
+      const daysInMonth = new Date(year, month, 0).getDate();
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const booking = data.bookings.find(b => 
+          b.bookingDate.toISOString().split('T')[0] === dateStr
+        );
+        
+        data.calendar.days.push({
+          date: dateStr,
+          day: day,
+          booked: !!booking,
+          booking: booking
+        });
+      }
+    }
+    
+    res.render("dashboard", {
+      company_name: process.env.COMPANY_NAME,
+      user: user,
+      data: data
+    });
+  } catch (error) {
+    console.error("Dashboard error:", error);
+    createErrorResponse(res, "Internal Server Error");
+  }
+});
+
+// Update booking status (for trainers)
+router.post("/update-status", isAuthenticated, async (req, res) => {
+  try {
+    const { bookingId, status } = req.body;
+    const user = req.session.user;
+    
+    // Validate user is trainer
+    if (user.role !== 'trainer') {
+      return createErrorResponse(res, "Unauthorized", StatusCodes.UNAUTHORIZED);
+    }
+    
+    // Validate booking belongs to trainer
+    const booking = await Booking.findById(bookingId);
+    if (!booking || booking.trainerId.toString() !== user.id) {
+      return createErrorResponse(res, "Booking not found", StatusCodes.NOT_FOUND);
+    }
+    
+    // Update status
+    booking.status = status;
+    await booking.save();
+    
+    return res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Status update error:", error);
+    createErrorResponse(res, "Internal Server Error");
+  }
+});
+
+export default router;

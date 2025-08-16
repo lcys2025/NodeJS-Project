@@ -1,0 +1,140 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #1f1f1f;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.dashboard-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #2d2d2d;
+  border-radius: 8px;
+}
+
+.bookings-grid, .trainers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.booking-card, .trainer-card {
+  background-color: #3a3a3a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #ffd700;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.primary {
+  background-color: #ffd700;
+  color: #000;
+}
+
+.secondary {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Calendar styles */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.calendar-day {
+  min-height: 100px;
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+}
+
+.calendar-day.available {
+  background-color: #255b70;
+}
+
+.calendar-day.booked {
+  background-color: #2d5d94;
+}
+
+.day-number {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #ffd700;
+}
+
+.booking-info {
+  font-size: 0.9rem;
+}
+
+/* Status indicators */
+.status-pending {
+  color: #f39c12;
+}
+
+.status-confirmed {
+  color: #2ecc71;
+}
+
+.status-completed {
+  color: #3498db;
+}
+
+.status-cancelled, .status-no-show {
+  color: #e74c3c;
+}
+
+/* Table styles */
+.bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.bookings-table th, .bookings-table td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid #444;
+}
+
+.bookings-table th {
+  background-color: #333;
+  color: #ffd700;
+}
+
+.status-form {
+  display: inline-block;
+}
+
+.status-form select {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 0.3rem;
+  border-radius: 4px;
+}

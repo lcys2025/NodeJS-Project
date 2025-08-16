@@ -19,7 +19,7 @@ router.get("/register", (req, res) => {
  */
 router.post("/register", async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, name, plan } = req.body;
 
     // validate required fields
     if (!email || !password) {
@@ -37,10 +37,11 @@ router.post("/register", async (req, res) => {
 
     // create new user
     const savedUser = await User.create({
-      username: email,
       password: hashedPassword,
       name: (name || "").trim(),
       email: email,
+      plan: 'basic',
+      role: 'gymer',
     });
 
     // create user response
@@ -48,6 +49,8 @@ router.post("/register", async (req, res) => {
       id: savedUser._id,
       name: savedUser.name,
       email: savedUser.email,
+      plan: savedUser.plan,
+      role: savedUser.role,
     };
 
     return createSuccessResponse(res, userResp);
@@ -72,6 +75,7 @@ router.get("/login", (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(req.body);
 
     // validate required fields
     if (!email || !password) {
@@ -80,30 +84,59 @@ router.post("/login", async (req, res) => {
 
     // find user by email
     const user = await User.findOne({ email }).select("+password");
+    console.log(user);
     if (!user) {
       // generic message to avoid user enumeration
-      return createErrorResponse(res, "Invalid username or password");
+      return createErrorResponse(res, "Invalid email or password");
     }
 
     // compare password
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return createErrorResponse(res, "Invalid username or password");
+      return createErrorResponse(res, "Invalid email or password");
     }
 
     // create user response
-    const userResp = {
+    //const userResp = {
+    //  id: user._id,
+    //  email: user.email,
+    //  name: user.name,
+    //  plan: user.plan,
+    //  role: user.role,
+    //};
+
+    // Add to login route after successful authentication
+    req.session.user = {
       id: user._id,
-      username: user.username,
       email: user.email,
       name: user.name,
+      plan: user.plan,
+      role: user.role,
     };
 
-    return createSuccessResponse(res, userResp);
+    //return createSuccessResponse(res, userResp);
+
+    // Redirect to dashboard instead of returning JSON
+    return res.redirect('/dashboard');
   } catch (error) {
     console.error("POST /auth/login error:", error);
     return createErrorResponse(res, "Internal Server Error");
   }
+});
+
+/**
+ * @route GET /auth/logout
+ * @desc destroy session to logout
+ *        then return to login page
+ */
+// Add logout route
+router.get("/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error("Logout error:", err);
+    }
+    res.redirect('/auth/login');
+  });
 });
 
 /**

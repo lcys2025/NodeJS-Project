@@ -10,7 +10,7 @@ const router = express.Router();
  */
 router.get("/list", async (req, res, next) => {
 	try {
-		let userList = await User.find().select("name email username");
+		let userList = await User.find().select("name email");
 		createSuccessResponse(res, userList);
 	} catch (error) {
 		createErrorResponse(res, (error = error));
@@ -24,7 +24,7 @@ router.get("/list", async (req, res, next) => {
 router.get("/searchById/:id", async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		let user = await User.findOne({ _id: id }).select("name email username");
+		let user = await User.findOne({ _id: id }).select("name email");
 		createSuccessResponse(res, user);
 	} catch (error) {
 		createErrorResponse(res, (error = error));
@@ -38,7 +38,7 @@ router.get("/searchById/:id", async (req, res, next) => {
 router.get("/searchByEmail/:email", async (req, res, next) => {
 	try {
 		const { email } = req.params;
-		let user = await User.findOne({ email: email }).select("name email username");
+		let user = await User.findOne({ email: email }).select("name email");
 		createSuccessResponse(res, user);
 	} catch (error) {
 		createErrorResponse(res, (error = error));
