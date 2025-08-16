@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 
 import indexRouter from "./routes/index.js";
 import aboutRouter from "./routes/about.route.js";
+import servicesRouter from "./routes/services.route.js";
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 
@@ -54,6 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/about', aboutRouter);
+app.use('/services', servicesRouter);
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 

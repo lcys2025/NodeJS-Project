@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= company_name %></title>
+    <link rel="stylesheet" href="/index/style.css">
+</head>
+<body>
+    <nav class="nav-container">
+        <div class="logo">
+            <img src="/pic/logo-fitness.png" alt="Logo">
+        </div>
+        <a href="/">Home</a>
+        <a href="/about">About Us</a>
+        <a href="/services">Services</a>
+        <a href="/auth/login">Membership</a>
+        <a href="/contact">Contact Us</a>
+    </nav>
+
+    <header>
+        <h1><%= company_name %></h1>
+        <p>Make yourself stronger than your excuses. 💪</p>
+    </header>
+
+    <section>
+        <h2>Join The fitness membership</h2>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:250px;text-align:center;">
+                <img src="https://via.placeholder.com/200?text=Service+1" alt="Service 1">
+                <h3>Kick-Boxing</h3>
+                <p>Good for your heart</p>
+            </div>
+            <div style="flex:1;min-width:250px;text-align:center;">
+                <img src="https://via.placeholder.com/200?text=Service+2" alt="Service 2">
+                <h3>Weight Training</h3>
+                <p>Muscle building</p>
+            </div>
+            <div style="flex:1;min-width:250px;text-align:center;">
+                <img src="https://via.placeholder.com/200?text=Service+3" alt="Service 3">
+                <h3>Stretch Recovery</h3>
+                <p>Excellent for eldery people</p>
+            </div>
+        </div>
+    </section>
+
+    <button onclick="scrollToTop()" class="top-button">Back to top ↑</button>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: info@gymclub.com</p>
+                <p>Phone: +852 1234 5678</p>
+                <p>Address: 88 Fitness Road, Causeway Bay, Hong Kong</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick navigation</h4>
+                <nav>
+                    <a href="/">Home</a>
+                    <a href="/about">About Us</a>
+                    <a href="/services">Services</a>
+                    <a href="/auth/login">Membership</a>
+                    <a href="/contact">Contact Us</a>
+                </nav>
+            </div>
+
+            <div class="footer-section">
+                <h4>Follow us</h4>
+                <a href="#">Facebook</a><br>
+                <a href="#">Instagram</a><br>
+                <a href="#">YouTube</a>
+            </div>
+        </div>
+        <p class="footer-credit">&copy; 2025 Fitness Club | All rights reserved</p>
+    </footer>
+
+    <script src="/index/script.js"></script>
+</body>
+</html>
