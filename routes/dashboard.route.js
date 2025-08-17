@@ -73,11 +73,15 @@ router.get("/", isAuthenticated, async (req, res) => {
         });
       }
     }
+
+    // Check for booking success flag
+    const bookingSuccess = req.query.booking === 'success';
     
     res.render("dashboard", {
       company_name: process.env.COMPANY_NAME,
       user: user,
-      data: data
+      data: data,
+      bookingSuccess // Pass to template
     });
   } catch (error) {
     console.error("Dashboard error:", error);
