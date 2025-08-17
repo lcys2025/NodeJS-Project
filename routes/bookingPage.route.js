@@ -6,6 +6,14 @@ dotenv.config();
 
 const router = express.Router();
 
+// Add this middleware to all routes
+router.use((req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect('/auth/login');
+  }
+  next();
+});
+
 router.get("/", async (req, res) => {
   try {
     // Get all trainers
@@ -14,7 +22,8 @@ router.get("/", async (req, res) => {
     res.render("booking", { 
       company_name: process.env.COMPANY_NAME,
       trainers,
-      user: req.user || {} // Assuming you have user in session
+      //user: req.user || {} // Assuming you have user in session
+      user: req.session.user  // Use session user here
     });
   } catch (error) {
     console.error("Booking page error:", error);

@@ -12,13 +12,25 @@ const formatDate = (date) => {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 };
 
+// Add this middleware to protect routes
+router.use((req, res, next) => {
+  if (!req.session.user) {
+    return createErrorResponse(res, "Authentication required", StatusCodes.UNAUTHORIZED);
+  }
+  next();
+});
+
 /**
  * @route POST /booking/create
  * @desc Create a new booking (date only)
  */
 router.post("/create", async (req, res) => {
   try {
-    const { userId, trainerId, bookingDate, sessionType, notes } = req.body;
+    //const { userId, trainerId, bookingDate, sessionType, notes } = req.body;
+
+    // Get user ID from session instead of body
+    const userId = req.session.user.id;
+    const { trainerId, bookingDate, sessionType, notes } = req.body;
 
     // Validate required fields
     if (!userId || !trainerId || !bookingDate || !sessionType) {

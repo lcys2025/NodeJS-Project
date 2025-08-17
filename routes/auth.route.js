@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
 
 const router = express.Router();
-
+    
 /**
  * @route GET /auth/register
  * @desc Render register page

@@ -147,7 +147,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const sessionType = document.getElementById("sessionType").value;
     const notes = document.getElementById("notes").value;
     const bookingDate = formatDate(selectedDate);
-    
+    console.log(userId);
+    console.log(trainerId);
+    console.log(sessionType);
+    console.log(notes);
+    console.log(bookingDate);
+
     try {
       const response = await fetch("/booking/create", {
         method: "POST",

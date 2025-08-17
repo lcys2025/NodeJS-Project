@@ -6,8 +6,10 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import { fileURLToPath } from 'url';
 
-import mongoose from "mongoose";
 import dotenv from "dotenv";
+
+import mongoose from "mongoose";
+import { initializeDB } from "./database/init.js";
 
 import indexRouter from "./routes/index.js";
 import aboutRouter from "./routes/about.route.js";
@@ -16,6 +18,7 @@ import trainersRouter from "./routes/trainers.route.js";
 import authRouter from "./routes/auth.route.js";
 import contactRouter from "./routes/contact.route.js";
 import userRouter from "./routes/user.route.js";
+import bookingRouter from "./routes/booking.route.js";
 import bookingPageRouter from "./routes/bookingPage.route.js";
 import dashboardRouter from "./routes/dashboard.route.js";
 
@@ -44,8 +47,9 @@ mongoose.connect(process.env.MONGODB_URI)
 // listen for connection events
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-db.once("open", () => {
+db.once("open", async () => {
   console.log("MongoDB connection is open");
+  await initializeDB();  // FIX_ME: Initialize "testing" documents (e.g. trainers)
 })
 
 // view engine setup
@@ -75,6 +79,7 @@ app.use('/trainers', trainersRouter);
 app.use('/auth', authRouter);
 app.use('/contact', contactRouter);
 app.use('/user', userRouter);
+app.use('/booking', bookingRouter);
 app.use('/book', bookingPageRouter);
 app.use('/user/bookings', bookingPageRouter);
 app.use('/dashboard', dashboardRouter);
@@ -86,18 +91,16 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
+  if (res.headersSent) return;
+  
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   if (err.status === 404) {
-    res.status(404).render('404');
-  } else {
-    res.status(err.status || 500);
-    res.render('error');
+    return res.status(404).render('404');
   }
-  res.render('error');
+  
+  res.status(err.status || 500).render('error');
 });
 
 export default app;
