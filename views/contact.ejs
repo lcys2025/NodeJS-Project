@@ -14,16 +14,18 @@
     </header>
 
     <section>
-        <h2>Contact Us</h2>
-        <form onsubmit="alert('Email submitted!'); return false;">
-            <label>Name:</label><br>
-            <input type="text" name="name" required><br><br>
-            <label>Email:</label><br>
-            <input type="email" name="email" required><br><br>
-            <label>Message:</label><br>
-            <textarea name="message" required></textarea><br><br>
-            <button type="submit">Submit</button>
-        </form>
+    <div class="contact-container">
+        <div class="contact-box">
+            <h2>Contact Us</h2>
+            <form id="contactForm" action="/contact/" method="post">
+                <input type="name" id="name" name="name" placeholder="Name" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <textarea id="message" name="message" placeholdewr="Message" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script src="/contact/contact.js"></script>
     </section>
 
     <button onclick="scrollToTop()" class="top-button">Back to top ↑</button>
@@ -59,6 +61,6 @@
         <p class="footer-credit">&copy; 2025 Fitness Club | All rights reserved</p>
     </footer>
 
-    <script src="/index/script.js"></script>
+    <script src="/index/index.js"></script>
 </body>
 </html>

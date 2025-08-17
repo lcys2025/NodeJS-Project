@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 	const form = document.querySelector(".member-form");
-	
 	form.removeEventListener("submit", handleFormSubmit);
 	form.addEventListener("submit", handleFormSubmit);
 });
@@ -45,7 +44,8 @@ async function handleFormSubmit(event) {
 			body: JSON.stringify({
 				name: name,
 				email: email,
-				password: password
+				password: password,
+				plan: plan,
 			})
 		});
 		

@@ -42,7 +42,7 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
       name: (name || "").trim(),
       email: email,
-      plan: 'basic',
+      plan: plan,
       role: 'gymer',
     });
 
