@@ -12,7 +12,7 @@ const router = express.Router();
  * @desc Render register page
  */
 router.get("/register", (req, res) => {
-  return res.render("register");
+  return res.render("register", { company_name: process.env.COMPANY_NAME });
 });
 
 /**
