@@ -1,0 +1,123 @@
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                        Gym Fitness Application                                       │
+├───────────────────┬─────────────────────┬──────────────────────┬─────────────────────┬───────────────┤
+│   Page/Component  │     User Action     │    API Endpoint      │   Validation/Logic  │  Next State   │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 1. Home Page      │ Click "About Us"    │                      │                     │ About Page    │
+│ (GET /)           │ Click "Services"    │                      │                     │ Services Page │
+│                   │ Click "Trainers"    │                      │                     │ Trainers Page │
+│                   │ Click "Membership"  │                      │                     │ Login Page    │
+│                   │ Click "Contact Us"  │                      │                     │ Contact Page  │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 2. About Page     │ Navigation          │                      │                     │ Services Page │
+│ (GET /about)      │                     │                      │                     │ Home Page     │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 3. Services Page  │ Navigation          │                      │                     │ Trainers Page │
+│ (GET /services)   │                     │                      │                     │ Home Page     │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 4. Trainers Page  │ Click "Book" button │                      │                     │ Booking Page  │
+│ (GET /trainers)   │                     │                      │                     │ Home Page     │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 5. Booking Page   │ Select trainer      │ GET /booking/trainer/│ Validate trainer ID │ Update time   │
+│ (GET /book)       │ Select date         │ {trainerId}?date=... │ Check availability  │ slots         │
+│                   │                     │                      │                     │               │
+│                   │ Submit booking form │ POST /booking/create │ Validate:           │ Success:      │
+│                   │                     │                      │ - User is gymer     │ Bookings Page │
+│                   │                     │                      │ - Trainer exists    │ Error:        │
+│                   │                     │                      │ - Date in future    │ Show error    │
+│                   │                     │                      │ - Time slot valid   │               │
+│                   │                     │                      │ - Time available    │               │
+│                   │                     │                      │ - Start < End time  │               │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 6. Login Page     │ Enter credentials   │ POST /auth/login     │ Validate:           │ Success:      │
+│ (GET /auth/login) │ and submit          │                      │ - Email format      │ Dashboard     │
+│                   │                     │                      │ - Password strength │ Error:        │
+│                   │                     │                      │ - Credentials match │ Show error    │
+│                   │                     │                      │                     │               │
+│                   │ Click "Register"    │                      │                     │ Register Page │
+│                   │ Click "Forgot Pwd"  │                      │                     │ Reset Page    │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 7. Register Page  │ Enter details and   │ POST /auth/register  │ Validate:           │ Success:      │
+│ (GET /auth/       │ submit              │                      │ - All fields filled │ Login Page    │
+│ register)         │                     │                      │ - Email format      │ Error:        │
+│                   │                     │                      │ - Password strength │ Show error    │
+│                   │                     │                      │ - Password match    │               │
+│                   │                     │                      │ - Email not exists  │               │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 8. Reset Password │ Enter email and new │ POST /auth/          │ Validate:           │ Success:      │
+│ Page (GET /auth/  │ passwords, submit   │ resetPassword        │ - Email exists      │ Login Page    │
+│ resetPassword)    │                     │                      │ - Password strength │ Error:        │
+│                   │                     │                      │ - Passwords match   │ Show error    │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 9. Dashboard      │ View schedule       │ GET /booking/trainer/│ Validate trainer ID │ Display       │
+│ (Authenticated)   │                     │ {trainerId}?date=... │ Filter by date      │ schedule      │
+│                   │                     │                      │                     │               │
+│                   │ Update status       │ PUT /booking/        │ Validate:           │ Refresh       │
+│                   │                     │ {id}/status          │ - Valid status      │ schedule      │
+│                   │                     │                      │ - Booking exists    │               │
+│                   │                     │                      │                     │               │
+│                   │ Click "My Bookings" │                      │                     │ Bookings Page │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 10. My Bookings   │ View bookings       │ GET /booking/user/   │ Validate user ID    │ Display       │
+│ Page (GET /user/  │                     │ {userId}             │ Sort by date        │ bookings      │
+│ bookings)         │                     │                      │                     │               │
+│                   │ Click "New Booking" │                      │                     │ Booking Page  │
+├───────────────────┼─────────────────────┼──────────────────────┼─────────────────────┼───────────────┤
+│ 11. Contact Page  │ Submit form         │ (Client-side only)   │ Validate form       │ Show success  │
+│ (GET /contact)    │                     │                      │ fields              │ message       │
+└───────────────────┴─────────────────────┴──────────────────────┴─────────────────────┴───────────────┘
+
+┌──────────────────────────────────────────┐
+│         Detailed Error Cases             │
+├───────────────────┬──────────────────────┤
+│ Registration      │ - Email exists       │
+│                   │ - Weak password      │
+│                   │ - Pwd mismatch       │
+├───────────────────┼──────────────────────┤
+│ Login             │ - Invalid creds      │
+│                   │ - Account lock       │
+├───────────────────┼──────────────────────┤
+│ Password Reset    │ - Email not found    │
+│                   │ - Pwd mismatch       │
+├───────────────────┼──────────────────────┤
+│ Booking Creation  │ - Time conflict      │
+│                   │ - Invalid date       │
+│                   │ - Trainer unavailable│
+├───────────────────┼──────────────────────┤
+│ Booking Update    │ - Invalid status     │
+│                   │ - Not authorized     │
+└───────────────────┴──────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│          Success Responses                  │
+├───────────────────┬─────────────────────────┤
+│ Login Success     │ { success: true,        │
+│                   │   data: {               │
+│                   │     id: "...",          │
+│                   │     email: "...",       │
+│                   │     name: "...",        │
+│                   │     role: "..."         │
+│                   │   }                     │
+├───────────────────┼─────────────────────────┤
+│ Booking Created   │ { success: true,        │
+│                   │   data: {               │
+│                   │     id: "...",          │
+│                   │     bookingDate:        │
+│                   │     timeSlot: {         │
+│                   │       start: "...",     │
+│                   │       end: "..."        │
+│                   │     }                   │
+│                   │   }                     │
+├───────────────────┼─────────────────────────┤
+│ User Bookings     │ { success: true,        │
+│                   │   data: [               │
+│                   │     {id: "...",         │
+│                   │      date: "...",       │
+│                   │      trainer: {         │
+│                   │        name: "...",     │
+│                   │        id: "..."        │
+│                   │      },                 │
+│                   │      status: "confirmed"│
+│                   │     }, ...              │
+│                   │   ]                     │
+└───────────────────┴─────────────────────────┘
