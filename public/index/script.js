@@ -12,6 +12,7 @@ async function handleFormSubmit(event) {
 	const name = document.getElementById("name").value.trim();
 	const email = document.getElementById("email").value.trim();
 	const password = document.getElementById("password").value.trim();
+	const confirmPassword = document.getElementById("confirmPassword").value.trim();
 	const plan = document.getElementById("plan").value;
 
 	// validate required fields
@@ -33,6 +34,12 @@ async function handleFormSubmit(event) {
 	const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 	if (!passwordRegex.test(password)) {
 		alert("密碼需包含大、小寫英文字母、數字，並至少八個字元！");
+		return;
+	}
+	if (password !== confirmPassword) {
+		alert("兩次輸入的密碼不一致！");
+		document.getElementById("password").value = "";
+		document.getElementById("confirmPassword").value = "";
 		return;
 	}
 
