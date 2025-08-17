@@ -1,0 +1,21 @@
+<nav class="nav-container">
+  <div class="logo">
+    <img src="/pic/logo-fitness.png" alt="Logo">
+  </div>
+  <a href="/">Home</a>
+  <a href="/about">About Us</a>
+  <a href="/services">Our Services</a>
+  <a href="/trainers">Our Trainers</a>
+  
+  <% if (locals.user) { %>
+    <a href="/dashboard">Dashboard</a>
+  <% } else { %>
+    <a href="/auth/login">Membership</a>
+  <% } %>
+  
+  <a href="/contact">Contact Us</a>
+  
+  <% if (locals.user) { %>
+    <a href="/auth/logout">Logout</a>
+  <% } %>
+</nav>

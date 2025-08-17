@@ -6,3 +6,9 @@ body {
 a {
   color: #00B7FF;
 }
+
+/* Highlight current page in nav */
+.nav-container a[href="<%= currentPath %>"] {
+  border-bottom: 2px solid #3498db;
+  font-weight: bold;
+}

@@ -65,6 +65,12 @@ app.use(session({
     maxAge: 3600000 // Session expiration time in milliseconds (e.g., 1 hour)
   }
 }));
+// Add after session middleware
+app.use((req, res, next) => {
+  // Make user available to all views
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 app.use(logger('dev'));
 app.use(express.json());

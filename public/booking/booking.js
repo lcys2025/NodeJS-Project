@@ -174,7 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Booking created successfully!");
         // Store booking success in session storage
         sessionStorage.setItem('bookingSuccess', 'true');
-        window.location.href = '/dashboard';
+        //window.location.href = '/dashboard';
+        window.location.href = '/dashboard?booking=success'; 
       } else {
         alert(`Booking failed: ${result.message}`);
       }

@@ -2,7 +2,9 @@ import express from "express";
 import User from "../models/User.model.js";
 import bcrypt from "bcrypt";
 import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 const router = express.Router();
     
 /**
@@ -65,7 +67,7 @@ router.post("/register", async (req, res) => {
  * @desc Render login page
  */
 router.get("/login", (req, res) => {
-  return res.render("login", { email: "", password: "" });
+  return res.render("login", { email: "", password: "", company_name: process.env.COMPANY_NAME });
 });
 
 /**

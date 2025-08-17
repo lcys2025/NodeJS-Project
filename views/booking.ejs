@@ -1,8 +1,10 @@
-<!-- Add calendar UI -->
+<link rel="stylesheet" href="/index/style.css">
+<link rel="stylesheet" href="/booking/booking.css">
 <div class="booking-container">
+<%- include('_partials/nav') %>
   <h2>Book a Training Session</h2>
   <form id="bookingForm" class="booking-form">
-    //<input type="hidden" id="userId" value="<%= user._id %>">
+    <input type="hidden" id="userId" value="<%= user._id %>">
     <input type="hidden" id="userId" value="<%= user.id %>">
     
     <div class="form-group">
