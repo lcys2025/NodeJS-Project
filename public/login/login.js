@@ -19,7 +19,5 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
   }
 
   alert(`歡迎回來，${email}！`);
-  window.location.href = "dashboard.html";
+  window.location.href = '/dashboard';
 });
-
-export default router;

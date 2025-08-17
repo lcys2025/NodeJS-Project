@@ -1,45 +1,47 @@
 document.addEventListener("DOMContentLoaded", () => {
 	const form = document.querySelector(".member-form");
-	form.removeEventListener("submit", handleFormSubmit);
-	form.addEventListener("submit", handleFormSubmit);
+	if (form) {
+		form.removeEventListener("submit", handleFormSubmit);
+		form.addEventListener("submit", handleFormSubmit);
+	}
 });
 
 async function handleFormSubmit(event) {
 	event.preventDefault();
-	
+
 	const name = document.getElementById("name").value.trim();
 	const email = document.getElementById("email").value.trim();
 	const password = document.getElementById("password").value.trim();
 	const plan = document.getElementById("plan").value;
-	
+
 	// validate required fields
 	if (!name || !email || !password) {
 		alert("請填寫姓名、電子郵件和密碼！");
 		return;
 	}
-	
+
 	// validate email format
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 	if (!emailRegex.test(email)) {
 		alert("請輸入有效的電子郵件地址！");
-    document.getElementById("email").value = "";
-    document.getElementById("email").focus();
+		document.getElementById("email").value = "";
+		document.getElementById("email").focus();
 		return;
 	}
-	
+
 	// validate password strength
 	const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 	if (!passwordRegex.test(password)) {
 		alert("密碼需包含大、小寫英文字母、數字，並至少八個字元！");
 		return;
 	}
-	
+
 	try {
 		// fetch API to submit the form data
 		const response = await fetch('/auth/register', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'	
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
 				name: name,
@@ -48,10 +50,10 @@ async function handleFormSubmit(event) {
 				plan: plan,
 			})
 		});
-		
+
 		const result = await response.json();
-		
-    // registration success
+
+		// registration success
 		if (response.ok) {
 			alert(`感謝你的申請，${name}！我們將透過 ${email} 聯絡你關於「${plan}」會員計劃。`);
 			event.target.reset();

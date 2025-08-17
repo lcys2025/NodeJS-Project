@@ -27,7 +27,14 @@
             </form>
         </div>
     </div>
-    <script src="/login/login.js"></script>
+    <!-- DEBUG NOTE:                                             -->
+    <!-- in auth.route.js, the BE flow is changed to redirect to -->
+    <!--   /dashboard after login with successful authentication -->
+    <!--   also, FE redirect to /dashboard will not work because -->
+    <!--   of session req.session.user checking, it will loop    -->
+    <!--   back to /auth/login and got stuck, therefore redirect -->
+    <!--   at BE instead. Therefore, commented out FE login.js   -->
+    <!-- <script src="/login/login.js"></script>                 -->
     </section>
 
     <button onclick="scrollToTop()" class="top-button">Back to top ↑</button>
