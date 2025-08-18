@@ -4,28 +4,25 @@ import bcrypt from "bcrypt";
 const initTrainers = async () => {
   const trainers = [
     {
-      name: 'John "The Hammer" Smith',
-      email: 'john.the.hammer.smith@example.com',
+      name: 'Bee Cho',
+      email: 'beecho@example.com',
       plan: 'vip',
       role: 'trainer',
-      //password: await bcrypt.hash('iamjohnthehammersmith', 10)
-      password: 'iamjohnthehammersmith',
+      password: await bcrypt.hash('1AMbeecho', 10),
     },
     {
-      name: 'Sarah "Lightning" Lee',
-      email: 'sarah.lightning.lee@example.com',
+      name: 'Yami Li',
+      email: 'yamili@example.com',
       plan: 'premium',
       role: 'trainer',
-      //password: await bcrypt.hash('iamsarahlightninglee', 10)
-      password: 'iamsarahlightninglee',
+      password: await bcrypt.hash('1AMyamili', 10),
     },
     {
-      name: 'Mike "Flex" Johnson',
-      email: 'mike.flex.johnson@example.com',
+      name: 'Elvis Lam',
+      email: 'elvislam@example.com',
       plan: 'premium',
       role: 'trainer',
-      //password: await bcrypt.hash('iammikeflexjohnson', 10)
-      password: 'iammikeflexjohnson',
+      password: await bcrypt.hash('1AMelvislam', 10),
     }
   ];
 
