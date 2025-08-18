@@ -1,0 +1,46 @@
+20250818
+
+Email (extra) (OK, 33 marks including email)
+
+
+middleware/session (extra)
+mongoose (extra)
+
+Gmail/Facebook login (extra)
+face-api.js (facial login)
+
+database model + validation (basic)
+handsome FE (basic)
+MongoDB (basic) - Mongoose
+Dataset (basic)
+
+
+CRUD (basic)
+API  express (basic)
+
+
+structure diagram (basic)  ?????
+
+
+A. superuser (ok, 1 person as superusers)
+B. Reporting (ok, under superuser's task)
+C. Trainer - upload (FE, ok or not) - investigate
+D. Promotional email, (OK, B -> D) 
+E. Payment (OK, no final payment, low priority) --> basic (8), vip (24), premium (16) - investigate
+F. Light/dark mode FE (investigate)
+
+Basic (8 days, monthly payment $80)
+book 1 day, 8 -> 7
+
+
+
+
+
+
+
+
+
+
+
+
+
