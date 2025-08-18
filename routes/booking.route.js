@@ -3,6 +3,9 @@ import Booking from "../models/Booking.model.js";
 import User from "../models/User.model.js";
 import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
 import StatusCodes from "../utils/statusCodes.js";
+import { sendEmail } from "../utils/emailHandler.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const router = express.Router();
 
@@ -77,6 +80,35 @@ router.post("/create", async (req, res) => {
         status: 'pending'
       }
     });
+
+    // Send booking confirmation email to user
+    try {
+      await sendEmail(
+        user.email,
+        `Booking Confirmation - ${process.env.COMPANY_NAME}`,
+        `<h1>Booking Confirmed</h1>
+        <p>Your session with ${trainer.name} has been booked for ${bookingDateObj.toDateString()}.</p>
+        <p>Session Type: ${sessionType}</p>
+        <p>Notes: ${notes || 'None'}</p>`
+      );
+    } catch (emailError) {
+      console.error("Failed to send booking confirmation email:", emailError);
+    }
+
+    // Send booking notification to trainer
+    try {
+      await sendEmail(
+        trainer.email,
+        `New Booking Notification - ${process.env.COMPANY_NAME}`,
+        `<h1>New Booking</h1>
+        <p>You have a new booking from ${user.name}.</p>
+        <p>Date: ${bookingDateObj.toDateString()}</p>
+        <p>Session Type: ${sessionType}</p>
+        <p>Notes: ${notes || 'None'}</p>`
+      );
+    } catch (emailError) {
+      console.error("Failed to send trainer notification email:", emailError);
+    }
 
     return createSuccessResponse(res, newBooking, "Booking created successfully", StatusCodes.CREATED);
   } catch (error) {
@@ -169,10 +201,23 @@ router.put("/:id/status", async (req, res) => {
       id,
       { status },
       { new: true }
-    );
+    ).populate('userId trainerId');
 
     if (!updatedBooking) {
       return createErrorResponse(res, "Booking not found", StatusCodes.NOT_FOUND);
+    }
+
+    // Send status update email to user
+    try {
+      await sendEmail(
+        updatedBooking.userId.email,
+        `Booking Status Update - ${process.env.COMPANY_NAME}`,
+        `<h1>Booking Status Updated</h1>
+        <p>Your session with ${updatedBooking.trainerId.name} on ${updatedBooking.bookingDate.toDateString()}</p>
+        <p>has been updated to: ${status}</p>`
+      );
+    } catch (emailError) {
+      console.error("Failed to send status update email:", emailError);
     }
 
     return createSuccessResponse(res, updatedBooking, "Booking status updated");

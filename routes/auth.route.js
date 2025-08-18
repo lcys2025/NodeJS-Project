@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/User.model.js";
 import bcrypt from "bcrypt";
 import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
+import { sendEmail } from "../utils/emailHandler.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -45,6 +46,20 @@ router.post("/register", async (req, res) => {
       plan: plan,
       role: 'gymer',
     });
+
+    // Send welcome email
+    try {
+      await sendEmail(
+        email,
+        `Welcome to ${process.env.COMPANY_NAME}!`,
+        `<h1>Welcome ${name}!</h1>
+        <p>Thank you for registering with ${process.env.COMPANY_NAME}.</p>
+        <p>Your account has been successfully created with the ${plan} plan.</p>
+        <p>Start your fitness journey today!</p>`
+      );
+    } catch (emailError) {
+      console.error("Failed to send welcome email:", emailError);
+    }
 
     // create user response
     const userResp = {
@@ -98,6 +113,19 @@ router.post("/login", async (req, res) => {
       return createErrorResponse(res, "Invalid email or password");
     }
 
+     // Send login notification email
+    try {
+      await sendEmail(
+        email,
+        `Login Notification - ${process.env.COMPANY_NAME}`,
+        `<h1>Login Detected</h1>
+        <p>Your account was just logged into ${process.env.COMPANY_NAME}.</p>
+        <p>If this wasn't you, please contact us immediately.</p>`
+      );
+    } catch (emailError) {
+      console.error("Failed to send login notification email:", emailError);
+    }
+ 
     // create user response
     //const userResp = {
     //  id: user._id,
@@ -176,6 +204,19 @@ router.post("/resetPassword", async (req, res) => {
     // update user password
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
+
+    // Send password reset confirmation email
+    try {
+      await sendEmail(
+        email,
+        `Password Reset Confirmation - ${process.env.COMPANY_NAME}`,
+        `<h1>Password Reset Successful</h1>
+        <p>Your password for ${process.env.COMPANY_NAME} has been successfully reset.</p>
+        <p>If you didn't request this change, please contact us immediately.</p>`
+      );
+    } catch (emailError) {
+      console.error("Failed to send password reset email:", emailError);
+    }
 
     const userResp = { id: user._id };
 
