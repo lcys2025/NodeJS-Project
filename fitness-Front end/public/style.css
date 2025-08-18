@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #7979a9; 
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  background-color: #ffffff; 
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  width: 90%;
+  max-width: 800px;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#coaches {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.coach {
+  width: 180px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.coach:hover {
+  transform: scale(1.05);
+  background-color: #f0f8ff;
+}
+
+.coach.selected {
+  border-color: #007bff;
+  background-color: #e0f0ff;
+}
+
+img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+#courses, #schedule {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+select, input[type="date"], input[type="time"] {
+  padding: 8px;
+  margin: 10px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  width: 80%;
+  max-width: 300px;
+}
+
+#submitBtn {
+  display: block;
+  margin: 0 auto;
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+#submitBtn:hover {
+  transform: scale(1.1);
+  background-color: #0056b3;
+}
