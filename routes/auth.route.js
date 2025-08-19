@@ -241,8 +241,8 @@ router.get("/google/email/send", async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: process.env.EMAIL_ACCOUNT,
-        pass: process.env.EMAIL_ACCOUNT_PASSWORD,
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
 
