@@ -14,7 +14,7 @@ node + express + mongoDb (or mongoose)
 
 // express
 6. npx -v
-7. npx express-generator my-app --view=ejs
+7. npx express-generator NodeJS-Project --view=ejs
      this is to populate express directory tree.
        Generated directory tree:-
        ./bin                             (directory)
