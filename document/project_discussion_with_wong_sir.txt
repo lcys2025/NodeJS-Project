@@ -5,9 +5,11 @@ Email (extra) (OK, 33 marks including email)
 
 middleware/session (extra)
 mongoose (extra)
+
+FE Validator (extra) [see Date: 20250819]
+Gmail/Facebook login using OAuth2 (extra)
 passport (extra) [see Date: 20250819]
 
-Gmail/Facebook login (extra)
 face-api.js (facial login)
 
 database model + validation (basic)
@@ -18,9 +20,7 @@ Dataset (basic)
 CRUD (basic)
 API  express (basic)
 
-
 structure diagram (basic)  ?????
-
 
 A. superuser (ok, 1 person as superusers)
 B. Reporting (ok, under superuser's task)
@@ -37,5 +37,7 @@ Date: 20250819
 =====================
 In class, Wong sir said implementing express.js's "passport" will get extra point in project. E.g. login thru passport using google account credential.
 https://medium.com/@prashantramnyc/node-js-with-passport-authentication-simplified-76ca65ee91e5
-
+https://medium.com/@prashantramnyc/how-to-implement-google-authentication-in-node-js-using-passport-js-9873f244b55e
+https://medium.com/swlh/node-and-passport-js-facebook-authentication-76cbfa903ff3
+https://www.npmjs.com/package/validator
 
