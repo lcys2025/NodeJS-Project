@@ -47,7 +47,6 @@ router.post("/register", async (req, res) => {
 			name: (name || "").trim(),
 			email: email,
 			plan: plan,
-			role: "gymer",
 		});
 
 		// Send welcome email
