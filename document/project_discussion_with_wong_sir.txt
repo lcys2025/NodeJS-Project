@@ -1,10 +1,11 @@
-20250818
-
+=====================
+Date: 20250818
+=====================
 Email (extra) (OK, 33 marks including email)
-
 
 middleware/session (extra)
 mongoose (extra)
+passport (extra) [see Date: 20250819]
 
 Gmail/Facebook login (extra)
 face-api.js (facial login)
@@ -13,7 +14,6 @@ database model + validation (basic)
 handsome FE (basic)
 MongoDB (basic) - Mongoose
 Dataset (basic)
-
 
 CRUD (basic)
 API  express (basic)
@@ -32,15 +32,7 @@ F. Light/dark mode FE (investigate)
 Basic (8 days, monthly payment $80)
 book 1 day, 8 -> 7
 
-
-
-
-
-
-
-
-
-
-
-
-
+=====================
+Date: 20250819
+=====================
+In class, Wong sir said implementing express.js's "passport" will get extra point in project. E.g. login thru passport using google account credential.
