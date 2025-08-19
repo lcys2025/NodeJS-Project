@@ -1,0 +1,47 @@
+project_redo_step_by_step.txt
+node + express + mongoDb (or mongoose)
+
+// project directory
+1. create and goto your project directory
+
+// node
+2. install node.js
+     https://nodejs.org/en/download
+3. npm install -g npm@latest
+     update npm to latest
+4. node -v
+5. npm -v
+
+// express
+6. npx -v
+7. npx express-generator my-app --view=ejs
+     this is to populate express directory tree.
+       Generated directory tree:-
+       ./bin                             (directory)
+         ./bin/www
+       ./public                          (directory)
+         ./public/images                 (directory)
+         ./public/javascripts            (directory)
+         ./public/stylesheets            (directory) 
+           ./public/stylesheets/style.css
+       ./package.json
+       ./views                           (directory)
+         ./views/error.ejs
+         ./views/index.ejs
+       ./routes                          (directory)
+         ./routes/users.js
+         ./routes/index.js
+       ./app.js
+8. Convert all js code files to ES module syntax
+     please google how-to, basically, use import syntax
+9. Add .env
+     a. create .env file
+          PORT=3030
+     b. put the next two lines right after import lines in ./bin/www.
+          import dotenv from "dotenv";
+          dotenv.config();
+     
+ 
+
+
+     
