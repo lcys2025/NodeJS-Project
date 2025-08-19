@@ -4,6 +4,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const OAuth2 = google.auth.OAuth2;
+const SCOPES = ["https://mail.google.com/"];
+
+export const googleOAuth2Client = new google.auth.OAuth2(
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  "http://localhost:3030/auth/google/callback"
+);
 
 const createTransporter = async () => {
   try {
