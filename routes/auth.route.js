@@ -230,66 +230,37 @@ router.post("/resetPassword", async (req, res) => {
 	}
 });
 
-router.get("/google/login", async (req, res) => {
-	const authUrl = googleOAuth2Client.generateAuthUrl({
-		access_type: "offline",
-    prompt: 'consent', 
-		scope: SCOPES,
-	});
-	res.redirect(authUrl);
-});
+/**
+ * @route POST /auth/resetPassword
+ * @desc Reset password
+ */
+router.get("/google/email/send", async (req, res) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_ACCOUNT,
+        pass: process.env.EMAIL_ACCOUNT_PASSWORD,
+      },
+    });
 
-router.get("/google/callback", async (req, res) => {
-	const code = req.query.code;
-	try {
-		const { tokens } = await googleOAuth2Client.getToken(code);
-    console.log(tokens);
+    await transporter.verify();
 
-		googleOAuth2Client.setCredentials(tokens);
-		req.session.tokens = tokens;
+    const info = await transporter.sendMail({
+      from: "lcys20252025@gmail.com",
+      to: "lcys20252025@gmail.com",
+      subject: "這是信件的主旨 new email",
+      text: "這是信件的內容 new content",
+    });
 
-		res.redirect("/auth/google/email/send");
-	} catch (err) {
-		console.error("Error authenticating with Google:", err);
-		res.status(500).send("Error authenticating with Google");
-	}
-});
-
-router.get("/google/email/send", (req, res) => {
-  console.log(req.session);
-	const { refresh_token, access_token } = req.session.tokens;
-
-	const transporter = nodemailer.createTransport({
-		service: "gmail",
-		auth: {
-			type: "OAuth2",
-			user: "mayerprojectdemo@gmail.com",
-			clientId: process.env.CLIENT_ID,
-			clientSecret: process.env.CLIENT_SECRET,
-			refreshToken: refresh_token,
-			accessToken: access_token,
-		},
-	});
-
-  console.log("created transporter");
-  console.log("transporter: ", transporter);
-
-	const mailOptions = {
-		from: "mayerprojectdemo@gmail.com",
-		to: "lcys20252025@gmail.com",
-		subject: "這是信件的主旨",
-		text: "‘這是信件的內容",
-	};
-
-	transporter.sendMail(mailOptions, (err, info) => {
-		if (err) {
-			console.error(err);
-			res.status(500).send("Error sending email");
-		} else {
-			console.log(info);
-			res.send("Email sent");
-		}
-	});
+    console.log(info);
+    res.send("Email sent:" + new Date());
+  } catch (err) {
+    console.error("Send email error:", err?.response?.data || err);
+    res.status(500).send("Error sending email");
+  }
 });
 
 export default router;
