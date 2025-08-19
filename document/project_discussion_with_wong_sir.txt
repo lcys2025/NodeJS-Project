@@ -36,3 +36,6 @@ book 1 day, 8 -> 7
 Date: 20250819
 =====================
 In class, Wong sir said implementing express.js's "passport" will get extra point in project. E.g. login thru passport using google account credential.
+https://medium.com/@prashantramnyc/node-js-with-passport-authentication-simplified-76ca65ee91e5
+
+
