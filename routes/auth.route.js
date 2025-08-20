@@ -2,14 +2,11 @@ import express from "express";
 import User from "../models/User.model.js";
 import bcrypt from "bcrypt";
 import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
-import { googleOAuth2Client, sendEmail } from "../utils/emailHandler.js";
+import { sendEmail } from "../utils/emailHandler.js";
 import dotenv from "dotenv";
-import nodemailer from 'nodemailer';
 
 dotenv.config();
 const router = express.Router();
-
-const SCOPES = ["https://mail.google.com/"];
 
 /**
  * @route GET /auth/register
@@ -63,6 +60,19 @@ router.post("/register", async (req, res) => {
 			console.error("Failed to send welcome email:", emailError);
 		}
 
+		// Add email notification for registration event
+		// Ensure email is valid before sending email notification
+		if (!email || typeof email !== 'string' || !email.includes('@')) {
+			console.error("Invalid email address provided for notification");
+			return createErrorResponse(res, "Invalid email address");
+		}
+
+		await sendEmail({
+			to: email,
+			subject: `Welcome to ${process.env.COMPANY_NAME}!`,
+			text: `Thank you for registering with ${process.env.COMPANY_NAME}. Your account has been created successfully.`,
+		});
+
 		// create user response
 		const userResp = {
 			id: savedUser._id,
@@ -115,18 +125,18 @@ router.post("/login", async (req, res) => {
 			return createErrorResponse(res, "Invalid email or password");
 		}
 
-		// Send login notification email
-		try {
-			await sendEmail(
-				email,
-				`Login Notification - ${process.env.COMPANY_NAME}`,
-				`<h1>Login Detected</h1>
-        <p>Your account was just logged into ${process.env.COMPANY_NAME}.</p>
-        <p>If this wasn't you, please contact us immediately.</p>`
-			);
-		} catch (emailError) {
-			console.error("Failed to send login notification email:", emailError);
+		// Ensure email is valid before sending email notification
+		if (!email || typeof email !== 'string' || !email.includes('@')) {
+			console.error("Invalid email address provided for login notification");
+			return createErrorResponse(res, "Invalid email address");
 		}
+
+		// Send login notification email
+		await sendEmail({
+			to: email,
+			subject: `Login Notification - ${process.env.COMPANY_NAME}`,
+			text: `Your account was logged into ${process.env.COMPANY_NAME}. If this wasn't you, contact support immediately.`
+		});
 
 		// create user response
 		//const userResp = {
@@ -220,6 +230,19 @@ router.post("/resetPassword", async (req, res) => {
 			console.error("Failed to send password reset email:", emailError);
 		}
 
+		// Add email notification for password reset event
+		// Ensure email is valid before sending email notification
+		if (!email || typeof email !== 'string' || !email.includes('@')) {
+			console.error("Invalid email address provided for notification");
+			return createErrorResponse(res, "Invalid email address");
+		}
+
+		await sendEmail({
+			to: email,
+			subject: `Password Reset Confirmation - ${process.env.COMPANY_NAME}`,
+			text: `Your password for ${process.env.COMPANY_NAME} has been successfully reset. If this wasn't you, contact support immediately.`,
+		});
+
 		const userResp = { id: user._id };
 
 		return createSuccessResponse(res, userResp);
@@ -227,39 +250,6 @@ router.post("/resetPassword", async (req, res) => {
 		console.error("POST /auth/resetPassword error:", error);
 		return createErrorResponse(res, "Internal Server Error");
 	}
-});
-
-/**
- * @route POST /auth/resetPassword
- * @desc Reset password
- */
-router.get("/google/email/send", async (req, res) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
-
-    await transporter.verify();
-
-    const info = await transporter.sendMail({
-      from: "lcys20252025@gmail.com",
-      to: "lcys20252025@gmail.com",
-      subject: "這是信件的主旨 new email",
-      text: "這是信件的內容 new content",
-    });
-
-    console.log(info);
-    res.send("Email sent:" + new Date());
-  } catch (err) {
-    console.error("Send email error:", err?.response?.data || err);
-    res.status(500).send("Error sending email");
-  }
 });
 
 export default router;

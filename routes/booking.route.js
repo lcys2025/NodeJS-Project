@@ -220,6 +220,19 @@ router.put("/:id/status", async (req, res) => {
       console.error("Failed to send status update email:", emailError);
     }
 
+    // Add email notification for booking update
+    // Ensure email is valid before sending email notification
+    if (!updatedBooking.userEmail || typeof updatedBooking.userEmail !== 'string' || !updatedBooking.userEmail.includes('@')) {
+      console.error("Invalid email address provided for booking notification");
+      return res.status(400).send("Invalid email address");
+    }
+
+    await sendEmail({
+      to: updatedBooking.userEmail,
+      subject: `Booking Update - ${process.env.COMPANY_NAME}`,
+      text: `Your booking has been updated. Please check your account for details.`
+    });
+
     return createSuccessResponse(res, updatedBooking, "Booking status updated");
   } catch (error) {
     console.error("Update booking status error:", error);
