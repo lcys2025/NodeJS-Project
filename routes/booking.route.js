@@ -67,6 +67,22 @@ router.post("/create", async (req, res) => {
       return createErrorResponse(res, "Trainer is already booked on this date", StatusCodes.CONFLICT);
     }
 
+    // Determine payment amount based on user's plan
+    let paymentAmount = 0;
+    switch (user.plan) {
+      case 'basic':
+        paymentAmount = 100;
+        break;
+      case 'premium':
+        paymentAmount = 150;
+        break;
+      case 'vip':
+        paymentAmount = 200;
+        break;
+      default:
+        return createErrorResponse(res, "Invalid plan selected", StatusCodes.BAD_REQUEST);
+    }
+
     // Create new booking
     const newBooking = await Booking.create({
       userId,
@@ -75,13 +91,18 @@ router.post("/create", async (req, res) => {
       sessionType,
       notes: notes || '',
       payment: {
-        amount: 100, // Fixed price for demo
+        amount: paymentAmount,
         currency: 'USD',
         status: 'pending'
       }
     });
 
-  
+    // Deduct 1 from remainingTrainerDays
+    await User.findByIdAndUpdate(userId, { $inc: { remainingTrainerDays: -1 } });
+
+    // Update session data
+    req.session.user.remainingTrainerDays -= 1;
+
     // Send booking confirmation email to user
 		// Ensure email is valid before sending email notification
 		if (!user.email || typeof user.email !== 'string' || !user.email.includes('@')) {

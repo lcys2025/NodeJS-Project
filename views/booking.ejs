@@ -12,7 +12,7 @@
       <select id="trainerSelect" required>
         <option value="">Select a trainer</option>
         <% trainers.forEach(trainer => { %>
-          <option value="<%= trainer._id %>"><%= trainer.name %></option>
+          <option value="<%= trainer._id %>" <%= trainer._id.toString() === selectedTrainerId ? 'selected' : '' %>><%= trainer.name %></option>
         <% }); %>
       </select>
     </div>

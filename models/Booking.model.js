@@ -43,24 +43,6 @@ const bookingSchema = new Schema(
     notes: {
       type: String,
       maxlength: 500
-    },
-    // Payment information
-    payment: {
-      amount: {
-        type: Number,
-        required: true,
-        min: 0
-      },
-      currency: {
-        type: String,
-        default: 'USD'
-      },
-      status: {
-        type: String,
-        enum: ['pending', 'paid', 'refunded', 'failed'],
-        default: 'pending'
-      },
-      method: String
     }
   },
   {

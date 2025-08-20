@@ -18,12 +18,16 @@ router.get("/", async (req, res) => {
   try {
     // Get all trainers
     const trainers = await User.find({ role: 'trainer' }).select('name _id');
+    const selectedTrainerId = req.query.trainer || null;
+
+    console.log('Selected Trainer ID:', selectedTrainerId); // Debug log for selectedTrainerId
     
     res.render("booking", { 
       company_name: process.env.COMPANY_NAME,
       trainers,
       //user: req.user || {} // Assuming you have user in session
-      user: req.session.user  // Use session user here
+      user: req.session.user, // Use session user here
+      selectedTrainerId // Pass the selected trainer ID to the view
     });
   } catch (error) {
     console.error("Booking page error:", error);

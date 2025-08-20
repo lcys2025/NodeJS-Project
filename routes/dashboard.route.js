@@ -34,6 +34,9 @@ router.get("/", isAuthenticated, async (req, res) => {
       
       // Get available trainers
       data.trainers = await User.find({ role: 'trainer' }).select('name _id');
+
+      // Add remaining trainer days for gymer
+      data.remainingTrainerDays = user.remainingTrainerDays;
     } 
     else if (user.role === 'trainer') {
       // Get current month for calendar
@@ -76,6 +79,37 @@ router.get("/", isAuthenticated, async (req, res) => {
 
     // Check for booking success flag
     const bookingSuccess = req.query.booking === 'success';
+    
+    // Determine payment amount based on user's plan
+    let paymentAmount = 0;
+    switch (user.plan) {
+      case 'basic':
+        paymentAmount = 100;
+        break;
+      case 'premium':
+        paymentAmount = 150;
+        break;
+      case 'vip':
+        paymentAmount = 200;
+        break;
+      default:
+        paymentAmount = 0;
+    }
+
+    // Add payment amount to data
+    data.paymentAmount = paymentAmount;
+
+    // Determine payment status based on user's plan
+    let paymentStatus = 'pending'; // Default status
+    if (user.plan === 'basic' || user.plan === 'premium' || user.plan === 'vip') {
+      paymentStatus = 'confirmed'; // Example logic for confirmed plans
+    }
+
+    // Add payment status to data
+    data.paymentStatus = paymentStatus;
+
+    // Debug log for user plan
+    console.log('User Plan:', user.plan);
     
     res.render("dashboard", {
       company_name: process.env.COMPANY_NAME,

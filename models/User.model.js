@@ -39,6 +39,29 @@ const userSchema = new mongoose.Schema(
 			enum: ['gymer', 'trainer'],
 			default: 'gymer',
 		},
+		remainingTrainerDays: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
+		payment: {
+			amount: {
+				type: Number,
+				required: true,
+				min: 0,
+				default: 0
+			},
+			currency: {
+				type: String,
+				default: 'USD'
+			},
+			status: {
+				type: String,
+				enum: ['pending', 'paid', 'refunded', 'failed'],
+				default: 'paid'
+			},
+			method: String
+		},
 	},
 	{
 		collection: "users",

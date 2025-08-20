@@ -38,12 +38,29 @@ router.post("/register", async (req, res) => {
 		// hash password
 		const hashedPassword = await bcrypt.hash(password, 10);
 
+		// Determine remaining trainer days based on plan
+		let remainingTrainerDays = 0;
+		switch (plan) {
+			case 'basic':
+				remainingTrainerDays = 5;
+				break;
+			case 'premium':
+				remainingTrainerDays = 10;
+				break;
+			case 'vip':
+				remainingTrainerDays = 20;
+				break;
+			default:
+				return createErrorResponse(res, "Invalid plan selected");
+		}
+
 		// create new user
 		const savedUser = await User.create({
 			password: hashedPassword,
 			name: (name || "").trim(),
 			email: email,
 			plan: plan,
+			remainingTrainerDays: remainingTrainerDays,
 		});
 
 		// Add email notification for registration event
@@ -138,6 +155,7 @@ router.post("/login", async (req, res) => {
 			name: user.name,
 			plan: user.plan,
 			role: user.role,
+			remainingTrainerDays: user.remainingTrainerDays,
 		};
 
 		//return createSuccessResponse(res, userResp);

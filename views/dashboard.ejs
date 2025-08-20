@@ -14,9 +14,11 @@
   <%- include('_partials/nav') %>
     <div class="dashboard-container">
       <h1>Welcome, <%= user.name %>!</h1>
+      <p><strong>Plan:</strong> <%= user.plan.charAt(0).toUpperCase() + user.plan.slice(1) %> - $<%= data.paymentAmount %> (<%= data.paymentStatus || 'N/A' %>) <span style="float: right;"><strong>Remaining Trainer Days:</strong> <%= data.remainingTrainerDays %></span></p>
     </div>
     <div class="dashboard-actions">
     </div>
+
     <% if (locals.user && locals.user.role==='gymer' ) { %>
       <!-- Gymer Dashboard -->
       <div class="dashboard-section">
@@ -62,7 +64,7 @@
                 <h3>
                   <%= trainer.name %>
                 </h3>
-                <a href="/book?trainer=<%= trainer._id %>" class="btn small">Book Now</a>
+                <a href="/book?trainer=<%= trainer._id %>&trainerName=<%= encodeURIComponent(trainer.name) %>" class="btn small">Book Now</a>
               </div>
               <% }); %>
           </div>
@@ -70,6 +72,7 @@
             <p>No trainers available at this time.</p>
             <% } %>
       </div>
+
       <% } else if (user.role==='trainer' ) { %>
         <!-- Trainer Dashboard -->
         <div class="dashboard-section">
@@ -168,6 +171,10 @@
               <% } %>
         </div>
         <% } %>
+          <div class="dashboard-section">
+            <h2>Remaining Trainer Days</h2>
+            <p>You have <strong><%= data.remainingTrainerDays %></strong> trainer days left.</p>
+          </div>
           </div>
 
           <script src="/dashboard/dashboard.js"></script>

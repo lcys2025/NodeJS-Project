@@ -5,21 +5,21 @@ const initTrainers = async () => {
   const trainers = [
     {
       name: 'Bee Cho',
-      email: 'beecho@example.com',
+      email: 'lcys20252025+1@gmail.com',
       plan: 'vip',
       role: 'trainer',
       password: await bcrypt.hash('1AMbeecho', 10),
     },
     {
       name: 'Yami Li',
-      email: 'yamili@example.com',
+      email: 'lcys20252025+2@gmail.com',
       plan: 'premium',
       role: 'trainer',
       password: await bcrypt.hash('1AMyamili', 10),
     },
     {
       name: 'Elvis Lam',
-      email: 'elvislam@example.com',
+      email: 'lcys20252025+3@gmail.com',
       plan: 'premium',
       role: 'trainer',
       password: await bcrypt.hash('1AMelvislam', 10),
