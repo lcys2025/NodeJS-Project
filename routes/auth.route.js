@@ -46,27 +46,12 @@ router.post("/register", async (req, res) => {
 			plan: plan,
 		});
 
-		// Send welcome email
-		try {
-			await sendEmail(
-				email,
-				`Welcome to ${process.env.COMPANY_NAME}!`,
-				`<h1>Welcome ${name}!</h1>
-        <p>Thank you for registering with ${process.env.COMPANY_NAME}.</p>
-        <p>Your account has been successfully created with the ${plan} plan.</p>
-        <p>Start your fitness journey today!</p>`
-			);
-		} catch (emailError) {
-			console.error("Failed to send welcome email:", emailError);
-		}
-
 		// Add email notification for registration event
 		// Ensure email is valid before sending email notification
 		if (!email || typeof email !== 'string' || !email.includes('@')) {
 			console.error("Invalid email address provided for notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
-
 		await sendEmail({
 			to: email,
 			subject: `Welcome to ${process.env.COMPANY_NAME}!`,
@@ -125,13 +110,12 @@ router.post("/login", async (req, res) => {
 			return createErrorResponse(res, "Invalid email or password");
 		}
 
+		// Add email notification for login event
 		// Ensure email is valid before sending email notification
 		if (!email || typeof email !== 'string' || !email.includes('@')) {
 			console.error("Invalid email address provided for login notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
-
-		// Send login notification email
 		await sendEmail({
 			to: email,
 			subject: `Login Notification - ${process.env.COMPANY_NAME}`,
@@ -217,26 +201,12 @@ router.post("/resetPassword", async (req, res) => {
 		user.password = await bcrypt.hash(newPassword, 10);
 		await user.save();
 
-		// Send password reset confirmation email
-		try {
-			await sendEmail(
-				email,
-				`Password Reset Confirmation - ${process.env.COMPANY_NAME}`,
-				`<h1>Password Reset Successful</h1>
-        <p>Your password for ${process.env.COMPANY_NAME} has been successfully reset.</p>
-        <p>If you didn't request this change, please contact us immediately.</p>`
-			);
-		} catch (emailError) {
-			console.error("Failed to send password reset email:", emailError);
-		}
-
 		// Add email notification for password reset event
 		// Ensure email is valid before sending email notification
 		if (!email || typeof email !== 'string' || !email.includes('@')) {
 			console.error("Invalid email address provided for notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
-
 		await sendEmail({
 			to: email,
 			subject: `Password Reset Confirmation - ${process.env.COMPANY_NAME}`,

@@ -81,34 +81,27 @@ router.post("/create", async (req, res) => {
       }
     });
 
+  
     // Send booking confirmation email to user
-    try {
-      await sendEmail(
-        user.email,
-        `Booking Confirmation - ${process.env.COMPANY_NAME}`,
-        `<h1>Booking Confirmed</h1>
-        <p>Your session with ${trainer.name} has been booked for ${bookingDateObj.toDateString()}.</p>
-        <p>Session Type: ${sessionType}</p>
-        <p>Notes: ${notes || 'None'}</p>`
-      );
-    } catch (emailError) {
-      console.error("Failed to send booking confirmation email:", emailError);
-    }
-
-    // Send booking notification to trainer
-    try {
-      await sendEmail(
-        trainer.email,
-        `New Booking Notification - ${process.env.COMPANY_NAME}`,
-        `<h1>New Booking</h1>
-        <p>You have a new booking from ${user.name}.</p>
-        <p>Date: ${bookingDateObj.toDateString()}</p>
-        <p>Session Type: ${sessionType}</p>
-        <p>Notes: ${notes || 'None'}</p>`
-      );
-    } catch (emailError) {
-      console.error("Failed to send trainer notification email:", emailError);
-    }
+		// Ensure email is valid before sending email notification
+		if (!user.email || typeof user.email !== 'string' || !user.email.includes('@')) {
+			console.error("Invalid email address provided for notification");
+			return createErrorResponse(res, "Invalid email address");
+		}
+		await sendEmail({
+			to: user.email,
+			subject: `New Booking Notification - ${process.env.COMPANY_NAME}`,
+			text: `Your session with ${trainer.name} has been booked for ${bookingDateObj.toDateString()}.`,
+		});
+	  if (!trainer.email || typeof trainer.email !== 'string' || !trainer.email.includes('@')) {
+			console.error("Invalid email address provided for notification");
+			return createErrorResponse(res, "Invalid email address");
+		}
+		await sendEmail({
+			to: trainer.email,
+			subject: `New Booking Notification - ${process.env.COMPANY_NAME}`,
+			text: `You have a new booking from ${user.name} on ${bookingDateObj.toDateString()}.`,
+		});
 
     return createSuccessResponse(res, newBooking, "Booking created successfully", StatusCodes.CREATED);
   } catch (error) {
