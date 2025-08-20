@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import QRCode from 'qrcode';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ export async function sendEmail({ to, subject, text, html }) {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
     },
+    debug: true,
   });
 
   await transporter.verify();
@@ -30,5 +32,32 @@ export async function sendEmail({ to, subject, text, html }) {
     subject,
     text,
     html,
+  });
+}
+
+/**
+ * Generates a QR code for the given URL and embeds it in the email.
+ * @param {string} to - Recipient email address.
+ * @param {string} subject - Subject of the email.
+ * @param {string} text - Plain text content of the email.
+ * @param {string} html - HTML content of the email (optional).
+ * @returns {Promise<void>} - Resolves when the email is sent successfully.
+ */
+export async function sendEmailWithQRCode({ to, subject, text, html }) {
+  const loginUrl = `${process.env.BASE_URL}/auth/login`;
+  const qrCodeDataUrl = await QRCode.toDataURL(loginUrl);
+
+  const qrCodeHtml = `<div style="text-align: center;">
+    <p>Scan the QR code below to log in:</p>
+    <img src="${qrCodeDataUrl}" alt="Login QR Code" />
+  </div>`;
+
+  const combinedHtml = html ? `${html}${qrCodeHtml}` : qrCodeHtml;
+  
+  await sendEmail({
+    to,
+    subject,
+    text,
+    html: combinedHtml,
   });
 }

@@ -3,7 +3,7 @@ import Booking from "../models/Booking.model.js";
 import User from "../models/User.model.js";
 import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
 import StatusCodes from "../utils/statusCodes.js";
-import { sendEmail } from "../utils/emailHandler.js";
+import { sendEmailWithQRCode } from "../utils/emailHandler.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -67,6 +67,11 @@ router.post("/create", async (req, res) => {
       return createErrorResponse(res, "Trainer is already booked on this date", StatusCodes.CONFLICT);
     }
 
+    // Check if user has remaining trainer days
+    if (user.remainingTrainerDays <= 0) {
+      return createErrorResponse(res, "You have no remaining trainer days. Please renew your plan to book a trainer.", StatusCodes.FORBIDDEN);
+    }
+
     // Determine payment amount based on user's plan
     let paymentAmount = 0;
     switch (user.plan) {
@@ -109,7 +114,7 @@ router.post("/create", async (req, res) => {
 			console.error("Invalid email address provided for notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
-		await sendEmail({
+		await sendEmailWithQRCode({
 			to: user.email,
 			subject: `New Booking Notification - ${process.env.COMPANY_NAME}`,
 			text: `Your session with ${trainer.name} has been booked for ${bookingDateObj.toDateString()}.`,
@@ -118,7 +123,7 @@ router.post("/create", async (req, res) => {
 			console.error("Invalid email address provided for notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
-		await sendEmail({
+		await sendEmailWithQRCode({
 			to: trainer.email,
 			subject: `New Booking Notification - ${process.env.COMPANY_NAME}`,
 			text: `You have a new booking from ${user.name} on ${bookingDateObj.toDateString()}.`,
@@ -223,7 +228,7 @@ router.put("/:id/status", async (req, res) => {
 
     // Send status update email to user
     try {
-      await sendEmail(
+      await sendEmailWithQRCode(
         updatedBooking.userId.email,
         `Booking Status Update - ${process.env.COMPANY_NAME}`,
         `<h1>Booking Status Updated</h1>
@@ -241,7 +246,7 @@ router.put("/:id/status", async (req, res) => {
       return res.status(400).send("Invalid email address");
     }
 
-    await sendEmail({
+    await sendEmailWithQRCode({
       to: updatedBooking.userEmail,
       subject: `Booking Update - ${process.env.COMPANY_NAME}`,
       text: `Your booking has been updated. Please check your account for details.`

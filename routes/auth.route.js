@@ -2,7 +2,7 @@ import express from "express";
 import User from "../models/User.model.js";
 import bcrypt from "bcrypt";
 import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
-import { sendEmail } from "../utils/emailHandler.js";
+import { sendEmailWithQRCode } from "../utils/emailHandler.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -69,10 +69,11 @@ router.post("/register", async (req, res) => {
 			console.error("Invalid email address provided for notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
-		await sendEmail({
+		await sendEmailWithQRCode({
 			to: email,
 			subject: `Welcome to ${process.env.COMPANY_NAME}!`,
 			text: `Thank you for registering with ${process.env.COMPANY_NAME}. Your account has been created successfully.`,
+			html: '<h1>Welcome</h1><p>That was easy!</p>'
 		});
 
 		// create user response
@@ -133,7 +134,7 @@ router.post("/login", async (req, res) => {
 			console.error("Invalid email address provided for login notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
-		await sendEmail({
+		await sendEmailWithQRCode({
 			to: email,
 			subject: `Login Notification - ${process.env.COMPANY_NAME}`,
 			text: `Your account was logged into ${process.env.COMPANY_NAME}. If this wasn't you, contact support immediately.`
@@ -225,7 +226,7 @@ router.post("/resetPassword", async (req, res) => {
 			console.error("Invalid email address provided for notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
-		await sendEmail({
+		await sendEmailWithQRCode({
 			to: email,
 			subject: `Password Reset Confirmation - ${process.env.COMPANY_NAME}`,
 			text: `Your password for ${process.env.COMPANY_NAME} has been successfully reset. If this wasn't you, contact support immediately.`,
