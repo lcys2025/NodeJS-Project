@@ -75,7 +75,9 @@ router.get("/", isAuthenticated, async (req, res) => {
           booking: booking
         });
       }
-    }
+      // Add remaining trainer days for gymer
+      data.remainingTrainerDays = user.remainingTrainerDays;
+}
 
     // Check for booking success flag
     const bookingSuccess = req.query.booking === 'success';
