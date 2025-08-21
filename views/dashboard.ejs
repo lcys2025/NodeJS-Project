@@ -76,9 +76,21 @@
       <% } else if (user.role==='trainer' ) { %>
         <!-- Trainer Dashboard -->
         <div class="dashboard-section">
-          <h2>Your Schedule for <%= data.calendar.month %>
-              <%= data.calendar.year %>
-          </h2>
+          <div class="calendar-navigation" style="margin-bottom: 1em; display: flex; align-items: center;">
+            <form action="/dashboard" method="GET" style="display: inline;">
+              <input type="hidden" name="month" value="<%= data.calendar.prevMonth %>">
+              <input type="hidden" name="year" value="<%= data.calendar.prevYear %>">
+              <button type="submit" class="btn small">Previous</button>
+            </form>
+            <span style="margin: 0 1em; flex: 1; text-align: center;">
+              <strong>Your Schedule for <%= data.calendar.month %> <%= data.calendar.year %></strong>
+            </span>
+            <form action="/dashboard" method="GET" style="display: inline;">
+              <input type="hidden" name="month" value="<%= data.calendar.nextMonth %>">
+              <input type="hidden" name="year" value="<%= data.calendar.nextYear %>">
+              <button type="submit" class="btn small">Next</button>
+            </form>
+          </div>
           <div class="calendar">
             <% data.calendar.days.forEach(day=> { %>
               <div class="calendar-day <%= day.booked ? 'booked' : 'available' %>">
@@ -96,26 +108,20 @@
                     <div class="status-<%= day.booking.status %>">
                       <%= day.booking.status %>
                     </div>
-
                     <form action="/dashboard/update-status" method="POST" class="status-form">
                       <input type="hidden" name="bookingId" value="<%= day.booking._id %>">
                       <select name="status" onchange="this.form.submit()">
-                        <option value="pending" <%=day.booking.status==='pending' ? 'selected' : '' %>>Pending
-                        </option>
-                        <option value="confirmed" <%=day.booking.status==='confirmed' ? 'selected' : '' %>>Confirmed
-                        </option>
-                        <option value="completed" <%=day.booking.status==='completed' ? 'selected' : '' %>>Completed
-                        </option>
-                        <option value="cancelled" <%=day.booking.status==='cancelled' ? 'selected' : '' %>>Cancelled
-                        </option>
-                        <option value="no-show" <%=day.booking.status==='no-show' ? 'selected' : '' %>>No Show
-                        </option>
+                        <option value="pending" <%=day.booking.status==='pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="confirmed" <%=day.booking.status==='confirmed' ? 'selected' : '' %>>Confirmed</option>
+                        <option value="completed" <%=day.booking.status==='completed' ? 'selected' : '' %>>Completed</option>
+                        <option value="cancelled" <%=day.booking.status==='cancelled' ? 'selected' : '' %>>Cancelled</option>
+                        <option value="no-show" <%=day.booking.status==='no-show' ? 'selected' : '' %>>No Show</option>
                       </select>
                     </form>
                   </div>
-                  <% } %>
+                <% } %>
               </div>
-              <% }); %>
+            <% }); %>
           </div>
         </div>
 

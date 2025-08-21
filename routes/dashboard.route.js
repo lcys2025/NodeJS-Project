@@ -39,35 +39,52 @@ router.get("/", isAuthenticated, async (req, res) => {
       data.remainingTrainerDays = user.remainingTrainerDays;
     } 
     else if (user.role === 'trainer') {
-      // Get current month for calendar
-      const today = new Date();
-      const month = today.getMonth() + 1;
-      const year = today.getFullYear();
-      
+      // Get month and year from query, or use current
+      let month = req.query.month ? parseInt(req.query.month) : (new Date().getMonth() + 1);
+      let year = req.query.year ? parseInt(req.query.year) : (new Date().getFullYear());
+
+      // Calculate previous and next month/year
+      let prevMonth = month - 1;
+      let prevYear = year;
+      if (prevMonth < 1) {
+        prevMonth = 12;
+        prevYear -= 1;
+      }
+      let nextMonth = month + 1;
+      let nextYear = year;
+      if (nextMonth > 12) {
+        nextMonth = 1;
+        nextYear += 1;
+      }
+
       // Get bookings for the month
-      const startDate = new Date(`${year}-${month}-01`);
+      const startDate = new Date(`${year}-${String(month).padStart(2, '0')}-01`);
       const endDate = new Date(year, month, 0);
-      
+
       data.bookings = await Booking.find({
         trainerId: user.id,
         bookingDate: { $gte: startDate, $lte: endDate }
       }).populate('userId', 'name');
-      
+
       // Format calendar data
       data.calendar = {
-        month: today.toLocaleString('default', { month: 'long' }),
+        month: new Date(year, month - 1).toLocaleString('default', { month: 'long' }),
         year: year,
+        prevMonth,
+        prevYear,
+        nextMonth,
+        nextYear,
         days: []
       };
-      
+
       // Generate days for calendar
       const daysInMonth = new Date(year, month, 0).getDate();
       for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const booking = data.bookings.find(b => 
+        const booking = data.bookings.find(b =>
           b.bookingDate.toISOString().split('T')[0] === dateStr
         );
-        
+
         data.calendar.days.push({
           date: dateStr,
           day: day,
@@ -75,7 +92,6 @@ router.get("/", isAuthenticated, async (req, res) => {
           booking: booking
         });
       }
-      // Add remaining trainer days for gymer
       data.remainingTrainerDays = user.remainingTrainerDays;
 }
 
