@@ -1,4 +1,27 @@
 =====================
+NOW
+=====================
+<BASIC>
+all done
+
+<COMPLETED>
+1. Passport (middleware)
+2. Authetication (middleware)
+3. Validator (node.js)
+4. Mongoose
+5. Email (nodemailer)
+6. Payment (money and trainer booking days)
+7. QRCode
+
+<PENDING>
+1. Superuser (BE feature)
+2. Reporting
+3. Promotional email based on generated reports
+4. Upload files (multer)
+5. Light/Dark mode (FE feature)
+
+
+=====================
 Date: 20250818
 =====================
 Email (extra) (OK, 33 marks including email)
@@ -55,4 +78,5 @@ https://nodemailer.com/
 https://medium.com/@y.mehnati_49486/how-to-send-an-email-from-your-gmail-account-with-nodemailer-837bf09a7628
 https://bytearcher.com/articles/formidable-vs-busboy-vs-multer-vs-multiparty/
 https://www.npmjs.com/package/multer
+
 
