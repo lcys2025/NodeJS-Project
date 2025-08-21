@@ -73,7 +73,7 @@ router.post("/register", async (req, res) => {
 			to: email,
 			subject: `Welcome to ${process.env.COMPANY_NAME}!`,
 			text: `Thank you for registering with ${process.env.COMPANY_NAME}. Your account has been created successfully.`,
-			html: "<h1>Welcome</h1><p>That was easy!</p>",
+			html: "<h1>Welcome</h1><p>localhost:3030/register</p>",
 		});
 
 		// create user response
@@ -138,6 +138,7 @@ router.post("/login", async (req, res) => {
 			to: email,
 			subject: `Login Notification - ${process.env.COMPANY_NAME}`,
 			text: `Your account was logged into ${process.env.COMPANY_NAME}. If this wasn't you, contact support immediately.`,
+			html: "<h1>Welcome</h1><p>localhost:3030/login</p>",
 		});
 
 		// create user response
@@ -226,6 +227,7 @@ router.post("/resetPassword", async (req, res) => {
 			to: email,
 			subject: `Password Reset Confirmation - ${process.env.COMPANY_NAME}`,
 			text: `Your password for ${process.env.COMPANY_NAME} has been successfully reset. If this wasn't you, contact support immediately.`,
+			html: "<h1>Welcome</h1><p>localhost:3030/resetPassword</p>",
 		});
 
 		const userResp = { id: user._id };

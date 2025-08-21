@@ -51,7 +51,7 @@ export async function sendEmailWithQRCode({ to, subject, text, html }) {
     <p>Scan the QR code below to log in:</p>
     <img src="${qrCodeDataUrl}" alt="Login QR Code" />
   </div>`;
-
+  console.log(html);
   const combinedHtml = html ? `${html}${qrCodeHtml}` : qrCodeHtml;
   
   await sendEmail({
