@@ -32,12 +32,25 @@ F. Light/dark mode FE (investigate)
 Basic (8 days, monthly payment $80)
 book 1 day, 8 -> 7
 
+======================================
+THIRD PARTY PACKAGES
+======================================
 =====================
 Date: 20250819
 =====================
-In class, Wong sir said implementing express.js's "passport" will get extra point in project. E.g. login thru passport using google account credential.
+Login session [Middleware] + Authetication + Validator  
+(a) “Passport JS” + (b) “Authetication strategy” + (c) node.js's "Validator"
 https://medium.com/@prashantramnyc/node-js-with-passport-authentication-simplified-76ca65ee91e5
 https://medium.com/@prashantramnyc/how-to-implement-google-authentication-in-node-js-using-passport-js-9873f244b55e
 https://medium.com/swlh/node-and-passport-js-facebook-authentication-76cbfa903ff3
 https://www.npmjs.com/package/validator
-
+=====================
+Date: 20250821
+=====================
+Email + File upload
+(a) Email [nodemailer] + (b) upload files [multer]
+https://www.w3schools.com/nodejs/nodejs_email.asp
+https://nodemailer.com/
+https://medium.com/@y.mehnati_49486/how-to-send-an-email-from-your-gmail-account-with-nodemailer-837bf09a7628
+https://bytearcher.com/articles/formidable-vs-busboy-vs-multer-vs-multiparty/
+https://www.npmjs.com/package/multer
