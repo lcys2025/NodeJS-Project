@@ -44,7 +44,7 @@ export async function sendEmail({ to, subject, text, html }) {
  * @returns {Promise<void>} - Resolves when the email is sent successfully.
  */
 export async function sendEmailWithQRCode({ to, subject, text, html }) {
-  const loginUrl = `${process.env.BASE_URL}/auth/login`;
+  const loginUrl = 'https://lcys2025.github.io';
   const qrCodeDataUrl = await QRCode.toDataURL(loginUrl);
 
   const qrCodeHtml = `<div style="text-align: center;">
