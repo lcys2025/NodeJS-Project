@@ -31,6 +31,7 @@ F. Light/dark mode FE (investigate)
 
 Basic (8 days, monthly payment $80)
 book 1 day, 8 -> 7
+QRCode
 
 ======================================
 THIRD PARTY PACKAGES
@@ -54,3 +55,4 @@ https://nodemailer.com/
 https://medium.com/@y.mehnati_49486/how-to-send-an-email-from-your-gmail-account-with-nodemailer-837bf09a7628
 https://bytearcher.com/articles/formidable-vs-busboy-vs-multer-vs-multiparty/
 https://www.npmjs.com/package/multer
+
