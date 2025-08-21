@@ -41,13 +41,13 @@ router.post("/register", async (req, res) => {
 		// Determine remaining trainer days based on plan
 		let remainingTrainerDays = 0;
 		switch (plan) {
-			case 'basic':
+			case "basic":
 				remainingTrainerDays = 5;
 				break;
-			case 'premium':
+			case "premium":
 				remainingTrainerDays = 10;
 				break;
-			case 'vip':
+			case "vip":
 				remainingTrainerDays = 20;
 				break;
 			default:
@@ -65,7 +65,7 @@ router.post("/register", async (req, res) => {
 
 		// Add email notification for registration event
 		// Ensure email is valid before sending email notification
-		if (!email || typeof email !== 'string' || !email.includes('@')) {
+		if (!email || typeof email !== "string" || !email.includes("@")) {
 			console.error("Invalid email address provided for notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
@@ -73,7 +73,7 @@ router.post("/register", async (req, res) => {
 			to: email,
 			subject: `Welcome to ${process.env.COMPANY_NAME}!`,
 			text: `Thank you for registering with ${process.env.COMPANY_NAME}. Your account has been created successfully.`,
-			html: '<h1>Welcome</h1><p>That was easy!</p>'
+			html: "<h1>Welcome</h1><p>That was easy!</p>",
 		});
 
 		// create user response
@@ -130,24 +130,21 @@ router.post("/login", async (req, res) => {
 
 		// Add email notification for login event
 		// Ensure email is valid before sending email notification
-		if (!email || typeof email !== 'string' || !email.includes('@')) {
+		if (!email || typeof email !== "string" || !email.includes("@")) {
 			console.error("Invalid email address provided for login notification");
 			return createErrorResponse(res, "Invalid email address");
 		}
 		await sendEmailWithQRCode({
 			to: email,
 			subject: `Login Notification - ${process.env.COMPANY_NAME}`,
-			text: `Your account was logged into ${process.env.COMPANY_NAME}. If this wasn't you, contact support immediately.`
+			text: `Your account was logged into ${process.env.COMPANY_NAME}. If this wasn't you, contact support immediately.`,
 		});
 
 		// create user response
-		//const userResp = {
-		//  id: user._id,
-		//  email: user.email,
-		//  name: user.name,
-		//  plan: user.plan,
-		//  role: user.role,
-		//};
+		const userResp = {
+			id: user._id,
+			email: user.email,
+		};
 
 		// Add to login route after successful authentication
 		req.session.user = {
@@ -159,10 +156,9 @@ router.post("/login", async (req, res) => {
 			remainingTrainerDays: user.remainingTrainerDays,
 		};
 
-		//return createSuccessResponse(res, userResp);
-
 		// Redirect to dashboard instead of returning JSON
-		return res.redirect("/dashboard");
+		// return res.redirect("/dashboard");
+		return createSuccessResponse(res, userResp);
 	} catch (error) {
 		console.error("POST /auth/login error:", error);
 		return createErrorResponse(res, "Internal Server Error");
@@ -222,7 +218,7 @@ router.post("/resetPassword", async (req, res) => {
 
 		// Add email notification for password reset event
 		// Ensure email is valid before sending email notification
-		if (!email || typeof email !== 'string' || !email.includes('@')) {
+		if (!email || typeof email !== "string" || !email.includes("@")) {
 			console.error("Invalid email address provided for notification");
 			return createErrorResponse(res, "Invalid email address");
 		}

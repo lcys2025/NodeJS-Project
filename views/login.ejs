@@ -18,11 +18,11 @@
     <div class="login-container">
         <div class="login-box">
             <h2>Log in to your fitness account</h2>
-            <form id="loginForm" action="/auth/login" method="post">
+            <form id="loginForm">
                 <input type="email" id="email" name="email" placeholder="Email" required>
                 <input type="password" id="password" name="password" placeholder="Password" required>
                 <p class="forgot"><a href="/auth/resetPassword">forgot password？</a></p>
-                <button type="submit">submit</button>
+                <button type="submit" id="login-button">submit</button>
                 <p class="signup">Not a member yet? <a href="/auth/register">Register now</a></p>
             </form>
         </div>
