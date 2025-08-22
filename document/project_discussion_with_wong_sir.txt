@@ -83,6 +83,7 @@ https://www.npmjs.com/package/multer
 =====================
 Date: 20250822
 =====================
+UML + Final Project Deliverables
 http://www.ir.juit.ac.in:8080/jspui/bitstream/123456789/10248/1/Yadey-A Social Media Web App.pdf
 IMPORTANT IMPORTANT IMPORTANT
   ---------- MUST DO ----------
@@ -91,6 +92,7 @@ IMPORTANT IMPORTANT IMPORTANT
   .env google password special handling by providing a "Removable USB drive" with .env file with google app password
   ---------- MUST DO ----------
 IMPORTANT IMPORTANT IMPORTANT
+
 
 
 
