@@ -117,8 +117,8 @@ router.post("/create", async (req, res) => {
 		await sendEmailWithQRCode({
 			to: user.email,
 			subject: `New Booking Notification - ${process.env.COMPANY_NAME}`,
-			text: `Your session with ${trainer.name} has been booked for ${bookingDateObj.toDateString()}.`,
-			html: `<!DOCTYPE html><h1>Thank you for booking our trainer ${trainer.name} for ${bookingDateObj.toDateString()}</h1><p>localhost:3030/booking/create</p>`,
+			text: `Your session with "${trainer.name}" has been booked for ${bookingDateObj.toDateString()}.`,
+			html: `<h1>Thank you for booking our trainer "${trainer.name}" for ${bookingDateObj.toDateString()}</h1><p>localhost:3030/booking/create</p>`,
     });
 	  if (!trainer.email || typeof trainer.email !== 'string' || !trainer.email.includes('@')) {
 			console.error("Invalid email address provided for notification");
@@ -127,8 +127,8 @@ router.post("/create", async (req, res) => {
 		await sendEmailWithQRCode({
 			to: trainer.email,
 			subject: `New Booking Notification - ${process.env.COMPANY_NAME}`,
-			text: `You have a new booking from ${user.name} on ${bookingDateObj.toDateString()}.`,
-			html: `<!DOCTYPE html><h1>Please take good care of our gymer ${user.name} on ${bookingDateObj.toDateString()}</h1><p>localhost:3030/booking/create</p>`,
+			text: `You have a new booking from "${user.name}" on ${bookingDateObj.toDateString()}.`,
+			html: `<h1>Please take good care of our gymer "${user.name}" on ${bookingDateObj.toDateString()}</h1><p>localhost:3030/booking/create</p>`,
 		});
 
     return createSuccessResponse(res, newBooking, "Booking created successfully", StatusCodes.CREATED);
