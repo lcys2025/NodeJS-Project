@@ -80,6 +80,18 @@ https://nodemailer.com/
 https://medium.com/@y.mehnati_49486/how-to-send-an-email-from-your-gmail-account-with-nodemailer-837bf09a7628
 https://bytearcher.com/articles/formidable-vs-busboy-vs-multer-vs-multiparty/
 https://www.npmjs.com/package/multer
+=====================
+Date: 20250822
+=====================
+http://www.ir.juit.ac.in:8080/jspui/bitstream/123456789/10248/1/Yadey-A Social Media Web App.pdf
+IMPORTANT IMPORTANT IMPORTANT
+  ---------- MUST DO ----------
+  Deliverables (5 items)
+  1. source code, 2. powerpoint, 3. written report, 4. database sample, 5. readme file (MUST BE RUNNABILITY)
+  .env google password special handling by providing a "Removable USB drive" with .env file with google app password
+  ---------- MUST DO ----------
+IMPORTANT IMPORTANT IMPORTANT
+
 
 
 
