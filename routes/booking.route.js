@@ -44,26 +44,26 @@ router.post("/create", async (req, res) => {
     const bookingDateObj = new Date(bookingDate);
     bookingDateObj.setHours(0, 0, 0, 0);
 
-    // Check if user exists and is a gymer
+    // Check if user exists and the user's role is gymer
     const user = await User.findById(userId);
     if (!user || user.role !== 'gymer') {
       return createErrorResponse(res, "Invalid user or user is not a gymer", StatusCodes.BAD_REQUEST);
     }
 
-    // Check if trainer exists
+    // Check if trainer exists and the trainer's role is trainer
     const trainer = await User.findById(trainerId);
     if (!trainer || trainer.role !== 'trainer') {
       return createErrorResponse(res, "Invalid trainer", StatusCodes.BAD_REQUEST);
     }
 
-    // Check if date is already booked
-    const existingBooking = await Booking.findOne({
+    // Check if trainer date is already booked
+    const existingTrainerBooking = await Booking.findOne({
       trainerId,
       bookingDate: bookingDateObj,
       status: { $in: ['pending', 'confirmed'] }
     });
 
-    if (existingBooking) {
+    if (existingTrainerBooking) {
       return createErrorResponse(res, "Trainer is already booked on this date", StatusCodes.CONFLICT);
     }
 
@@ -72,6 +72,15 @@ router.post("/create", async (req, res) => {
       return createErrorResponse(res, "You have no remaining trainer days. Please renew your plan to book a trainer.", StatusCodes.FORBIDDEN);
     }
 
+    // Check if user date is already booked
+    const existingUserBooking = await Booking.findOne({
+      userId,
+      bookingDate: bookingDateObj,
+    });
+    if (existingUserBooking) {
+      return createErrorResponse(res, "You have already booked on this date", StatusCodes.CONFLICT);
+    }
+    
     // Determine payment amount based on user's plan
     let paymentAmount = 0;
     switch (user.plan) {
@@ -97,7 +106,7 @@ router.post("/create", async (req, res) => {
       notes: notes || '',
       payment: {
         amount: paymentAmount,
-        currency: 'USD',
+        currency: 'HKD',
         status: 'pending'
       }
     });
