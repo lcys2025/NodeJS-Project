@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>Fitness class reservation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Fitness class reservation</h1>
+
+    <section>
+      <h2>Selecting a trainer</h2>
+      <div class="trainers">
+        <div class="trainer" data-name="trainerA">
+          <img src="https://via.placeholder.com/150" alt="trainerA">
+          <h3>Bee Cho</h3>
+          <p>Expert in Weight Training with over 10 years of experience.</p>
+        </div>
+        <div class="trainer" data-name="trainerB">
+          <img src="https://via.placeholder.com/150" alt="trainerB">
+          <h3>Yami Li</h3>
+          <p>Kick-boxing champion and certified instructor.</p>
+        </div>
+        <div class="trainer" data-name="trainerC">
+          <img src="https://via.placeholder.com/150" alt="trainerC">
+          <h3>Elvis Lam</h3>
+          <p>Stretch recovery specialist and yoga coach.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Select a Plan</h2>
+      <div class="courses">
+        <div class="course" data-name="PlanA">
+          <h3>Basic Plan</h3>
+          <p>Courses for beginners, with three sessions per week</p>
+        </div>
+        <div class="course" data-name="PlanB">
+          <h3>Advanced Plan</h3>
+          <p>Five sessions per week, including nutrition guidance</p>
+        </div>
+        <div class="course" data-name="PlanC">
+          <h3>VIP Plan</h3>
+          <p>One-on-one coach, private training space</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Select a date</h2>
+      <div class="calendar-controls">
+        <select id="year-select"></select>
+        <select id="month-select"></select>
+      </div>
+      <div id="calendar"></div>
+    </section>
+
+    <button id="submitBtn">submit</button>
+    <div id="message"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
