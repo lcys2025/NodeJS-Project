@@ -36,7 +36,7 @@ router.get("/", async (req, res) => {
       })
     }
     
-    res.render("bookingNew", { 
+    res.render("booking", { 
       company_name: process.env.COMPANY_NAME,
       trainers,
       //user: req.user || {} // Assuming you have user in session
