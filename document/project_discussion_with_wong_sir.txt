@@ -13,6 +13,9 @@ all done
 6. Payment (money and trainer booking days)
 7. QRCode
 
+==================
+Extra Points
+==================
 <PENDING>
 1. Superuser (BE feature)
 2. Reporting - database queries
@@ -20,6 +23,7 @@ all done
 4. Upload files (multer)
 5. Light/Dark mode (FE feature)
 6. Excel
+7. MongoDB Atlas
 
 =====================
 Date: 20250818
@@ -92,6 +96,7 @@ IMPORTANT IMPORTANT IMPORTANT
   .env google password special handling by providing a "Removable USB drive" with .env file with google app password
   ---------- MUST DO ----------
 IMPORTANT IMPORTANT IMPORTANT
+
 
 
 
