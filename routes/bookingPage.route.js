@@ -21,8 +21,22 @@ router.get("/", async (req, res) => {
     const selectedTrainerId = req.query.trainer || null;
 
     console.log('Selected Trainer ID:', selectedTrainerId); // Debug log for selectedTrainerId
+    if (trainers.length > 0) {
+      trainers.forEach(trainer => {
+        if (trainer.name == "Bee Cho") {
+          trainer['avatar'] = "pic/trainer1.avif";
+          trainer['description'] = "Expert in Weight Training with over 10 years of experience.";
+        } else if (trainer.name == "Yami Li") {
+          trainer['avatar'] = "pic/trainer2.avif";
+          trainer['description'] = "Kick-boxing champion and certified instructor.";
+        } else if (trainer.name == "Elvis Lam") {
+          trainer['avatar'] = "pic/trainer3.avif";
+          trainer['description'] = "Stretch recovery specialist and yoga coach.";
+        }
+      })
+    }
     
-    res.render("booking", { 
+    res.render("bookingNew", { 
       company_name: process.env.COMPANY_NAME,
       trainers,
       //user: req.user || {} // Assuming you have user in session
