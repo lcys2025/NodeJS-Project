@@ -1,15 +1,15 @@
 # NodeJS-Project (more info, https://lcys2025.github.io)
 
-## Introduction
-Course Name: 後端網站開發人員證書
-Course Code: PE076DS10
-Course Location: SCOPE尖沙咀東教學中心,九龍尖沙咀東科學館道16號華懋廣場UG3樓307室
-Course URL: https://www.scope.edu/programmes/ERB人才發展計劃/後端網站開發人員證書
-Class Number: 10
-Class Starting Date: 4th July 2025
-Team email address: lcys2025@outlook.com
-Github account: same as Team email address
-Total Team Members: 4 people
+## Introduction 
+Course Name: 後端網站開發人員證書 
+Course Code: PE076DS10 
+Course Location: SCOPE尖沙咀東教學中心,九龍尖沙咀東科學館道16號華懋廣場UG3樓307室 
+Course URL: https://www.scope.edu/programmes/ERB人才發展計劃/後端網站開發人員證書 
+Class Number: 10 
+Class Starting Date: 4th July 2025 
+Team email address: lcys2025@outlook.com 
+Github account: same as Team email address 
+Total Team Members: 4 people 
 
 Team Member Name: 
 1. 
@@ -60,12 +60,10 @@ Final Project URL: https://lcys2025.github.io/document/CityUHK_ERB_PE076DS10_Web
    3. 用戶身份驗證和授權 (User authentication and authorization) 
 
 #### 評分標準
-| -------------------------- | ----------------------------------- | ------ |
 | 標準                       | 描述                                | 比重   |
 | -------------------------- | ----------------------------------- | ------ |
 | 原始碼(Code)               | 專案的原始碼                        | 60%    |
 | 說明文件(Documents)        | 文字報告說明專案之架構              | 20%    |
 | 小組簡報(Presentation)     | 報告專案之概念及細節                | 20%    |
 | 簡單的前端界面(額外加分項) | 若具有優秀的前端界面,可獲得額外加分 | *(15%) |
-| -------------------------- | ----------------------------------- | ------ |
 *注意專案之總分並不會超過100分，因此於完成上述基本評分標準之項目前，不必投放過多精力於該項目上
