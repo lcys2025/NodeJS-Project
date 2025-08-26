@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			const dateObj = new Date(year, month, d);
 			const dateStr = formatDate(dateObj);
 			const now = new Date();
+			now.setHours(0, 0, 0, 0);
 
 			const appointment = bookedAppointments.find((a) => {
 				return a.date === dateStr && a.status !== "cancelled";
