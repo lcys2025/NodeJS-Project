@@ -92,10 +92,21 @@ http://www.ir.juit.ac.in:8080/jspui/bitstream/123456789/10248/1/Yadey-A Social M
 IMPORTANT IMPORTANT IMPORTANT
   ---------- MUST DO ----------
   Deliverables (5 items)
-  1. source code, 2. powerpoint, 3. written report, 4. database sample, 5. readme file (MUST BE RUNNABILITY)
+  1. source code + (.env [modified with password(s) + PORT]),
+  2. powerpoint (text + charts),
+  3. written report,
+  4. database [dump], if Atlas, may be no-need for fump,
+  5. readme file
+        . step by step instructions
+        . passwords
+        . how to run with database
+  6. Upload to Krystal (deadline By 4th Sep 2025 by 6pm)
+        
+(MUST BE RUNNABILITY)
   .env google password special handling by providing a "Removable USB drive" with .env file with google app password
   ---------- MUST DO ----------
 IMPORTANT IMPORTANT IMPORTANT
+
 
 
 
