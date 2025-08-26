@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		studentStats = bookedData.reduce((stats, item) => {
 			const userName = item?.userId?.name || "";
 			if (userName) {
-        if (item.status === "confirmed") {
-          stats[userName] = (stats[userName] || 0) + 1;
-        }
+				if (item.status === "confirmed") {
+					stats[userName] = (stats[userName] || 0) + 1;
+				}
 			}
 			return stats;
 		}, {});
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			} else if (isConfirmed) {
 				dayDiv.classList.add("booked");
 				dayDiv.style.cursor = "pointer";
-        dayDiv.onclick = () => loadAppointments(year, month, d);
+				dayDiv.onclick = () => loadAppointments(year, month, d);
 			} else if (appointment) {
 				dayDiv.classList.add("booked");
 				dayDiv.style.cursor = "pointer";
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const dateStr = formatDate(new Date(year, month, day));
 		const appointment = bookedAppointments.find((a) => a.date === dateStr);
 
-    console.log(appointment);
+		console.log(appointment);
 
 		if (appointment && appointment.status === "pending") {
 			const li = document.createElement("li");
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="appointment-card">
           <div class="appointment-header">
             <div class="appointment-details">
-              <p><strong>Student:</strong> ${appointment.studentName}</p>
+              <p><strong>Gymer:</strong> ${appointment.studentName}</p>
               <p><strong>Date:</strong> ${dateStr}</p>
             </div>
             <div class="appointment-status pending">Pending</div>
@@ -137,65 +137,65 @@ document.addEventListener("DOMContentLoaded", function () {
 			appointmentsList.appendChild(li);
 		} else if (appointment.status === "confirmed") {
 			const li = document.createElement("li");
-      li.innerHTML = `
+			li.innerHTML = `
         <div class="appointment-card">
           <div class="appointment-header">
             <div class="appointment-details">
-              <p><strong>Student:</strong> ${appointment.studentName}</p>
+              <p><strong>Gymer:</strong> ${appointment.studentName}</p>
               <p><strong>Date:</strong> ${dateStr}</p>
             </div>
             <div class="appointment-status confirmed">Confirmed</div>
           </div>
         </div>
       `;
-      appointmentsList.appendChild(li);
+			appointmentsList.appendChild(li);
 		} else if (appointment.status === "cancelled") {
-      const li = document.createElement("li");
-      li.innerHTML = `
+			const li = document.createElement("li");
+			li.innerHTML = `
         <div class="appointment-card">
           <div class="appointment-header">
             <div class="appointment-details">
-              <p><strong>Student:</strong> ${appointment.studentName}</p>
+              <p><strong>Gymer:</strong> ${appointment.studentName}</p>
               <p><strong>Date:</strong> ${dateStr}</p>
             </div>
             <div class="appointment-status cancelled">Cancelled</div>
           </div>
         </div>
       `;
-      appointmentsList.appendChild(li);
-    } else {
-      appointmentsList.textContent = "No Booking Information";
-    }
+			appointmentsList.appendChild(li);
+		} else {
+			appointmentsList.textContent = "No Booking Information";
+		}
 	}
 
 	// 顯示操作紀錄
 	function renderLogAction(bookedData) {
 		if (bookedData && bookedData.length > 0) {
-      bookedData.forEach((booked) => {
-        const bookedDate = new Date(booked.bookingDate);
-        const createdDate = new Date(booked.createdAt);
-        const userName = booked.userId?.name || "";
-        let logEntry = "";
+			bookedData.forEach((booked) => {
+				const bookedDate = new Date(booked.bookingDate);
+				const createdDate = new Date(booked.createdAt);
+				const userName = booked.userId?.name || "";
+				let logEntry = "";
 
-        if (booked.status === "confirmed") {
-          logEntry = `${formatDate(createdDate)} - Accept Booking ${userName} (${formatDate(bookedDate)})`;
-        } else if (booked.status === "cancelled") {
-          logEntry = `${formatDate(createdDate)} - Cancel Booking ${userName} (${formatDate(bookedDate)})`;
-        }
+				if (booked.status === "confirmed") {
+					logEntry = `${formatDate(createdDate)} - Accept Booking ${userName} (${formatDate(bookedDate)})`;
+				} else if (booked.status === "cancelled") {
+					logEntry = `${formatDate(createdDate)} - Cancel Booking ${userName} (${formatDate(bookedDate)})`;
+				}
 
-        if (logEntry) {
-          const p = document.createElement("p");
-          p.textContent = logEntry;
-          logContainer.appendChild(p);
-        }
-      });    
+				if (logEntry) {
+					const p = document.createElement("p");
+					p.textContent = logEntry;
+					logContainer.appendChild(p);
+				}
+			});
 		}
 	}
 
 	// 操作紀錄
 	function logAction(action, studentName, date) {
 		const logEntry = `${formatDate(new Date())} - ${action} ${studentName} (${formatDate(new Date(date))})`;
-    console.log(logEntry);
+		console.log(logEntry);
 
 		const p = document.createElement("p");
 		p.textContent = logEntry;
@@ -206,28 +206,28 @@ document.addEventListener("DOMContentLoaded", function () {
 	window.acceptAppointment = function (date) {
 		const appointment = bookedAppointments.find((a) => a.date === date);
 		if (appointment) {
-      let success = updateStatus(appointment.bookingId, 'confirmed');
-      if (success) {
-        appointmentsList.innerHTML = "";
-        renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
-        alert("Booking Confirmed！");
-        window.location.href = "/dashboard";
-      }
+			let success = updateStatus(appointment.bookingId, 'confirmed');
+			if (success) {
+				appointmentsList.innerHTML = "";
+				renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+				alert("Booking Confirmed！");
+				window.location.href = "/dashboard";
+			}
 		}
 	};
 
 	// 取消預約
 	window.cancelAppointment = function (date) {
-    const appointment = bookedAppointments.find((a) => a.date === date);
-    if (appointment) {
-      let success = updateStatus(appointment.bookingId, 'cancelled');
-      if (success) {
-        appointmentsList.innerHTML = "";
-        renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
-        alert("Booking Cancelled！");
-        window.location.href = "/dashboard";
-      }
-    }
+		const appointment = bookedAppointments.find((a) => a.date === date);
+		if (appointment) {
+			let success = updateStatus(appointment.bookingId, 'cancelled');
+			if (success) {
+				appointmentsList.innerHTML = "";
+				renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+				alert("Booking Cancelled！");
+				window.location.href = "/dashboard";
+			}
+		}
 	};
 
 	// 顯示學生上課次數
@@ -275,7 +275,7 @@ async function updateStatus(bookingId, status) {
 			}),
 		});
 
-    const result = await response.json();
+		const result = await response.json();
 
 		if (result.success) {
 			return true;

@@ -53,8 +53,8 @@
     <div class="dashboard-section">
       <h2>Quick Actions</h2>
       <div class="actions">
-        <a href="/book" class="btn primary">Book New Session</a>
-        <a href="/user/bookings" class="btn secondary">View All Bookings</a>
+        <a href="/booking/create" class="btn primary">Book New Session</a>
+        <a href="/bookingPage" class="btn secondary">View All Bookings</a>
       </div>
     </div>
 
@@ -65,7 +65,7 @@
           <% data.trainers.forEach(trainer => { %>
             <div class="trainer-card">
               <h3><%= trainer.name %></h3>
-              <a href="/book?trainer=<%= trainer._id %>&trainerName=<%= encodeURIComponent(trainer.name) %>" 
+              <a href="/booking?trainer=<%= trainer._id %>&trainerName=<%= encodeURIComponent(trainer.name) %>" 
                  class="btn small">Book Now</a>
             </div>
           <% }); %>
@@ -82,10 +82,10 @@
         <h2>Trainer Dashboard - <span id="coachName"><%= user.name %></span></h2>
         
         <div class="calendar-controls">
-          <label for="yearSelect">Year：</label>
+          <label for="yearSelect">Year:</label>
           <select id="yearSelect"></select>
           
-          <label for="monthSelect">Month：</label>
+          <label for="monthSelect">Month:</label>
           <select id="monthSelect"></select>
         </div>
 

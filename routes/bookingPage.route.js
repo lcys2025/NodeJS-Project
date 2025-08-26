@@ -6,15 +6,15 @@ dotenv.config();
 
 const router = express.Router();
 
-// Add this middleware to all routes
-router.use((req, res, next) => {
-  if (!req.session.user) {
-    return res.redirect('/auth/login');
-  }
-  next();
-});
+// Middleware to check authentication
+const isAuthenticated = (req, res, next) => {
+	if (!req.session.user) {
+		return res.redirect("/auth/login");
+	}
+	next();
+};
 
-router.get("/", async (req, res) => {
+router.get("/", isAuthenticated, async (req, res) => {
   try {
     // Get all trainers
     const trainers = await User.find({ role: 'trainer' }).select('name _id');

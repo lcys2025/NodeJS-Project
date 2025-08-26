@@ -156,12 +156,23 @@ router.post("/update-status", isAuthenticated, async (req, res) => {
 		}
 
 		// Update status
-    if (status === "cancelled") {
-      await booking.deleteOne();
-    } else {
-      booking.status = status;
-      await booking.save();
-    }
+		if (status === "cancelled") {
+			const updatedUser = await User.findByIdAndUpdate(
+				booking.userId,
+				{ $inc: { remainingTrainerDays: +1 } }, // Increment 'remainingTrainerDays' by 1
+				{ new: true } // Return the modified document
+			);
+			if (updatedUser) {
+				console.log('User remainingTrainerDays incremented by 1 successfully:', updatedUser);
+			} else {
+				return createErrorResponse(res, "User not found", StatusCodes.NOT_FOUND);
+			}
+			// Delete the booking
+			await booking.deleteOne();
+		} else {
+			booking.status = status;
+			await booking.save();
+		}
 
 		return res.json(createSuccessResponse(res, {}));
 	} catch (error) {

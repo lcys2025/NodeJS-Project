@@ -15,12 +15,47 @@ const formatDate = (date) => {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 };
 
-// Add this middleware to protect routes
-router.use((req, res, next) => {
-  if (!req.session.user) {
-    return createErrorResponse(res, "Authentication required", StatusCodes.UNAUTHORIZED);
+// Middleware to check authentication
+const isAuthenticated = (req, res, next) => {
+	if (!req.session.user) {
+		return res.redirect("/auth/login");
+	}
+	next();
+};
+
+router.get("/create", isAuthenticated, async (req, res) => {
+  try {
+    // Get all trainers
+    const trainers = await User.find({ role: 'trainer' }).select('name _id');
+    const selectedTrainerId = req.query.trainer || null;
+
+    console.log('Selected Trainer ID:', selectedTrainerId); // Debug log for selectedTrainerId
+    if (trainers.length > 0) {
+      trainers.forEach(trainer => {
+        if (trainer.name == "Bee Cho") {
+          trainer['avatar'] = "../pic/trainer1.avif";
+          trainer['description'] = "Expert in Weight Training with over 10 years of experience.";
+        } else if (trainer.name == "Yami Li") {
+          trainer['avatar'] = "../pic/trainer2.avif";
+          trainer['description'] = "Kick-boxing champion and certified instructor.";
+        } else if (trainer.name == "Elvis Lam") {
+          trainer['avatar'] = "../pic/trainer3.avif";
+          trainer['description'] = "Stretch recovery specialist and yoga coach.";
+        }
+      })
+    }
+    
+    res.render("booking", { 
+      company_name: process.env.COMPANY_NAME,
+      trainers,
+      //user: req.user || {} // Assuming you have user in session
+      user: req.session.user, // Use session user here
+      selectedTrainerId // Pass the selected trainer ID to the view
+    });
+  } catch (error) {
+    console.error("Booking page error:", error);
+    res.status(500).render("error", { message: "Internal Server Error" });
   }
-  next();
 });
 
 /**
