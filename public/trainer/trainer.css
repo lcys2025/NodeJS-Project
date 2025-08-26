@@ -1,0 +1,229 @@
+/* trainer.css */
+
+.calendar-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.calendar-controls label {
+  color: #fff;
+  font-weight: bold;
+}
+
+.calendar-controls select {
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: #3a3a3a;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #ffd700;
+}
+
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.calendar-day {
+  min-height: 100px;
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-day .day-number {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #ffd700;
+}
+
+.calendar-day.booked {
+  background-color: #2d5d94;
+}
+
+.calendar-day.available {
+  background-color: #255b70;
+  cursor: pointer;
+}
+
+.calendar-day.available:hover {
+  background-color: #3a3a3a;
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+.calendar-day.past {
+  background-color: #1f1f1f;
+  color: #555;
+}
+
+#appointmentsList {
+  list-style: none;
+  padding: 0;
+}
+
+#appointmentsList li {
+  padding: 1rem;
+  background-color: #3a3a3a;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #ffd700;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* 优化 appointmentsList 中的预约信息布局 */
+.appointment-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.appointment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.appointment-details {
+  flex: 1;
+}
+
+.appointment-details p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+.appointment-status {
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.appointment-status.pending {
+  background-color: #f39c12;
+  color: white;
+}
+
+.appointment-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* 优化 appointmentsList 中的按钮样式 */
+.appointment-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  min-width: 80px;
+}
+
+.appointment-actions .accept-btn {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+.appointment-actions .accept-btn:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+.appointment-actions .cancel-btn {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.appointment-actions .cancel-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.bottom-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.panel {
+  background-color: #2d2d2d;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.panel h2 {
+  color: #fff;
+  margin-top: 0;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .bottom-panels {
+    grid-template-columns: 1fr;
+  }
+  
+  #calendar,
+  .calendar-header {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2rem;
+  }
+  
+  .calendar-day {
+    min-height: 60px;
+    padding: 0.2rem;
+  }
+  
+  .calendar-day .day-number {
+    font-size: 0.8rem;
+  }
+  
+  .calendar-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .appointment-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .appointment-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .appointment-actions button {
+    flex: 1;
+    margin: 0 0.2rem;
+  }
+}
