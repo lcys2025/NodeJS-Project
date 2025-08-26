@@ -1,0 +1,129 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #2881bb);
+  padding: 20px;
+  position: relative;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+/* 教練姓名右上角 */
+#coachName {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  background: #4c61af;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(0px); }
+}
+
+h1 {
+  visibility: hidden; /* 隱藏原本的教練姓名標題 */
+}
+
+h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.calendar-controls {
+  margin: 15px 0;
+}
+
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.day {
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.day:hover {
+  transform: scale(1.1);
+}
+
+.day.available {
+  background-color: #4caf50;
+}
+
+.day.booked {
+  background-color: #f44336;
+}
+
+.day.disabled {
+  background-color: #9e9e9e;
+  cursor: not-allowed;
+}
+
+#appointmentsList li {
+  margin-bottom: 10px;
+  background: #b3dadc;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+button {
+  margin-right: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(to right, #4c61af, #c7a281);
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(to right, #388e3c, #66bb6a);
+}
+
+.bottom-panels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.panel {
+  width: 48%;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.panel p {
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
