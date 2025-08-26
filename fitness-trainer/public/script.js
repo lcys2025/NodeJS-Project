@@ -144,3 +144,4 @@ renderCalendar(currentYear, currentMonth);
 showStudentStats();
 yearSelect.onchange = () => renderCalendar(+yearSelect.value, +monthSelect.value);
 monthSelect.onchange = () => renderCalendar(+yearSelect.value, +monthSelect.value);
+
