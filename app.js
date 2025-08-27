@@ -29,7 +29,7 @@ const app = express();
 // use .env variables
 dotenv.config();
 
-// judge if mongodb uri is defined
+// check if mongodb uri is defined
 if (!process.env.MONGODB_URI) {
   console.error("MONGODB_URI not defined!");
   process.exit(1);
