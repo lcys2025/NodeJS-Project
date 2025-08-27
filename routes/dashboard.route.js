@@ -9,15 +9,29 @@ dotenv.config();
 const router = express.Router();
 
 // Middleware to check authentication
-const isAuthenticated = (req, res, next) => {
-	if (!req.session.user) {
-		return res.redirect("/auth/login");
+const isAuthenticated = async (req, res, next) => {
+	if (req.session.user) {
+		return next();
 	}
-	next();
+	if (req.isAuthenticated()) {
+		const email = req.user.email;
+		// Fetch user from DB to sync session data
+		const user = await User.findOne({ email });
+		req.session.user = {
+			id: user._id,
+			email: user.email,
+			name: user.name,
+			plan: user.plan,
+			role: user.role,
+			remainingTrainerDays: user.remainingTrainerDays,
+		};
+		return next() 
+	}
+    res.redirect("auth/login")
 };
 
 // Dashboard main view
-router.get("/", isAuthenticated, async (req, res) => {
+router.get("/", isAuthenticated, async (req, res, next) => {
 	try {
 		const user = req.session.user;
 		let data = {};
@@ -132,6 +146,7 @@ router.get("/", isAuthenticated, async (req, res) => {
 			data: data,
 			bookingSuccess, // Pass to template
 		});
+		next();
 	} catch (error) {
 		console.error("Dashboard error:", error);
 		createErrorResponse(res, "Internal Server Error");

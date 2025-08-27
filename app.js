@@ -1,12 +1,14 @@
 import createError from "http-errors";
 import express, { json, urlencoded } from "express";
-import session from "express-session";
 import path, { join } from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import { fileURLToPath } from 'url';
-
 import dotenv from "dotenv";
+
+import session from 'express-session';
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 
 import mongoose from "mongoose";
 import { initializeDB } from "./database/init.js";
@@ -57,7 +59,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: 'your_secret_key', // A strong, unique secret for signing the session ID cookie
+  secret: process.env.SESSION_SECRET, // A strong, unique secret for signing the session ID cookie
   resave: false, // Prevents resaving the session if it hasn't been modified
   saveUninitialized: false, // Avoids saving new, uninitialized sessions to the store
   cookie: {
@@ -65,6 +67,27 @@ app.use(session({
     maxAge: 3600000 // Session expiration time in milliseconds (e.g., 1 hour)
   }
 }));
+
+// passport and google auth setup
+app.use (passport.initialize());
+app.use (passport.session());
+const authUser = (request, accessToken, refreshToken, profile, done) => {
+  return done(null, profile);
+}
+const GOOGLE_OAUTH2_CALLBACK_URL = process.env.GOOGLE_OAUTH2_CALLBACK_URL;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+console.log(GOOGLE_OAUTH2_CALLBACK_URL);
+console.log(GOOGLE_CLIENT_ID);
+console.log(GOOGLE_CLIENT_SECRET);
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: GOOGLE_OAUTH2_CALLBACK_URL,
+    passReqToCallback: true
+  }, authUser)
+);
+
 // Add after session middleware
 app.use((req, res, next) => {
   // Make user available to all views
@@ -88,6 +111,17 @@ app.use('/user', userRouter);
 app.use('/bookingPage', bookingPageRouter);
 app.use('/booking', bookingRouter);
 app.use('/dashboard', dashboardRouter);
+
+passport.serializeUser(function(user, done) {
+    console.log(`\n--------> Serialize User:`);
+    console.log(user);
+    done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+    console.log(`\n--------> Deserialize User:`);
+    console.log(user);
+    done(null, user);
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
 import { sendEmailWithQRCode } from "../utils/emailHandler.js";
 import dotenv from "dotenv";
+import passport from 'passport';
+
 
 dotenv.config();
 const router = express.Router();
@@ -15,6 +17,13 @@ const router = express.Router();
 router.get("/register", (req, res) => {
 	return res.render("register", { company_name: process.env.COMPANY_NAME });
 });
+/**
+ * @route GET /auth/registerPass
+ * @desc Render register page
+ */
+router.get("/registerPass", (req, res) => {
+	return res.render("register", { company_name: 'TESTING' });
+});
 
 /**
  * @route POST /auth/register
@@ -22,11 +31,11 @@ router.get("/register", (req, res) => {
  */
 router.post("/register", async (req, res) => {
 	try {
-		const { email, password, name, plan } = req.body;
+		const { email, password, confirmPassword, name, plan } = req.body;
 
 		// validate required fields
-		if (!email || !password) {
-			return createErrorResponse(res, "Email and password are required");
+		if (!email || !password || confirmPassword) {
+			return createErrorResponse(res, "Email, password and confirm password are required");
 		}
 
 		// check if email exists
@@ -238,5 +247,21 @@ router.post("/resetPassword", async (req, res) => {
 		return createErrorResponse(res, "Internal Server Error");
 	}
 });
+
+/**
+ * @route GET /auth/google
+ * @desc Google OAuth2 callback
+ *        Handle Google OAuth2 callback and authenticate user
+ *        Then redirect to dashboard
+ */
+router.get('/google',
+  passport.authenticate('google', { scope:
+      [ 'profile', 'email' ] }
+));
+router.get('/google/callback',
+    passport.authenticate( 'google', {
+        successRedirect: '/dashboard',
+        failureRedirect: '/auth/login'
+}));
 
 export default router;
