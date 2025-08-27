@@ -17,13 +17,6 @@ const router = express.Router();
 router.get("/register", (req, res) => {
 	return res.render("register", { company_name: process.env.COMPANY_NAME });
 });
-/**
- * @route GET /auth/registerPass
- * @desc Render register page
- */
-router.get("/registerPass", (req, res) => {
-	return res.render("register", { company_name: 'TESTING' });
-});
 
 /**
  * @route POST /auth/register
