@@ -16,7 +16,7 @@
 Course Name: 後端網站開發人員證書 
 Course Code: PE076DS10 
 Course Location: SCOPE尖沙咀東教學中心,九龍尖沙咀東科學館道16號華懋廣場UG3樓307室 
-Course URL: https://www.scope.edu/programmes/ERB人才發展計劃/後端網站開發人員證書 
+Course URL: (1) https://lcys2025.github.io/documents/CityUHK_ERB_PE076DS10_Web_Backend_Course_Webpage or (2) https://www.scope.edu/programmes/ERB人才發展計劃/後端網站開發人員證書
 Class Number: 10 
 Class Starting Date: 4th July 2025 
 Team email address: lcys2025@outlook.com 
