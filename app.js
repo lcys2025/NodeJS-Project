@@ -31,18 +31,18 @@ const app = express();
 // use .env variables
 dotenv.config();
 
-// check if mongodb uri is defined
+// check if mongoose uri is defined
 if (!process.env.MONGODB_URI) {
   console.error("MONGODB_URI not defined!");
   process.exit(1);
 }
 
-// connect mongodb and add success and failed callback
+// connect mongoose and add success and failed callback
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log("connect mongodb successfully!")
+    console.log("connect mongoose successfully!")
   }).catch((err) => {
-    console.log("failed to connect mongodb!, error: ", err);
+    console.log("failed to connect mongoose!, error: ", err);
     process.exit(1);
   })
 
