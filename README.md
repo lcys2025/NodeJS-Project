@@ -25,7 +25,7 @@ Total Team Members: 4 people
 
 ## Final Project Description
 後端網站開發課程 
-Final Project URL: https://lcys2025.github.io/document/CityUHK_ERB_PE076DS10_Web_Backend_Project_Guideline.docx
+Final Project URL: https://lcys2025.github.io/documents/CityUHK_ERB_PE076DS10_Web_Backend_Project_Guideline.docx
 
 ### 專案指南 
 #### 專案描述
