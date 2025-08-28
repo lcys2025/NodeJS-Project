@@ -15,7 +15,14 @@ const router = express.Router();
  * @desc Render register page
  */
 router.get("/register", (req, res) => {
-	return res.render("register", { company_name: process.env.COMPANY_NAME });
+  const prefilledEmail = (req.query.email || "").toLowerCase();
+  const emailLocked = req.query.lock === "1" || req.query.lock === "true";
+	console.log("emailLocked: " + emailLocked);
+  return res.render("register", {
+    company_name: process.env.COMPANY_NAME,
+    prefilledEmail,
+    emailLocked,
+  });
 });
 
 /**
@@ -175,12 +182,22 @@ router.post("/login", async (req, res) => {
  */
 // Add logout route
 router.get("/logout", (req, res) => {
-	req.session.destroy((err) => {
-		if (err) {
-			console.error("Logout error:", err);
-		}
-		res.redirect("/auth/login");
-	});
+  // Properly logout Passport (0.6+ signature)
+  req.logout((logoutErr) => {
+    if (logoutErr) {
+      console.error('Passport logout error:', logoutErr);
+    }
+    // Destroy session
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Logout error:", err);
+      }
+      // Clear session cookie
+      res.clearCookie('connect.sid');
+      // Redirect back to login
+      res.redirect("/auth/login");
+    });
+  });
 });
 
 /**
@@ -248,13 +265,52 @@ router.post("/resetPassword", async (req, res) => {
  *        Then redirect to dashboard
  */
 router.get('/google',
-  passport.authenticate('google', { scope:
-      [ 'profile', 'email' ] }
-));
-router.get('/google/callback',
-    passport.authenticate( 'google', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/auth/login'
-}));
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    prompt: 'select_account'
+  })
+);
+router.get('/google/callback', (req, res, next) => {
+  passport.authenticate('google', async (err, user, info) => {
+    try {
+      if (err) {
+        console.error('Google OAuth error:', err);
+        return res.redirect('/auth/login');
+      }
+      const profile = user;
+      if (!profile) {
+        console.warn('Google OAuth: no user returned');
+        return res.redirect('/auth/login');
+      }
+
+      const email = (profile?.email || profile?.emails?.[0]?.value || '').toLowerCase();
+      if (!email) {
+        console.error('Google OAuth: email not provided in profile');
+        return res.redirect('/auth/login');
+      }
+
+			console.log('Google OAuth: looking for user: ', email);
+      const found = await User.findOne({ email });
+      if (found) {
+        req.session.user = {
+          id: found._id,
+          email: found.email,
+          name: found.name,
+          plan: found.plan,
+          role: found.role,
+          remainingTrainerDays: found.remainingTrainerDays,
+        };
+        // Ensure session is saved before redirect to avoid race condition
+        return req.session.save(() => res.redirect('/dashboard'));
+      }
+
+			console.log("user not found");
+      return res.redirect(`/auth/register?email=${encodeURIComponent(email)}&lock=1`);
+    } catch (e) {
+      console.error('Google OAuth callback handling failed:', e);
+      return res.redirect('/auth/login');
+    }
+  })(req, res, next);
+});
 
 export default router;

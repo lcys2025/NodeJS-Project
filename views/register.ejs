@@ -20,7 +20,7 @@
             <input type="text" id="name" name="name" required>
 
             <label for="email">Email：</label>
-            <input id="email" name="email" required>
+            <input id="email" name="email" value="<%= typeof prefilledEmail !== 'undefined' ? prefilledEmail : '' %>" <%= emailLocked ? 'readonly' : '' %> required>
             <label for="password">Password：</label>
             <input type="password" id="password" name="password" required>
             <label for="confirmPassword">Password：</label>
