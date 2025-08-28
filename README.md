@@ -1,4 +1,10 @@
-# NodeJS-Project (more info, https://lcys2025.github.io)
+# "Lcys2025"
+- Lcys2025 NodeJS-Project (click me -> https://lcys2025.github.io)
+
+## HOW-TO-RUN
+1. npm i
+2. npm run start
+3. localhost:3030
 
 ## Introduction 
 Course Name: 後端網站開發人員證書 
