@@ -6,7 +6,7 @@
 2. npm run start
 3. localhost:3030
 
-## Team Member Name: 
+## Team Member Name
 1. 
 2. 
 3. XIAO, Guan li
