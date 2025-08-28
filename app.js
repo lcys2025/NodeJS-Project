@@ -48,9 +48,9 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // listen for connection events
 const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.on("error", console.error.bind(console, "Mongoose connection error:"));
 db.once("open", async () => {
-  console.log("MongoDB connection is open");
+  console.log("Mongoose connection is open");
   await initializeDB();  // FIX_ME: Initialize "testing" documents (e.g. trainers)
 })
 
