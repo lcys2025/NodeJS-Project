@@ -6,6 +6,12 @@
 2. npm run start
 3. localhost:3030
 
+## Team Member Name: 
+1. 
+2. 
+3. XIAO, Guan li
+4. YUNG, Wai Ming
+
 ## Introduction 
 Course Name: 後端網站開發人員證書 
 Course Code: PE076DS10 
@@ -16,12 +22,6 @@ Class Starting Date: 4th July 2025
 Team email address: lcys2025@outlook.com 
 Github account: same as Team email address 
 Total Team Members: 4 people 
-
-Team Member Name: 
-1. 
-2. 
-3. XIAO, Guan li
-4. YUNG, Wai Ming
 
 ## Final Project Description
 後端網站開發課程 
