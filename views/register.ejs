@@ -17,7 +17,7 @@
         <h2>Join The fitness membership</h2>
         <form class="member-form" id="registerForm">
             <label for="name">Name：</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" placeholder="Chan Tai Man" required>
             <label for="email">Email：</label>
             <input id="email" name="email" value="<%= typeof prefilledEmail !== 'undefined' ? prefilledEmail : '' %>" <%= emailLocked ? 'readonly' : '' %> placeholder="Lcys2025@outlook.com" required>
             <label for="password">Password：</label>
