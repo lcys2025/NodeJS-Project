@@ -13,19 +13,19 @@
 4. YUNG, Wai Ming
 
 ## Introduction
-Course Name: 後端網站開發人員證書
-Course Code: PE076DS10
-Course Location: SCOPE尖沙咀東教學中心,九龍尖沙咀東科學館道16號華懋廣場UG3樓307室
-Course URL: (1) https://lcys2025.github.io/documents/CityUHK_ERB_PE076DS10_Web_Backend_Course_Webpage.pdf or (2) https://www.scope.edu/programmes/ERB人才發展計劃/後端網站開發人員證書
-Class Number: 10
-Class Starting Date: 4th July 2025
-Team email address: lcys2025@outlook.com
-Github account: same as Team email address
-Total Team Members: 4 people
+Course Name: 後端網站開發人員證書   
+Course Code: PE076DS10   
+Course Location: SCOPE尖沙咀東教學中心,九龍尖沙咀東科學館道16號華懋廣場UG3樓307室   
+Course URL: (1) https://Lcys2025.github.io/documents/CityUHK_ERB_PE076DS10_Web_Backend_Course_Webpage.pdf or (2) https://www.scope.edu/programmes/ERB人才發展計劃/後端網站開發人員證書   
+Class Number: 10   
+Class Starting Date: 4th July 2025   
+Team email address: Lcys2025@outlook.com or Lcys20252025@gmail.com
+Github account: same as Team email address   
+Total Team Members: 4 people   
 
 ## Final Project Description
 後端網站開發課程 
-Final Project URL: https://lcys2025.github.io/documents/CityUHK_ERB_PE076DS10_Web_Backend_Project_Guideline.docx
+Final Project URL: https://Lcys2025.github.io/documents/CityUHK_ERB_PE076DS10_Web_Backend_Project_Guideline.docx
 
 ### 專案指南 
 #### 專案描述
