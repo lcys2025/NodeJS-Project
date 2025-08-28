@@ -31,22 +31,22 @@
                     <p>Please complete the following extra information to complete the registration.</p>
                 <% } %>
                 <h2>Join The fitness membership</h2>
-                <form class="member-form" id="registerForm">
+                <form class="register-form" id="registerForm" method="POST" action="/auth/register">
                     <label for="name">Name：</label>
                     <input type="text" id="name" name="name" placeholder="Chan Tai Man" required>
                     <label for="email">Email：</label>
                     <input id="email" name="email" value="<%= typeof prefilledEmail !== 'undefined' ? prefilledEmail : '' %>" <%= emailLocked ? 'readonly' : '' %> placeholder="Lcys2025@outlook.com" required>
                     <label for="password">Password：</label>
                     <input type="password" id="password" name="password" placeholder="Password" required>
-                    <label for="confirmPassword">Password：</label>
-                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                    <label for="confirmPassword">Confirm Password：</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
                     <label for="plan">Different plan options：</label>
                     <select id="plan" name="plan">
                         <option value="basic">Basic Plan - $100/month with 5 trainer days</option>
                         <option value="premium">Premium Plan - $150/month with 10 trainer days</option>
                         <option value="vip">VIP Plan - $200/month with 20 trainer days</option>
                     </select>
-                    <input type="submit" value="Submit">
+                    <button type="submit" id="register-button">submit</button>
                 </form>
             </div>
             </div>

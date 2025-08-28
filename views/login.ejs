@@ -32,7 +32,7 @@
                         <p>Please complete the following extra information to login.</p>
                     <% } %>
                     <h2>Log in to your fitness account</h2>
-                    <form id="loginForm">
+                    <form class="login-form" id="loginForm" method="POST" action="/auth/login">
                         <input type="email" id="email" name="email" placeholder="Email" required>
                         <input type="password" id="password" name="password" placeholder="Password" required>
                         <p class="forgot"><a href="/auth/resetPassword">forgot password？</a></p>

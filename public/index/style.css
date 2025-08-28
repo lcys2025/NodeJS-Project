@@ -53,15 +53,6 @@ nav a:hover, footer nav a:hover {
   color: #ffd700;
 }
 
-.member-form input,
-.member-form select {
-  display: block;
-  margin: 10px 0;
-  padding: 0.5rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
 footer {
   background-color: #222;
   color: #fff;

@@ -31,10 +31,9 @@ router.get("/register", (req, res) => {
 router.post("/register", async (req, res) => {
 	try {
 		const { name, email, password, confirmPassword, plan } = req.body;
-
 		// validate required fields
-		if (!name || !email || !password || !confirmPassword) {
-			return createErrorResponse(res, "Name, email, password and confirm password are required");
+		if (!name || !email || !password || !confirmPassword || !plan) {
+			return createErrorResponse(res, "Name, email, password, confirm password and plan are required");
 		}
 
 		// check if email exists
@@ -93,7 +92,8 @@ router.post("/register", async (req, res) => {
 			role: savedUser.role,
 		};
 
-		return createSuccessResponse(res, userResp);
+		//return createSuccessResponse(res, userResp);
+        res.redirect('/auth/login');
 	} catch (error) {
 		console.error("POST /auth/register error:", error);
 		return createErrorResponse(res, "Internal Server Error");
@@ -165,8 +165,8 @@ router.post("/login", async (req, res) => {
 		};
 
 		// Redirect to dashboard instead of returning JSON
-		// return res.redirect("/dashboard");
-		return createSuccessResponse(res, userResp);
+		//return createSuccessResponse(res, userResp);
+		res.redirect('/dashboard');
 	} catch (error) {
 		console.error("POST /auth/login error:", error);
 		return createErrorResponse(res, "Internal Server Error");
