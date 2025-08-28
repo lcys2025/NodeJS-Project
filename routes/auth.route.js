@@ -15,14 +15,13 @@ const router = express.Router();
  * @desc Render register page
  */
 router.get("/register", (req, res) => {
-  const prefilledEmail = (req.query.email || "").toLowerCase();
-  const emailLocked = req.query.lock === "1" || req.query.lock === "true";
-	console.log("emailLocked: " + emailLocked);
-  return res.render("register", {
-    company_name: process.env.COMPANY_NAME,
-    prefilledEmail,
-    emailLocked,
-  });
+	const prefilledEmail = req.query.email === undefined ? undefined : String(req.query.email).toLowerCase().trim();
+	const emailLocked = req.query.lock === "1" || req.query.lock === "true";
+	return res.render("register", {
+		company_name: process.env.COMPANY_NAME,
+		prefilledEmail,
+		emailLocked,
+	});
 });
 
 /**
@@ -31,11 +30,11 @@ router.get("/register", (req, res) => {
  */
 router.post("/register", async (req, res) => {
 	try {
-		const { email, password, confirmPassword, name, plan } = req.body;
+		const { name, email, password, confirmPassword, plan } = req.body;
 
 		// validate required fields
-		if (!email || !password || confirmPassword) {
-			return createErrorResponse(res, "Email, password and confirm password are required");
+		if (!name || !email || !password || !confirmPassword) {
+			return createErrorResponse(res, "Name, email, password and confirm password are required");
 		}
 
 		// check if email exists
@@ -125,7 +124,6 @@ router.post("/login", async (req, res) => {
 
 		// find user by email
 		const user = await User.findOne({ email }).select("+password");
-		console.log(user);
 		if (!user) {
 			// generic message to avoid user enumeration
 			return createErrorResponse(res, "Invalid email or password");
@@ -182,22 +180,22 @@ router.post("/login", async (req, res) => {
  */
 // Add logout route
 router.get("/logout", (req, res) => {
-  // Properly logout Passport (0.6+ signature)
-  req.logout((logoutErr) => {
-    if (logoutErr) {
-      console.error('Passport logout error:', logoutErr);
-    }
-    // Destroy session
-    req.session.destroy((err) => {
-      if (err) {
-        console.error("Logout error:", err);
-      }
-      // Clear session cookie
-      res.clearCookie('connect.sid');
-      // Redirect back to login
-      res.redirect("/auth/login");
-    });
-  });
+	// Properly logout Passport (0.6+ signature)
+	req.logout((logoutErr) => {
+		if (logoutErr) {
+			console.error('Passport logout error:', logoutErr);
+		}
+		// Destroy session
+		req.session.destroy((err) => {
+			if (err) {
+				console.error("Logout error:", err);
+			}
+			// Clear session cookie
+			res.clearCookie('connect.sid');
+			// Redirect back to login
+			res.redirect("/auth/login");
+		});
+	});
 });
 
 /**
@@ -265,52 +263,51 @@ router.post("/resetPassword", async (req, res) => {
  *        Then redirect to dashboard
  */
 router.get('/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email'],
-    prompt: 'select_account'
-  })
+	passport.authenticate('google', {
+		scope: ['profile', 'email'],
+		prompt: 'select_account'
+	})
 );
 router.get('/google/callback', (req, res, next) => {
-  passport.authenticate('google', async (err, user, info) => {
-    try {
-      if (err) {
-        console.error('Google OAuth error:', err);
-        return res.redirect('/auth/login');
-      }
-      const profile = user;
-      if (!profile) {
-        console.warn('Google OAuth: no user returned');
-        return res.redirect('/auth/login');
-      }
+	passport.authenticate('google', async (err, profile, info) => {
+		try {
+			if (err) {
+				console.error('Google OAuth error:', err);
+				return res.redirect('/auth/login');
+			}
+			if (!profile) {
+				console.warn('Google OAuth: no profile returned');
+				return res.redirect('/auth/login');
+			}
 
-      const email = (profile?.email || profile?.emails?.[0]?.value || '').toLowerCase();
-      if (!email) {
-        console.error('Google OAuth: email not provided in profile');
-        return res.redirect('/auth/login');
-      }
+			const email = (profile?.email || profile?.emails?.[0]?.value || '').toLowerCase();
+			if (!email) {
+				console.error('Google OAuth: email not provided in profile');
+				return res.redirect('/auth/login');
+			}
 
-			console.log('Google OAuth: looking for user: ', email);
-      const found = await User.findOne({ email });
-      if (found) {
-        req.session.user = {
-          id: found._id,
-          email: found.email,
-          name: found.name,
-          plan: found.plan,
-          role: found.role,
-          remainingTrainerDays: found.remainingTrainerDays,
-        };
-        // Ensure session is saved before redirect to avoid race condition
-        return req.session.save(() => res.redirect('/dashboard'));
-      }
+			console.log('Google OAuth: looking for profile: ', email);
+			const found = await User.findOne({ email });
+			if (found) {
+				req.session.user = {
+					id: found._id,
+					email: found.email,
+					name: found.name,
+					plan: found.plan,
+					role: found.role,
+					remainingTrainerDays: found.remainingTrainerDays,
+				};
+				// Ensure session is saved before redirect to avoid race condition
+				return req.session.save(() => res.redirect('/dashboard'));
+			}
 
 			console.log("user not found");
-      return res.redirect(`/auth/register?email=${encodeURIComponent(email)}&lock=1`);
-    } catch (e) {
-      console.error('Google OAuth callback handling failed:', e);
-      return res.redirect('/auth/login');
-    }
-  })(req, res, next);
+			return res.redirect(`/auth/register?email=${encodeURIComponent(email)}&lock=1`);
+		} catch (e) {
+			console.error('Google OAuth callback handling failed:', e);
+			return res.redirect('/auth/login');
+		}
+	})(req, res, next);
 });
 
 export default router;

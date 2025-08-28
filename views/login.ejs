@@ -21,11 +21,16 @@
         <section>
             <div class="login-container">
                 <div class="login-box">
-                    <h1> Google Login </h1>
-                    Click here to authenticate with Google
-                    <form action="/auth/google" method="GET">
-                        <button type="submit"> GOOGLE BUTTON </button>
-                    </form>
+                    <% if (typeof prefilledEmail === 'undefined') { %>
+                        <h1> Google Login </h1>
+                        Click here to authenticate with Google
+                        <form action="/auth/google" method="GET">
+                            <button type="submit">Google credential</button>
+                        </form>
+                    <% } else { %>
+                        <p>Thank you for autheticating with your Google credential.</p>
+                        <p>Please complete the following extra information to login.</p>
+                    <% } %>
                     <h2>Log in to your fitness account</h2>
                     <form id="loginForm">
                         <input type="email" id="email" name="email" placeholder="Email" required>

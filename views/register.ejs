@@ -1,72 +1,91 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym Fitness</title>
     <link rel="stylesheet" href="/index/style.css">
+    <link rel="stylesheet" href="/register/register.css">
 </head>
+
 <body>
     <%- include('_partials/nav') %>
-    <header>
-        <h1><%= company_name %></h1>
-        <p>Make yourself stronger than your excuses. 💪</p>
-    </header>
-
-    <section>
-        <h2>Join The fitness membership</h2>
-        <form class="member-form" id="registerForm">
-            <label for="name">Name：</label>
-            <input type="text" id="name" name="name" placeholder="Chan Tai Man" required>
-            <label for="email">Email：</label>
-            <input id="email" name="email" value="<%= typeof prefilledEmail !== 'undefined' ? prefilledEmail : '' %>" <%= emailLocked ? 'readonly' : '' %> placeholder="Lcys2025@outlook.com" required>
-            <label for="password">Password：</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <label for="confirmPassword">Password：</label>
-            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-            <label for="plan">Different plan options：</label>
-            <select id="plan" name="plan">
-                <option value="basic">Basic Plan - $100/month with 5 trainer days</option>
-                <option value="premium">Premium Plan - $150/month with 10 trainer days</option>
-                <option value="vip">VIP Plan - $200/month with 20 trainer days</option>
-            </select>
-            <input type="submit" value="Submit">
-        </form>
-    </section>
-
-    <button onclick="scrollToTop()" class="top-button">Back to top ↑</button>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p>Email: info@GymFitness.com</p>
-                <p>Phone: +852 1234 5678</p>
-                <p>Address: 88 Fitness Road, Causeway Bay, Hong Kong</p>
+        <header>
+            <h1>
+                <%= company_name %>
+            </h1>
+            <p>Make yourself stronger than your excuses. 💪</p>
+        </header>
+        <section>
+        <div class="register-container">
+            <div class="register-box">
+                <% if (typeof prefilledEmail === 'undefined') { %>
+                    <h1> Google Login </h1>
+                    Click here to authenticate with Google
+                    <form action="/auth/google" method="GET">
+                        <button type="submit">Google credential</button>
+                    </form>
+                <% } else { %>
+                    <p>Thank you for autheticating with your Google credential.</p>
+                    <p>Please complete the following extra information to complete the registration.</p>
+                <% } %>
+                <h2>Join The fitness membership</h2>
+                <form class="member-form" id="registerForm">
+                    <label for="name">Name：</label>
+                    <input type="text" id="name" name="name" placeholder="Chan Tai Man" required>
+                    <label for="email">Email：</label>
+                    <input id="email" name="email" value="<%= typeof prefilledEmail !== 'undefined' ? prefilledEmail : '' %>" <%= emailLocked ? 'readonly' : '' %> placeholder="Lcys2025@outlook.com" required>
+                    <label for="password">Password：</label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <label for="confirmPassword">Password：</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                    <label for="plan">Different plan options：</label>
+                    <select id="plan" name="plan">
+                        <option value="basic">Basic Plan - $100/month with 5 trainer days</option>
+                        <option value="premium">Premium Plan - $150/month with 10 trainer days</option>
+                        <option value="vip">VIP Plan - $200/month with 20 trainer days</option>
+                    </select>
+                    <input type="submit" value="Submit">
+                </form>
             </div>
-
-            <div class="footer-section">
-                <h4>Quick navigation</h4>
-                <nav>
-                    <a href="/">Home</a>
-                    <a href="/about">About Us</a>
-                    <a href="/services">Our Services</a>
-                    <a href="/trainers">Our Trainers</a>
-                    <a href="/auth/login">Membership</a>
-                    <a href="/contact">Contact Us</a>
-                </nav>
             </div>
+        </section>
 
-            <div class="footer-section">
-                <h4>Follow us</h4>
-                <a href="#">Facebook</a><br>
-                <a href="#">Instagram</a><br>
-                <a href="#">YouTube</a>
+        <button onclick="scrollToTop()" class="top-button">Back to top ↑</button>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p>Email: info@GymFitness.com</p>
+                    <p>Phone: +852 1234 5678</p>
+                    <p>Address: 88 Fitness Road, Causeway Bay, Hong Kong</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick navigation</h4>
+                    <nav>
+                        <a href="/">Home</a>
+                        <a href="/about">About Us</a>
+                        <a href="/services">Our Services</a>
+                        <a href="/trainers">Our Trainers</a>
+                        <a href="/auth/login">Membership</a>
+                        <a href="/contact">Contact Us</a>
+                    </nav>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Follow us</h4>
+                    <a href="#">Facebook</a><br>
+                    <a href="#">Instagram</a><br>
+                    <a href="#">YouTube</a>
+                </div>
             </div>
-        </div>
-        <p class="footer-credit">&copy; 2025 Gym Fitness&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;All rights reserved</p>
-    </footer>
+            <p class="footer-credit">&copy; 2025 Gym Fitness&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;All rights reserved</p>
+        </footer>
 
-    <script src="/index/script.js"></script>
+        <script src="/index/script.js"></script>
 </body>
+
 </html>
