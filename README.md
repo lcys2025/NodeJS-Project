@@ -1,4 +1,4 @@
-# "Lcys2025"
+# Lcys2025
 - Lcys2025 Webapp Backend Project: Node + Express + MongoDB (click me -> https://lcys2025.github.io)
 
 ## HOW-TO-RUN
