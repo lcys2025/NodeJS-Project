@@ -18,14 +18,12 @@
         <form class="member-form" id="registerForm">
             <label for="name">Name：</label>
             <input type="text" id="name" name="name" required>
-
             <label for="email">Email：</label>
-            <input id="email" name="email" value="<%= typeof prefilledEmail !== 'undefined' ? prefilledEmail : '' %>" <%= emailLocked ? 'readonly' : '' %> required>
+            <input id="email" name="email" value="<%= typeof prefilledEmail !== 'undefined' ? prefilledEmail : '' %>" <%= emailLocked ? 'readonly' : '' %> placeholder="Lcys2025@outlook.com" required>
             <label for="password">Password：</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
             <label for="confirmPassword">Password：</label>
-            <input type="password" id="confirmPassword" placeholder="ConfirmPassword" required>
-
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
             <label for="plan">Different plan options：</label>
             <select id="plan" name="plan">
                 <option value="basic">Basic Plan - $100/month with 5 trainer days</option>
