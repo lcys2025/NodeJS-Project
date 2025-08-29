@@ -1,0 +1,29 @@
+.form-container {
+  background: rgb(0, 0, 0);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border: 2px solid #ffd700;
+}
+
+.form-container h2 {
+  color: #ffd700;
+  margin-bottom: 1rem;
+}
+
+input, textarea {
+  width: 95%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}

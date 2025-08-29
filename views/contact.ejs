@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= company_name %></title>
     <link rel="stylesheet" href="/index/style.css">
+    <link rel="stylesheet" href="/Get-in-touch/g-i-t.css">
 </head>
 <body>
     <%- include('_partials/nav') %>
@@ -20,7 +21,7 @@
             <form id="contactForm" action="/contact/" method="post">
                 <input type="name" id="name" name="name" placeholder="Name" required>
                 <input type="email" id="email" name="email" placeholder="Email" required>
-                <textarea id="message" name="message" placeholdewr="Message" required></textarea>
+                <textarea id="message" name="message" placeholdewr="message" required></textarea>
                 <button type="submit">Submit</button>
             </form>
         </div>
