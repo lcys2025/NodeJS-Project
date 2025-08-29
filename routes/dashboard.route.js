@@ -186,7 +186,6 @@ router.post("/update-status", isAuthenticated, async (req, res, next) => {
 			} else {
 				return createErrorResponse(res, "User not found", StatusCodes.NOT_FOUND);
 			}
-			// Delete the booking
 			await booking.deleteOne();
 		} else {
 			booking.status = status;

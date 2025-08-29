@@ -5,6 +5,8 @@ import { createSuccessResponse, createErrorResponse } from "../utils/responseHan
 import { sendEmailWithQRCode } from "../utils/emailHandler.js";
 import dotenv from "dotenv";
 import passport from "passport";
+import StatusCodes from "../utils/statusCodes.js";
+
 
 dotenv.config();
 const router = express.Router();
@@ -14,13 +16,18 @@ const router = express.Router();
  * @desc Render register page
  */
 router.get("/register", (req, res) => {
-	const prefilledEmail = req.query.email === undefined ? undefined : String(req.query.email).toLowerCase().trim();
-	const emailLocked = req.query.lock === "1" || req.query.lock === "true";
-	return res.render("register", {
-		company_name: process.env.COMPANY_NAME,
-		prefilledEmail,
-		emailLocked,
-	});
+	try {
+		const prefilledEmail = req.query.email === undefined ? undefined : String(req.query.email).toLowerCase().trim();
+		const emailLocked = req.query.lock === "1" || req.query.lock === "true";
+		return res.render("register", {
+			company_name: process.env.COMPANY_NAME,
+			prefilledEmail,
+			emailLocked,
+		});
+	} catch (error) {
+		console.error("GET /auth/register error:", error);
+		return res.redirect("/");
+	}
 });
 
 /**
@@ -69,8 +76,6 @@ router.post("/register", async (req, res) => {
 			remainingTrainerDays: remainingTrainerDays,
 		});
 
-		// Add email notification for registration event
-		// Ensure email is valid before sending email notification
 		if (!email || typeof email !== "string" || !email.includes("@")) {
 			console.error("Invalid email address provided for notification");
 			return createErrorResponse(res, "Invalid email address");
@@ -92,10 +97,11 @@ router.post("/register", async (req, res) => {
 		};
 
 		//return createSuccessResponse(res, userResp);
-		res.redirect("/auth/login");
+		res.redirect(StatusCodes.FOUND, "/auth/login");
 	} catch (error) {
 		console.error("POST /auth/register error:", error);
-		return createErrorResponse(res, "Internal Server Error");
+		//return createErrorResponse(res, "Internal Server Error");
+		return res.redirect("/");
 	}
 });
 
@@ -165,10 +171,11 @@ router.post("/login", async (req, res) => {
 
 		// Redirect to dashboard instead of returning JSON
 		//return createSuccessResponse(res, userResp);
-		res.redirect("/dashboard");
+		res.redirect(StatusCodes.FOUND, "/dashboard");
 	} catch (error) {
 		console.error("POST /auth/login error:", error);
-		return createErrorResponse(res, "Internal Server Error");
+		//return createErrorResponse(res, "Internal Server Error");
+		return res.redirect("/");
 	}
 });
 
@@ -179,22 +186,27 @@ router.post("/login", async (req, res) => {
  */
 // Add logout route
 router.get("/logout", (req, res) => {
-	// Properly logout Passport (0.6+ signature)
-	req.logout((logoutErr) => {
-		if (logoutErr) {
-			console.error("Passport logout error:", logoutErr);
-		}
-		// Destroy session
-		req.session.destroy((err) => {
-			if (err) {
-				console.error("Logout error:", err);
+	try {
+		// Properly logout Passport (0.6+ signature)
+		req.logout((logoutErr) => {
+			if (logoutErr) {
+				console.error("Passport logout error:", logoutErr);
 			}
-			// Clear session cookie
-			res.clearCookie("connect.sid");
-			// Redirect back to login
-			res.redirect("/auth/login");
+			// Destroy session
+			req.session.destroy((err) => {
+				if (err) {
+					console.error("Logout error:", err);
+				}
+				// Clear session cookie
+				res.clearCookie("connect.sid");
+				// Redirect back to login
+				res.redirect("/");
+			});
 		});
-	});
+	} catch (error) {
+		console.error("GET /auth/logout error:", error);
+		return res.redirect("/");
+	}
 });
 
 /**
@@ -202,7 +214,12 @@ router.get("/logout", (req, res) => {
  * @desc Render reset password page
  */
 router.get("/resetPassword", (req, res) => {
-	return res.render("resetPassword");
+	try {
+		return res.render("resetPassword");
+	} catch (error) {
+		console.error("GET /auth/resetPassword error:", error);
+		return res.redirect("/");
+	}
 });
 
 /**
@@ -251,15 +268,15 @@ router.post("/resetPassword", async (req, res) => {
 		return createSuccessResponse(res, userResp);
 	} catch (error) {
 		console.error("POST /auth/resetPassword error:", error);
-		return createErrorResponse(res, "Internal Server Error");
+		//return createErrorResponse(res, "Internal Server Error");
+		return res.redirect("/");
 	}
 });
 
 /**
  * @route GET /auth/google
- * @desc Google OAuth2 callback
- *        Handle Google OAuth2 callback and authenticate user
- *        Then redirect to dashboard
+ * @desc Google OAuth2 authentication
+ *        Handle Google OAuth2 authenticate user
  */
 router.get(
 	"/google",
@@ -268,6 +285,12 @@ router.get(
 		prompt: "select_account",
 	})
 );
+/**
+ * @route GET /auth/google/callback
+ * @desc Google OAuth2 callback
+ *        Handle Google OAuth2 callback
+ *        Then redirect to register with email prefilled if new user
+ */
 router.get("/google/callback", (req, res, next) => {
 	passport.authenticate("google", async (err, profile, info) => {
 		try {
@@ -305,7 +328,7 @@ router.get("/google/callback", (req, res, next) => {
 			return res.redirect(`/auth/register?email=${encodeURIComponent(email)}&lock=1`);
 		} catch (e) {
 			console.error("Google OAuth callback handling failed:", e);
-			return res.redirect("/auth/login");
+			return res.redirect("/");
 		}
 	})(req, res, next);
 });
