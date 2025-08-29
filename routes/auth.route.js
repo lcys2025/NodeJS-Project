@@ -4,8 +4,7 @@ import bcrypt from "bcrypt";
 import { createSuccessResponse, createErrorResponse } from "../utils/responseHandler.js";
 import { sendEmailWithQRCode } from "../utils/emailHandler.js";
 import dotenv from "dotenv";
-import passport from 'passport';
-
+import passport from "passport";
 
 dotenv.config();
 const router = express.Router();
@@ -93,7 +92,7 @@ router.post("/register", async (req, res) => {
 		};
 
 		//return createSuccessResponse(res, userResp);
-        res.redirect('/auth/login');
+		res.redirect("/auth/login");
 	} catch (error) {
 		console.error("POST /auth/register error:", error);
 		return createErrorResponse(res, "Internal Server Error");
@@ -166,7 +165,7 @@ router.post("/login", async (req, res) => {
 
 		// Redirect to dashboard instead of returning JSON
 		//return createSuccessResponse(res, userResp);
-		res.redirect('/dashboard');
+		res.redirect("/dashboard");
 	} catch (error) {
 		console.error("POST /auth/login error:", error);
 		return createErrorResponse(res, "Internal Server Error");
@@ -183,7 +182,7 @@ router.get("/logout", (req, res) => {
 	// Properly logout Passport (0.6+ signature)
 	req.logout((logoutErr) => {
 		if (logoutErr) {
-			console.error('Passport logout error:', logoutErr);
+			console.error("Passport logout error:", logoutErr);
 		}
 		// Destroy session
 		req.session.destroy((err) => {
@@ -191,7 +190,7 @@ router.get("/logout", (req, res) => {
 				console.error("Logout error:", err);
 			}
 			// Clear session cookie
-			res.clearCookie('connect.sid');
+			res.clearCookie("connect.sid");
 			// Redirect back to login
 			res.redirect("/auth/login");
 		});
@@ -262,31 +261,32 @@ router.post("/resetPassword", async (req, res) => {
  *        Handle Google OAuth2 callback and authenticate user
  *        Then redirect to dashboard
  */
-router.get('/google',
-	passport.authenticate('google', {
-		scope: ['profile', 'email'],
-		prompt: 'select_account'
+router.get(
+	"/google",
+	passport.authenticate("google", {
+		scope: ["profile", "email"],
+		prompt: "select_account",
 	})
 );
-router.get('/google/callback', (req, res, next) => {
-	passport.authenticate('google', async (err, profile, info) => {
+router.get("/google/callback", (req, res, next) => {
+	passport.authenticate("google", async (err, profile, info) => {
 		try {
 			if (err) {
-				console.error('Google OAuth error:', err);
-				return res.redirect('/auth/login');
+				console.error("Google OAuth error:", err);
+				return res.redirect("/auth/login");
 			}
 			if (!profile) {
-				console.warn('Google OAuth: no profile returned');
-				return res.redirect('/auth/login');
+				console.warn("Google OAuth: no profile returned");
+				return res.redirect("/auth/login");
 			}
 
-			const email = (profile?.email || profile?.emails?.[0]?.value || '').toLowerCase();
+			const email = (profile?.email || profile?.emails?.[0]?.value || "").toLowerCase();
 			if (!email) {
-				console.error('Google OAuth: email not provided in profile');
-				return res.redirect('/auth/login');
+				console.error("Google OAuth: email not provided in profile");
+				return res.redirect("/auth/login");
 			}
 
-			console.log('Google OAuth: looking for profile: ', email);
+			console.log("Google OAuth: looking for profile: ", email);
 			const found = await User.findOne({ email });
 			if (found) {
 				req.session.user = {
@@ -298,14 +298,14 @@ router.get('/google/callback', (req, res, next) => {
 					remainingTrainerDays: found.remainingTrainerDays,
 				};
 				// Ensure session is saved before redirect to avoid race condition
-				return req.session.save(() => res.redirect('/dashboard'));
+				return req.session.save(() => res.redirect("/dashboard"));
 			}
 
 			console.log("user not found");
 			return res.redirect(`/auth/register?email=${encodeURIComponent(email)}&lock=1`);
 		} catch (e) {
-			console.error('Google OAuth callback handling failed:', e);
-			return res.redirect('/auth/login');
+			console.error("Google OAuth callback handling failed:", e);
+			return res.redirect("/auth/login");
 		}
 	})(req, res, next);
 });

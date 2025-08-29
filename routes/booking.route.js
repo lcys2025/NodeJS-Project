@@ -23,6 +23,17 @@ const isAuthenticated = (req, res, next) => {
 	next();
 };
 
+// Middleware to ensure superuser role
+const isSuperuser = (req, res, next) => {
+  if (!req.session?.user) {
+    return createErrorResponse(res, "Unauthorized", StatusCodes.UNAUTHORIZED);
+  }
+  if (req.session.user.role !== 'superuser') {
+    return createErrorResponse(res, "Forbidden", StatusCodes.FORBIDDEN);
+  }
+  next();
+};
+
 router.get("/create", isAuthenticated, async (req, res) => {
   try {
     // Get all trainers
@@ -301,6 +312,26 @@ router.put("/:id/status", async (req, res) => {
     return createSuccessResponse(res, updatedBooking, "Booking status updated");
   } catch (error) {
     console.error("Update booking status error:", error);
+    return createErrorResponse(res, "Internal Server Error");
+  }
+});
+
+/**
+ * @route DELETE /booking/:id
+ * @desc Delete a booking (superuser only)
+ */
+router.delete("/:id", isAuthenticated, isSuperuser, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      return createErrorResponse(res, "Booking not found", StatusCodes.NOT_FOUND);
+    }
+
+    await booking.deleteOne();
+    return createSuccessResponse(res, { id }, "Booking deleted successfully");
+  } catch (error) {
+    console.error("Delete booking error:", error);
     return createErrorResponse(res, "Internal Server Error");
   }
 });

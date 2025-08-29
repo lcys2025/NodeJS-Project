@@ -15,6 +15,7 @@
   
   <div class="dashboard-container">
     <h1>Welcome, <%= user.name %>!</h1>
+    <% if (user.role !== 'superuser') { %>
     <p>
       <strong>Plan:</strong> 
       <%= user.plan.charAt(0).toUpperCase() + user.plan.slice(1) %> - 
@@ -24,6 +25,7 @@
         <strong>Remaining Trainer Days:</strong> <%= data.remainingTrainerDays %>
       </span>
     </p>
+    <% } %>
   </div>
   
   <div class="dashboard-actions"></div>
@@ -118,9 +120,61 @@
         data: <%- JSON.stringify(data) %>
       };
     </script>
+  <% } else if (user.role === 'superuser') { %>
+    <div class="dashboard-container">
+      <div class="dashboard-section">
+        <h2>Upcoming Sessions</h2>
+        <% if (data.bookings && data.bookings.length > 0) { %>
+          <div class="bookings-grid">
+            <% data.bookings.forEach(booking => { %>
+              <div class="booking-card">
+                <h3><%= booking.trainerId.name %></h3>
+                <p><strong>Date:</strong> <%= booking.bookingDate.toDateString() %></p>
+                <p><strong>Type:</strong> <%= booking.sessionType %></p>
+                <p><strong>Status:</strong> 
+                  <span class="status-<%= booking.status %>"><%= booking.status %></span>
+                </p>
+                <div class="actions">
+                  <button class="btn secondary delete-booking" data-id="<%= booking._id %>">Delete</button>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p>Project have no upcoming sessions!</p>
+        <% } %>
+      </div>
+    </div>
   <% } %>
 
   <script src="/dashboard/dashboard.js"></script>
   <script src="/trainer/trainer.js"></script>
+  <script>
+    // Delete booking (superuser only)
+    document.addEventListener('DOMContentLoaded', () => {
+      const deleteButtons = document.querySelectorAll('.delete-booking');
+      deleteButtons.forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.id;
+          if (!id) return;
+          const confirmed = confirm('Are you sure you want to delete this booking?');
+          if (!confirmed) return;
+          try {
+            const resp = await fetch(`/booking/${id}`, { method: 'DELETE' });
+            const result = await resp.json();
+            if (result && result.success) {
+              // Remove the card from UI
+              const card = btn.closest('.booking-card');
+              if (card) card.remove();
+            } else {
+              alert(result?.message || 'Failed to delete booking.');
+            }
+          } catch (err) {
+            alert('Network error while deleting booking.');
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

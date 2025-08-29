@@ -23,6 +23,13 @@ const initTrainers = async () => {
       plan: 'premium',
       role: 'trainer',
       password: await bcrypt.hash('Erbscope2025', 10),
+    },
+    {
+      name: 'Admin',
+      email: 'lcys20252025@gmail.com',
+      plan: 'premium',
+      role: 'superuser',
+      password: await bcrypt.hash('Erbscope2025', 10),
     }
   ];
 

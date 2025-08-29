@@ -25,9 +25,9 @@ const isAuthenticated = async (req, res, next) => {
 			role: user.role,
 			remainingTrainerDays: user.remainingTrainerDays,
 		};
-		return next() 
+		return next();
 	}
-    res.redirect("auth/login")
+	res.redirect("auth/login");
 };
 
 // Dashboard main view
@@ -104,6 +104,10 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 				});
 			}
 			data.remainingTrainerDays = user.remainingTrainerDays;
+		} else if (user.role === "superuser") {
+			data.bookings = await Booking.find({ bookingDate: { $gte: new Date().setHours(0, 0, 0, 0) } })
+				.populate("trainerId", "name")
+				.sort({ bookingDate: 1 });
 		}
 
 		// Check for booking success flag
@@ -178,7 +182,7 @@ router.post("/update-status", isAuthenticated, async (req, res) => {
 				{ new: true } // Return the modified document
 			);
 			if (updatedUser) {
-				console.log('User remainingTrainerDays incremented by 1 successfully:', updatedUser);
+				console.log("User remainingTrainerDays incremented by 1 successfully:", updatedUser);
 			} else {
 				return createErrorResponse(res, "User not found", StatusCodes.NOT_FOUND);
 			}
