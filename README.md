@@ -16,15 +16,15 @@
    - SUPERUSER:
      - NOTE: created for testing Google OAuth2
      - Superuser 1:
-       - email: lcys20252025@gmail.com
+       - email: Lcys20252025@gmail.com
        - password: Erbscope2025
    - USER:
-      - NOTE: use <email>+<num> [ e.g. lcys20252025+1 ] as email alias for creating dummy accounts
-      - User 1. email: lcys20252025+1@gmail.com
+      - NOTE: use <email>+<num> [ e.g. Lcys20252025+1 ] as email alias for creating dummy accounts
+      - User 1. email: Lcys20252025+1@gmail.com
       -         password: Erbscope2025
-      - User 2. email: lcys20252025+2@gmail.com
+      - User 2. email: Lcys20252025+2@gmail.com
       -         password: Erbscope2025
-      - User 1. email: lcys20252025+3@gmail.com
+      - User 1. email: Lcys20252025+3@gmail.com
       -         password: Erbscope2025
 
 ## Team Member Name (4 members)
