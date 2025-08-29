@@ -29,7 +29,7 @@
 1. L - LI,Man Hei (student#: 7)
 2. C - CHUK, For Pui (student#: 18)
 3. Y - YUNG, Wai Ming (student#: 24)
-4. S - SUAN, Guan li (student#: 22)
+4. S - SUAN, Guan Li (student#: 22) 'also as: XIAO, Guan Li (student#: 22)'
 
 ## Introduction
 - Course Name: 後端網站開發人員證書   
