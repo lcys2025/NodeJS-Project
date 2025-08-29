@@ -158,7 +158,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 });
 
 // Update booking status (for trainers)
-router.post("/update-status", isAuthenticated, async (req, res) => {
+router.post("/update-status", isAuthenticated, async (req, res, next) => {
 	try {
 		const { bookingId, status } = req.body;
 		const user = req.session.user;

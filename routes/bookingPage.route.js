@@ -14,7 +14,7 @@ const isAuthenticated = (req, res, next) => {
 	next();
 };
 
-router.get("/", isAuthenticated, async (req, res) => {
+router.get("/", isAuthenticated, async (req, res, next) => {
   try {
     // Get all trainers
     const trainers = await User.find({ role: 'trainer' }).select('name _id');

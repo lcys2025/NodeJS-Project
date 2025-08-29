@@ -34,7 +34,7 @@ const isSuperuser = (req, res, next) => {
   next();
 };
 
-router.get("/create", isAuthenticated, async (req, res) => {
+router.get("/create", isAuthenticated, async (req, res, next) => {
   try {
     // Get all trainers
     const trainers = await User.find({ role: 'trainer' }).select('name _id');
@@ -320,7 +320,7 @@ router.put("/:id/status", async (req, res) => {
  * @route DELETE /booking/:id
  * @desc Delete a booking (superuser only)
  */
-router.delete("/:id", isAuthenticated, isSuperuser, async (req, res) => {
+router.delete("/:id", isAuthenticated, isSuperuser, async (req, res, next) => {
   try {
     const { id } = req.params;
     const booking = await Booking.findById(id);

@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 			lowercase: true,
-			enum: ['gymer', 'trainer'],
+			enum: ['gymer', 'trainer', 'superuser'],
 			default: 'gymer',
 		},
 		remainingTrainerDays: {
