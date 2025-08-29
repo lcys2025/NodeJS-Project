@@ -5,27 +5,25 @@
 1. npm i
 2. npm run start
 3. localhost:3030
-4. All associated 'resource' accounts use 'project' outlook email address.
-   - e.g. Outlook, Github, Mongoose 
-     - username: Lcys2025@outlook.com
-     - password: Erbscope
-   - e.g.
-     - mongoose: username: Lcys2025@outlook.com
-     - mongoose: password: Erbscope
-5. Database, hard-coded "user" accounts
+4. Accounts (already 'hard-coded' in codebase)
    - SUPERUSER:
-     - NOTE: created for testing Google OAuth2
-     - Superuser 1:
-       - email: Lcys20252025@gmail.com
-       - password: Erbscope2025
+     - superuser 1:
+        - email: Lcys20252025@gmail.com
+        - password: Erbscope2025
    - USER:
-      - NOTE: use <email>+<num> [ e.g. Lcys20252025+1 ] as email alias for creating dummy accounts
       - User 1. email: Lcys20252025+1@gmail.com
       -         password: Erbscope2025
       - User 2. email: Lcys20252025+2@gmail.com
       -         password: Erbscope2025
-      - User 1. email: Lcys20252025+3@gmail.com
+      - User 3. email: Lcys20252025+3@gmail.com
       -         password: Erbscope2025
+5. All associated 'resource' accounts are using 'project' outlook email address.
+   - username: Lcys2025@outlook.com
+   - password: Erbscope
+   - Outlook, Github, Mongoose
+   - e.g.
+     - mongoose: username: Lcys2025@outlook.com
+     - mongoose: password: Erbscope
 
 ## Team Member Name (4 members)
 1. L - LI,Man Hei (student#: 7)
