@@ -15,7 +15,7 @@
 5. Database, hard-coded "user" accounts
    - SUPERUSER:
      - NOTE: created for testing Google OAuth2
-     - superuser 1:
+     - Superuser 1:
        - email: lcys20252025@gmail.com
        - password: Erbscope2025
    - USER:
