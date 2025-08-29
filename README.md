@@ -12,35 +12,34 @@
    - e.g. mongoose: username: Lcys2025@outlook.com
    -      mongoose: password: Erbscope
 5. Database, hard-coded "user" accounts
-   SUPERUSER:
-   NOTE: created for testing Google OAuth2
-   superuser 1: email: lcys20252025@gmail.com
+   - SUPERUSER:
+   - NOTE: created for testing Google OAuth2
+   - superuser 1: email: lcys20252025@gmail.com
                 password: Erbscope2025
-   USER:
-   NOTE: use <email>+<num> [ e.g. lcys20252025+1 ] as email alias for creating dummy accounts
-   User 1. email: lcys20252025+1@gmail.com
-           password: Erbscope2025
-   User 2. email: lcys20252025+2@gmail.com
-           password: Erbscope2025
-   User 1. email: lcys20252025+3@gmail.com
-           password: Erbscope2025
+   - USER:
+   - NOTE: use <email>+<num> [ e.g. lcys20252025+1 ] as email alias for creating dummy accounts
+   - User 1. email: lcys20252025+1@gmail.com
+   -         password: Erbscope2025
+   - User 2. email: lcys20252025+2@gmail.com
+   -        password: Erbscope2025
+   - User 1. email: lcys20252025+3@gmail.com
+   -        password: Erbscope2025
 
-## Team Member Name
+## Team Member Name (4 members)
 1. 
 2. 
 3. XIAO, Guan li
 4. YUNG, Wai Ming
 
 ## Introduction
-Course Name: 後端網站開發人員證書   
-Course Code: PE076DS10   
-Course Location: SCOPE尖沙咀東教學中心,九龍尖沙咀東科學館道16號華懋廣場UG3樓307室   
-Course URL: (1) https://Lcys2025.github.io/documents/CityUHK_ERB_PE076DS10_Web_Backend_Course_Webpage.pdf or (2) https://www.scope.edu/programmes/ERB人才發展計劃/後端網站開發人員證書   
-Class Number: 10   
-Class Starting Date: 4th July 2025   
-Team email address: Lcys2025@outlook.com or Lcys20252025@gmail.com
-Github account: same as Team email address   
-Total Team Members: 4 people   
+- Course Name: 後端網站開發人員證書   
+- Course Code: PE076DS10   
+- Course Location: SCOPE尖沙咀東教學中心,九龍尖沙咀東科學館道16號華懋廣場UG3樓307室   
+- Course URL: (1) https://Lcys2025.github.io/documents/CityUHK_ERB_PE076DS10_Web_Backend_Course_Webpage.pdf or (2) https://www.scope.edu/programmes/ERB人才發展計劃/後端網站開發人員證書   
+- Class Number: 10   
+- Class Starting Date: 4th July 2025   
+- Team email address: Lcys2025@outlook.com or Lcys20252025@gmail.com
+- Github account: same as Team email address   
 
 ## Final Project Description
 後端網站開發課程 
