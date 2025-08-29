@@ -5,7 +5,7 @@
 1. npm i
 2. npm run start
 3. localhost:3030
-4. Accounts (already 'hard-coded' in codebase)
+4. Accounts ----- (already 'hard-coded' in codebase)
    - SUPERUSER:
      - superuser 1:
         - email: Lcys20252025@gmail.com
