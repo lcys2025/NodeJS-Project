@@ -26,10 +26,10 @@
    -        password: Erbscope2025
 
 ## Team Member Name (4 members)
-1. 
-2. 
-3. XIAO, Guan li
-4. YUNG, Wai Ming
+1. L - LI,Man Hei (student#: 7)
+2. C - CHUK, For Pui (student#: 18)
+3. Y - YUNG, Wai Ming (student#: 24)
+4. S - SUAN, Guan li (student#: 22)
 
 ## Introduction
 - Course Name: 後端網站開發人員證書   
