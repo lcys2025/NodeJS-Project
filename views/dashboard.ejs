@@ -116,8 +116,8 @@
 
     <script>
       window.dashboardData = {
-        user: `<%- JSON.stringify(user) %>`,
-        data: `<%- JSON.stringify(data) %>`,
+        user: <%- JSON.stringify(user) %>,
+        data: <%- JSON.stringify(data) %>
       };
     </script>
   <% } else if (user.role === 'superuser') { %>
