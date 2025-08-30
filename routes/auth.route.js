@@ -200,8 +200,9 @@ router.post("/login", async (req, res) => {
  *        then return to login page
  */
 // Add logout route
-router.get("/logout", (req, res) => {
+router.get("/logout", async (req, res) => {
 	try {
+		const email = req.session?.user?.email;
 		// Properly logout Passport (0.6+ signature)
 		req.logout((logoutErr) => {
 			if (logoutErr) {
@@ -218,6 +219,21 @@ router.get("/logout", (req, res) => {
 				res.redirect("/");
 			});
 		});
+		// FIX_ME: Make the following email sending part a function to avoid code duplication
+		// Add email notification for password reset event
+		// Ensure email is valid before sending email notification
+		if (!email || typeof email !== "string" || !email.includes("@")) {
+			//return createErrorResponse(res, "Invalid email address");
+			console.error("get /auth/logout 'Invalid email address' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
+		}
+		await sendEmailWithQRCode({
+			to: email,
+			subject: `Logout Notification - ${process.env.COMPANY_NAME}`,
+			text: `Your account was logged out of ${process.env.COMPANY_NAME}. If this wasn't you, contact support immediately.`,
+			html: "<h1>Thank you for logging out</h1><p>localhost:3030/auth/login</p>",
+		});
+
 	} catch (error) {
 		console.error("GET /auth/logout error:", error);
 		return res.redirect("/");
