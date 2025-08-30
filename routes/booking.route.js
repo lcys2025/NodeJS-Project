@@ -327,7 +327,21 @@ router.delete("/:id", isAuthenticated, isSuperuser, async (req, res, next) => {
       return createErrorResponse(res, "Booking not found", StatusCodes.NOT_FOUND);
     }
 
-    await booking.deleteOne();
+		// Update status
+		if (booking.status !== "completed") {
+			const updatedUser = await User.findByIdAndUpdate(
+				booking.userId,
+				{ $inc: { remainingTrainerDays: +1 } }, // Increment 'remainingTrainerDays' by 1
+				{ new: true } // Return the modified document
+			);
+			if (!updatedUser) {
+				return createErrorResponse(res, "User not found", StatusCodes.NOT_FOUND);
+			}
+			await booking.deleteOne();
+		}
+    else {
+      return createSuccessResponse(res, { id }, "Booking cannot be deleted as it is completed");
+		}
     return createSuccessResponse(res, { id }, "Booking deleted successfully");
   } catch (error) {
     console.error("Delete booking error:", error);
