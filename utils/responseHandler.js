@@ -5,7 +5,7 @@
 
 import StatusCodes from "./statusCodes.js";
 
-const createSuccessResponse = (res, data = null, message = "Operation successful", statusCode = StatusCodes.SUCCESS) => {
+const createSuccessResponse = (res, data = null, message = "Operation successful", statusCode = StatusCodes.OK) => {
 
   const resObject = {
     success: true,
