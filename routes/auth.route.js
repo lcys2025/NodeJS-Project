@@ -39,13 +39,17 @@ router.post("/register", async (req, res) => {
 		const { name, email, password, confirmPassword, plan } = req.body;
 		// validate required fields
 		if (!name || !email || !password || !confirmPassword || !plan) {
-			return createErrorResponse(res, "Name, email, password, confirm password and plan are required");
+			//return createErrorResponse(res, "Name, email, password, confirm password and plan are required");
+			console.error("POST /auth/register 'Name, email, password, confirm password and plan are required' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
 		// check if email exists
 		const existingEmail = await User.findOne({ email }).lean();
 		if (existingEmail) {
-			return createErrorResponse(res, "Email already exists");
+			//return createErrorResponse(res, "Email already exists");
+			console.error("POST /auth/register 'Email already exists' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
 		// hash password
@@ -64,7 +68,9 @@ router.post("/register", async (req, res) => {
 				remainingTrainerDays = 20;
 				break;
 			default:
-				return createErrorResponse(res, "Invalid plan selected");
+				//return createErrorResponse(res, "Invalid plan selected");
+				console.error("POST /auth/register 'Invalid plan selected' error.");
+				return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
 		// create new user
@@ -77,8 +83,9 @@ router.post("/register", async (req, res) => {
 		});
 
 		if (!email || typeof email !== "string" || !email.includes("@")) {
-			console.error("Invalid email address provided for notification");
-			return createErrorResponse(res, "Invalid email address");
+			//return createErrorResponse(res, "Invalid email address");
+			console.error("Invalid email address");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 		await sendEmailWithQRCode({
 			to: email,
@@ -99,8 +106,8 @@ router.post("/register", async (req, res) => {
 		//return createSuccessResponse(res, userResp);
 		res.redirect(StatusCodes.FOUND, "/auth/login");
 	} catch (error) {
-		console.error("POST /auth/register error:", error);
 		//return createErrorResponse(res, "Internal Server Error");
+		console.error("POST /auth/register error:", error);
 		return res.redirect("/");
 	}
 });
@@ -123,27 +130,34 @@ router.post("/login", async (req, res) => {
 
 		// validate required fields
 		if (!email || !password) {
-			return createErrorResponse(res, "Email and password are required");
+			//return createErrorResponse(res, "Email and password are required");
+			console.error("POST /auth/login 'Email and password are required' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
 		// find user by email
 		const user = await User.findOne({ email }).select("+password");
 		if (!user) {
 			// generic message to avoid user enumeration
-			return createErrorResponse(res, "Invalid email or password");
+			//return createErrorResponse(res, "Invalid email or not yet registered");
+			console.error("POST /auth/login 'Invalid email or not yet registered' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
 		// compare password
 		const passwordMatch = await bcrypt.compare(password, user.password);
 		if (!passwordMatch) {
-			return createErrorResponse(res, "Invalid email or password");
+			//return createErrorResponse(res, "Invalid password");
+			console.error("POST /auth/login 'Invalid password' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
 		// Add email notification for login event
 		// Ensure email is valid before sending email notification
 		if (!email || typeof email !== "string" || !email.includes("@")) {
-			console.error("Invalid email address provided for login notification");
-			return createErrorResponse(res, "Invalid email address");
+			//return createErrorResponse(res, "Invalid email address");
+			console.error("POST /auth/login 'Invalid email address' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 		await sendEmailWithQRCode({
 			to: email,
@@ -172,9 +186,9 @@ router.post("/login", async (req, res) => {
 		//return createSuccessResponse(res, userResp);
 		res.redirect(StatusCodes.FOUND, "/dashboard");
 	} catch (error) {
-		console.error("POST /auth/login error:", error);
 		//return createErrorResponse(res, "Internal Server Error");
-		return res.redirect("/");
+		console.error("POST /auth/login error:", error);
+		return res.redirect(StatusCodes.SEE_OTHER, "/");
 	}
 });
 
@@ -231,18 +245,24 @@ router.post("/resetPassword", async (req, res) => {
 
 		// validate required fields
 		if (!email || !newPassword || !confirmPassword) {
-			return createErrorResponse(res, "Email and password are required");
+			//return createErrorResponse(res, "Email and password are required");
+			console.error("POST /auth/resetPassword 'Email and password are required' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
 		// validate password
 		if (newPassword !== confirmPassword) {
-			return createErrorResponse(res, "Passwords do not match");
+			//return createErrorResponse(res, "Passwords do not match");
+			console.error("POST /auth/resetPassword 'Passwords do not match' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
 		// find user by email
 		const user = await User.findOne({ email: email });
 		if (!user) {
-			return createErrorResponse(res, "User not found");
+			//return createErrorResponse(res, "User not found");
+			console.error("POST /auth/resetPassword 'User not found' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
 		// update user password
@@ -252,8 +272,9 @@ router.post("/resetPassword", async (req, res) => {
 		// Add email notification for password reset event
 		// Ensure email is valid before sending email notification
 		if (!email || typeof email !== "string" || !email.includes("@")) {
-			console.error("Invalid email address provided for notification");
-			return createErrorResponse(res, "Invalid email address");
+			//return createErrorResponse(res, "Invalid email address");
+			console.error("POST /auth/resetPassword 'Invalid email address' error.");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 		await sendEmailWithQRCode({
 			to: email,
@@ -266,9 +287,9 @@ router.post("/resetPassword", async (req, res) => {
 
 		return createSuccessResponse(res, userResp);
 	} catch (error) {
-		console.error("POST /auth/resetPassword error:", error);
 		//return createErrorResponse(res, "Internal Server Error");
-		return res.redirect("/");
+		console.error("POST /auth/resetPassword error:", error);
+		return res.redirect(StatusCodes.SEE_OTHER, "/");
 	}
 });
 
