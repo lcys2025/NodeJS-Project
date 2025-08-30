@@ -27,6 +27,7 @@ router.post("/", async (req, res) => {
       return createErrorResponse(res, "Name, email and message are required");
     }
 
+    // FIX_ME: Make the following email sending part a function to avoid code duplication
     if (!email || typeof email !== "string" || !email.includes("@")) {
       console.error("Invalid email address provided for notification");
       return createErrorResponse(res, "Invalid email address");

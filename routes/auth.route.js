@@ -82,6 +82,7 @@ router.post("/register", async (req, res) => {
 			remainingTrainerDays: remainingTrainerDays,
 		});
 
+		// FIX_ME: Make the following email sending part a function to avoid code duplication
 		if (!email || typeof email !== "string" || !email.includes("@")) {
 			//return createErrorResponse(res, "Invalid email address");
 			console.error("Invalid email address");
@@ -152,6 +153,7 @@ router.post("/login", async (req, res) => {
 			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
+		// FIX_ME: Make the following email sending part a function to avoid code duplication
 		// Add email notification for login event
 		// Ensure email is valid before sending email notification
 		if (!email || typeof email !== "string" || !email.includes("@")) {
@@ -269,6 +271,7 @@ router.post("/resetPassword", async (req, res) => {
 		user.password = await bcrypt.hash(newPassword, 10);
 		await user.save();
 
+        // FIX_ME: Make the following email sending part a function to avoid code duplication
 		// Add email notification for password reset event
 		// Ensure email is valid before sending email notification
 		if (!email || typeof email !== "string" || !email.includes("@")) {
