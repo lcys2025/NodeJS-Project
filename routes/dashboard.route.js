@@ -138,11 +138,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 			paymentStatus = "confirmed"; // Example logic for confirmed plans
 		}
 
-		// Add payment status to data
 		data.paymentStatus = paymentStatus;
-
-		// Debug log for user plan
-		console.log("User Plan:", user.plan);
 
 		res.render("dashboard", {
 			company_name: process.env.COMPANY_NAME,
@@ -181,9 +177,7 @@ router.post("/update-status", isAuthenticated, async (req, res, next) => {
 				{ $inc: { remainingTrainerDays: +1 } }, // Increment 'remainingTrainerDays' by 1
 				{ new: true } // Return the modified document
 			);
-			if (updatedUser) {
-				console.log("User remainingTrainerDays incremented by 1 successfully:", updatedUser);
-			} else {
+			if (!updatedUser) {
 				return createErrorResponse(res, "User not found", StatusCodes.NOT_FOUND);
 			}
 			await booking.deleteOne();

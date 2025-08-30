@@ -120,7 +120,6 @@ router.get("/login", (req, res) => {
 router.post("/login", async (req, res) => {
 	try {
 		const { email, password } = req.body;
-		console.log(req.body);
 
 		// validate required fields
 		if (!email || !password) {
@@ -309,7 +308,6 @@ router.get("/google/callback", (req, res, next) => {
 				return res.redirect("/auth/login");
 			}
 
-			console.log("Google OAuth: looking for profile: ", email);
 			const found = await User.findOne({ email });
 			if (found) {
 				req.session.user = {
@@ -323,8 +321,6 @@ router.get("/google/callback", (req, res, next) => {
 				// Ensure session is saved before redirect to avoid race condition
 				return req.session.save(() => res.redirect("/dashboard"));
 			}
-
-			console.log("user not found");
 			return res.redirect(`/auth/register?email=${encodeURIComponent(email)}&lock=1`);
 		} catch (e) {
 			console.error("Google OAuth callback handling failed:", e);

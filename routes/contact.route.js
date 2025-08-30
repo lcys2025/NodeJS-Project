@@ -21,7 +21,6 @@ router.get('/', function(req, res, next) {
 router.post("/", async (req, res) => {
   try {
     const { name, email, message } = req.body;
-    console.log(name, email, message);
 
     // validate required fields
     if (!name || !email || !message) {

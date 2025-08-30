@@ -1,7 +1,6 @@
 // trainer.js
 document.addEventListener("DOMContentLoaded", function () {
 	const dashboardData = window.dashboardData;
-	console.log(dashboardData);
 	const bookedData = dashboardData?.data?.bookings || [];
 
 	const yearSelect = document.getElementById("yearSelect");
@@ -115,8 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		const dateStr = formatDate(new Date(year, month, day));
 		const appointment = bookedAppointments.find((a) => a.date === dateStr);
 
-		console.log(appointment);
-
 		if (appointment && appointment.status === "pending") {
 			const li = document.createElement("li");
 			li.innerHTML = `
@@ -195,7 +192,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	// 操作紀錄
 	function logAction(action, studentName, date) {
 		const logEntry = `${formatDate(new Date())} - ${action} ${studentName} (${formatDate(new Date(date))})`;
-		console.log(logEntry);
 
 		const p = document.createElement("p");
 		p.textContent = logEntry;

@@ -49,7 +49,7 @@ const initTrainers = async () => {
 export const initializeDB = async () => {
   try {
     await initTrainers();
-    console.log("Database initialized successfully");
+    console.log("initialize mongoose successfully!\n");
   } catch (error) {
     console.error("Database initialization failed:", error);
   }

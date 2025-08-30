@@ -11,7 +11,7 @@ const debug = dbg("nodejs-project:server");
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT);
 app.set('port', port);
 
 /**
@@ -86,4 +86,11 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+
+  let msg1 = 'http://localhost:'
+  let msg2 = typeof addr === 'string'
+    ? addr
+    : addr.port;
+  let msg = msg1 + msg2 + '\n';
+  console.log(msg);
 }

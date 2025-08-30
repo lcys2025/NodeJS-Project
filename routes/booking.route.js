@@ -40,7 +40,6 @@ router.get("/create", isAuthenticated, async (req, res, next) => {
     const trainers = await User.find({ role: 'trainer' }).select('name _id');
     const selectedTrainerId = req.query.trainer || null;
 
-    console.log('Selected Trainer ID:', selectedTrainerId); // Debug log for selectedTrainerId
     if (trainers.length > 0) {
       trainers.forEach(trainer => {
         if (trainer.name == "Bee Cho") {

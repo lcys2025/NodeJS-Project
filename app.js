@@ -28,7 +28,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
-// use .env variables
 dotenv.config();
 
 // check if mongoose uri is defined
@@ -50,21 +49,22 @@ mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Mongoose connection error:"));
 db.once("open", async () => {
-  console.log("Mongoose connection is open");
-  await initializeDB();  // FIX_ME: Initialize "testing" documents (e.g. trainers)
+  console.log("Mongoose connection is open!");
+  await initializeDB();
 })
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// session setup
 app.use(session({
-  secret: process.env.SESSION_SECRET, // A strong, unique secret for signing the session ID cookie
+  secret: process.env.SESSION_SECRET,
   resave: false, // Prevents resaving the session if it hasn't been modified
   saveUninitialized: false, // Avoids saving new, uninitialized sessions to the store
   cookie: {
     secure: false, // Set to true if using HTTPS in production
-    maxAge: 3600000 // Session expiration time in milliseconds (e.g., 1 hour)
+    maxAge: Number(process.env.SESSION_MAXAGE), // Session expiration time in milliseconds (e.g., 1 hour)
   }
 }));
 
@@ -77,9 +77,6 @@ const authUser = (request, accessToken, refreshToken, profile, done) => {
 const GOOGLE_OAUTH2_CALLBACK_URL = process.env.GOOGLE_OAUTH2_CALLBACK_URL;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-console.log(GOOGLE_OAUTH2_CALLBACK_URL);
-console.log(GOOGLE_CLIENT_ID);
-console.log(GOOGLE_CLIENT_SECRET);
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
@@ -89,8 +86,8 @@ passport.use(new GoogleStrategy({
 );
 
 // Add after session middleware
+// Make user available to all views by setting it in res.locals
 app.use((req, res, next) => {
-  // Make user available to all views
   res.locals.user = req.session.user || null;
   next();
 });
@@ -123,7 +120,6 @@ passport.deserializeUser(function(user, done) {
     done(null, user);
 });
 
-// catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
