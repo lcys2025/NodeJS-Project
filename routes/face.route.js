@@ -38,9 +38,6 @@ router.post("/login", async (req, res) => {
     }
 
     const name = recognizedUsers[username].name;
-    console.log(`User ${username} recognized with confidence ${confidence}`);
-    console.log(`User details:`, recognizedUsers[username]);
-    console.log(`Looking up user in database: ${name}`);
     const user = await User.findOne({ name });
     if(!user) {
         return res.json({
@@ -50,13 +47,15 @@ router.post("/login", async (req, res) => {
     }
 
     // Successful recognition - create session or JWT
-    req.session.user = user;
-    
-    // Or if using JWT:
-    // const token = generateJWT({ username, fullName: recognizedUsers[username].fullName });
-    
-    console.log(`Successful face login for: ${username}`);
-    
+    req.session.user = {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        plan: user.plan,
+        role: user.role,
+        remainingTrainerDays: user.remainingTrainerDays,
+    };
+        
     res.json({
         success: true,
         message: 'Face recognition successful',

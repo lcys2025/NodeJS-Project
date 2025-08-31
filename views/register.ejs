@@ -30,6 +30,11 @@
                     <p>Thank you for autheticating with your Google credential.</p>
                     <p>Please complete the following extra information to complete the registration.</p>
                 <% } %>
+                <h1> Face Login </h1>
+                Click here to authenticate with your 'smiley' face.
+                <form action="/face" method="GET">
+                    <button type="submit">Login with Face Recognition</button>
+                </form>                                    
                 <h2>Join The fitness membership</h2>
                 <form class="register-form" id="registerForm" method="POST" action="/auth/register">
                     <label for="name">Name：</label>
