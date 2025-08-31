@@ -23,6 +23,8 @@ import userRouter from "./routes/user.route.js";
 import bookingPageRouter from "./routes/bookingPage.route.js";
 import bookingRouter from "./routes/booking.route.js";
 import dashboardRouter from "./routes/dashboard.route.js";
+import faceRouter from "./routes/face.route.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -108,6 +110,8 @@ app.use('/user', userRouter);
 app.use('/bookingPage', bookingPageRouter);
 app.use('/booking', bookingRouter);
 app.use('/dashboard', dashboardRouter);
+app.use("/face", faceRouter);
+
 
 passport.serializeUser(function(user, done) {
     console.log(`\n--------> Serialize User:`);
