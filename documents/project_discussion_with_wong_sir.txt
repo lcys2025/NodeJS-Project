@@ -107,6 +107,29 @@ IMPORTANT IMPORTANT IMPORTANT
   ---------- MUST DO ----------
 IMPORTANT IMPORTANT IMPORTANT
 
+EXAM:
+1. Format: No multiple choices, writing-answer question.
+      - No grammetical judgement.
+      - Try to answer as much as possible but based on marks/scores.
+2. Reviewing historical questions.
+      - Javascript
+          - access program and write out the expected output
+             a. - scroping
+                - reassign const but inside unaccessible code
+                    e.g. const a = 1; if(a>5) { a = 7; console.log(a); }
+             b. - Syntax - including hoisting/promotion cases
+                     var -- hoist, initialized to "undefined"
+                     let/const -- hoist
+                     function -- initialized, ready to be used
+             c. - Project related
+                     - important information of a program
+                     - api (method + path) i.e. get(/list)
+                     - api path e.g. get(/list) --> /list, path does not include method
+             d. - arrow function
+
+
+
+
 
 
 
