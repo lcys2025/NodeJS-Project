@@ -67,8 +67,9 @@
           <% data.trainers.forEach(trainer => { %>
             <div class="trainer-card">
               <h3><%= trainer.name %></h3>
-              <a href="/booking?trainer=<%= trainer._id %>&trainerName=<%= encodeURIComponent(trainer.name) %>" 
-                 class="btn small">Book Now</a>
+              <!-- <a href="/booking/trainer/<%= trainer._id %>?month=2025-09" 
+                 class="btn small">Book Now</a> -->
+              <a href="/booking/create" class="btn small">Book Now</a>
             </div>
           <% }); %>
         </div>
