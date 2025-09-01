@@ -87,7 +87,6 @@ router.post("/create", async (req, res) => {
 
     // Convert to Date object and normalize to start of day
     const bookingDateObj = new Date(bookingDate);
-    bookingDateObj.setHours(0, 0, 0, 0);
 
     // Check if user exists and the user's role is gymer
     const user = await User.findById(userId);
