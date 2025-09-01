@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import QRCode from 'qrcode';
+import StatusCodes from "./statusCodes.js";
 
 dotenv.config();
 
