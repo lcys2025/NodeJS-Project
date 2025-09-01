@@ -17,31 +17,16 @@ const isAuthenticated = (req, res, next) => {
 router.get("/", isAuthenticated, async (req, res, next) => {
   try {
     // Get all trainers
-    const trainers = await User.find({ role: 'trainer' }).select('name _id');
-    const selectedTrainerId = req.query.trainer || null;
-
-    if (trainers.length > 0) {
-      trainers.forEach(trainer => {
-        if (trainer.name == "Bee Cho") {
-          trainer['avatar'] = "pic/trainer1.avif";
-          trainer['description'] = "Expert in Weight Training with over 10 years of experience.";
-        } else if (trainer.name == "Yami Li") {
-          trainer['avatar'] = "pic/trainer2.avif";
-          trainer['description'] = "Kick-boxing champion and certified instructor.";
-        } else if (trainer.name == "Elvis Lam") {
-          trainer['avatar'] = "pic/trainer3.avif";
-          trainer['description'] = "Stretch recovery specialist and yoga coach.";
-        }
-      })
-    }
-    
-    res.render("booking", { 
-      company_name: process.env.COMPANY_NAME,
-      trainers,
-      //user: req.user || {} // Assuming you have user in session
-      user: req.session.user, // Use session user here
-      selectedTrainerId // Pass the selected trainer ID to the view
-    });
+    const bookings = await Booking.find(); 
+    const users = await User.find(); 
+    console.log(bookings.length);
+    res.render("bookings", { 
+        company_name: process.env.COMPANY_NAME,
+        bookings,
+        users,
+        //user: req.user || {} // Assuming you have user in session
+        user: req.session.user, // Use session user here
+      });
   } catch (error) {
     console.error("Booking page error:", error);
     res.status(500).render("error", { message: "Internal Server Error" });
