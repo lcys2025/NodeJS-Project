@@ -9,6 +9,7 @@
         <table class="bookings-table">
           <thead>
             <tr>
+              <th>ID</th>
               <th>User ID</th>
               <th>Trainer ID</th>
               <th>Date</th>
@@ -20,6 +21,9 @@
           <tbody>
             <% bookings.forEach(booking=> { %>
               <tr>
+                <td>
+                  <%= booking._id %>
+                </td>
                 <td>
                   <%= booking.userId %>
                 </td>
