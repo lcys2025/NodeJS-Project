@@ -187,7 +187,7 @@ router.post("/update-status", isAuthenticated, async (req, res, next) => {
 				subject: '',
 				text: '',
 				html: '',
-				keyword: 'POST /update-status'
+				keyword: 'POST /dashboard/update-status'
 			});
 			await sendEmailWithQRCode({
 				res: res,
@@ -195,7 +195,7 @@ router.post("/update-status", isAuthenticated, async (req, res, next) => {
 				subject: '',
 				text: '',
 				html: '',
-				keyword: 'POST /update-status'
+				keyword: 'POST /dashboard/update-status'
 			});
 		} else {
 			booking.status = status;
