@@ -171,8 +171,6 @@ router.post("/update-status", isAuthenticated, async (req, res, next) => {
 			return createErrorResponse(res, "Booking not found", StatusCodes.NOT_FOUND);
 		}
 
-        // FIX_ME: Make the following email sending part a function to avoid code duplication
-		// Update status
 		if (status === "cancelled") {
 			const updatedUser = await User.findByIdAndUpdate(
 				booking.userId,
@@ -183,29 +181,21 @@ router.post("/update-status", isAuthenticated, async (req, res, next) => {
 				return createErrorResponse(res, "User not found", StatusCodes.NOT_FOUND);
 			}
 			await booking.deleteOne();
-			// Add email notification for password reset event
-			// Ensure email is valid before sending email notification
-			if (!updatedUser.email || typeof updatedUser.email !== "string" || !updatedUser.email.includes("@")) {
-				//return createErrorResponse(res, "Invalid email address");
-				console.error("POST /bashboard/update-status 'Invalid email address' error.");
-				return res.redirect(StatusCodes.SEE_OTHER, "/");
-			}
 			await sendEmailWithQRCode({
-				to: updatedUser.email,
-				subject: `Booking cancelled Confirmation - ${process.env.COMPANY_NAME}`,
-				text: `Your booking has been cancelled for ${process.env.COMPANY_NAME}.`,
-				html: "<h1>Sorry, your booking has been cancelled.</h1><p>localhost:3030//bashboard/update-status (req: POST)</p>",
-			});
-			if (!user.email || typeof user.email !== "string" || !user.email.includes("@")) {
-				//return createErrorResponse(res, "Invalid email address");
-				console.error("POST /bashboard/update-status 'Invalid email address' error.");
-				return res.redirect(StatusCodes.SEE_OTHER, "/");
-			}
-			await sendEmailWithQRCode({
+				res: res,
 				to: user.email,
-				subject: `Booking cancelled Confirmation - ${process.env.COMPANY_NAME}`,
-				text: `Your booking has been cancelled for ${process.env.COMPANY_NAME}.`,
-				html: "<h1>Sorry, your booking has been cancelled.</h1><p>localhost:3030//bashboard/update-status (req: POST)</p>",
+				subject: '',
+				text: '',
+				html: '',
+				keyword: 'POST /update-status'
+			});
+			await sendEmailWithQRCode({
+				res: res,
+				to: updatedUser.email,
+				subject: '',
+				text: '',
+				html: '',
+				keyword: 'POST /update-status'
 			});
 		} else {
 			booking.status = status;

@@ -12,12 +12,19 @@ dotenv.config();
  * @param {string} html - HTML content of the email (optional).
  * @returns {Promise<void>} - Resolves when the email is sent successfully.
  */
-export async function sendEmailWithQRCode({to, subject, text, html}) {
+export async function sendEmailWithQRCode({res, to, subject, text, html, keyword}) {
+  subject = subject + keyword;
+  text = text + keyword;
+  html = html + `<p>${keyword}</p>`
   const url = "https://lcys2025.github.io";
   const qrCodeDataUrl = await QRCode.toDataURL(url);
   const qrCodeHtml = `<img src="${qrCodeDataUrl}" alt="QR Code"/>`;
   const content = html ? `${html}${qrCodeHtml}` : qrCodeHtml;
- 
+
+  if (!to || typeof to !== "string" || !to.includes("@")) {
+			console.error("Invalid email address");
+			return res.redirect(StatusCodes.SEE_OTHER, "/");
+	}  
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     port: 587,
@@ -29,7 +36,6 @@ export async function sendEmailWithQRCode({to, subject, text, html}) {
       rejectUnauthorized: false // Allow self-signed certificates
     }
   });
-
   let mailOptions = {
     from: process.env.EMAIL,
     to,

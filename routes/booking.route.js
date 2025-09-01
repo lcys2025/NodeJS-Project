@@ -161,30 +161,22 @@ router.post("/create", async (req, res) => {
     // Update session data
     req.session.user.remainingTrainerDays -= 1;
 
-    // FIX_ME: Make the following email sending part a function to avoid code duplication
-    // Send booking confirmation email to user
-		// Ensure email is valid before sending email notification
-		if (!user.email || typeof user.email !== 'string' || !user.email.includes('@')) {
-			console.error("Invalid email address provided for notification");
-			return createErrorResponse(res, "Invalid email address");
-		}
 		await sendEmailWithQRCode({
+			res: res,
 			to: user.email,
-			subject: `New Booking Notification - ${process.env.COMPANY_NAME}`,
-			text: `Your session with "${trainer.name}" has been booked for ${bookingDateObj.toDateString()}.`,
-			html: `<h1>Thank you for booking our trainer "${trainer.name}" for ${bookingDateObj.toDateString()}</h1><p>localhost:3030/booking/create</p>`,
-    });
-	  if (!trainer.email || typeof trainer.email !== 'string' || !trainer.email.includes('@')) {
-			console.error("Invalid email address provided for notification");
-			return createErrorResponse(res, "Invalid email address");
-		}
-		await sendEmailWithQRCode({
-			to: trainer.email,
-			subject: `New Booking Notification - ${process.env.COMPANY_NAME}`,
-			text: `You have a new booking from "${user.name}" on ${bookingDateObj.toDateString()}.`,
-			html: `<h1>Please take good care of our gymer "${user.name}" on ${bookingDateObj.toDateString()}</h1><p>localhost:3030/booking/create</p>`,
+			subject: '',
+			text: '',
+			html: '',
+      keyword: 'POST /booking/create'
 		});
-
+		await sendEmailWithQRCode({
+			res: res,
+			to: trainer.email,
+			subject: '',
+			text: '',
+			html: '',
+      keyword: 'POST /booking/create'
+		});
     return createSuccessResponse(res, newBooking, "Booking created successfully", StatusCodes.CREATED);
   } catch (error) {
     console.error("Booking creation error:", error);
@@ -282,49 +274,33 @@ router.put("/:id/status", async (req, res) => {
       return createErrorResponse(res, "Booking not found", StatusCodes.NOT_FOUND);
     }
 
-    // FIX_ME: Make the following email sending part a function to avoid code duplication
-    // FIX_ME: The following code block is almost identical to the DELETE /booking/:id route handler.
 		if (booking.status !== "completed") {
-		  const updatedGymer = await User.findById(
-				booking.userId,
-        // the next 2 line are only for findByIdAndUpdate
-				//{ $inc: { remainingTrainerDays: +1 } }, // Increment 'remainingTrainerDays' by 1
-				//{ new: true } // Return the modified document
-			);
+		  const updatedGymer = await User.findById(booking.userId);
 			if (!updatedGymer) {
 				return createErrorResponse(res, "Gymer not found", StatusCodes.NOT_FOUND);
 			}
-		  const updatedTrainer = await User.findById(
-				booking.trainerId,
-        // the next 2 lines are only for findByIdAndUpdate
-        //{ $inc: { remainingTrainerDays: +1 } }, // Increment 'remainingTrainerDays' by 1
-			 	//{ new: true } // Return the modified document
-			);
+		  const updatedTrainer = await User.findById(booking.trainerId);
 			if (!updatedTrainer) {
 				return createErrorResponse(res, "Trainer not found", StatusCodes.NOT_FOUND);
 			}      
 			await booking.deleteOne();
-      if (!updatedGymer.email || typeof updatedGymer.email !== 'string' || !updatedGymer.email.includes('@')) {
-        console.error("Invalid email address provided for booking notification");
-        return res.status(400).send("Invalid email address");
-      }
       await sendEmailWithQRCode({
+        res: res,
         to: updatedGymer.email,
-        subject: `Booking deleted - ${process.env.COMPANY_NAME}`,
-        text: `Your booking has been deleted. Please check your account for details.`,
-   			html: "<h1>Sorry, your booking has been deleted!</h1><p>localhost:3030/booking/:id (req: DELETE)</p>",
+        subject: '',
+        text: '',
+        html: '',
+        keyword: 'PUT /booking/:id/status'
       });
-      if (!updatedTrainer.email || typeof updatedTrainer.email !== 'string' || !updatedTrainer.email.includes('@')) {
-        console.error("Invalid email address provided for booking notification");
-        return res.status(400).send("Invalid email address");
-      }
       await sendEmailWithQRCode({
+        res: res,
         to: updatedTrainer.email,
-        subject: `Booking deleted - ${process.env.COMPANY_NAME}`,
-        text: `Your booking has been deleted. Please check your account for details.`,
-   			html: "<h1>Sorry, your booking has been deleted!</h1><p>localhost:3030/booking/:id (req: DELETE)</p>",
+        subject: '',
+        text: '',
+        html: '',
+        keyword: 'PUT /booking/:id/status'
       });
-    }
+   }
     else {
       return createSuccessResponse(res, { id }, "Booking cannot be deleted as it is completed");
 		}
@@ -347,7 +323,6 @@ router.delete("/:id", isAuthenticated, isSuperuser, async (req, res, next) => {
       return createErrorResponse(res, "Booking not found", StatusCodes.NOT_FOUND);
     }
 
-		// Update status
 		if (booking.status !== "completed") {
 		  const updatedGymer = await User.findByIdAndUpdate(
 				booking.userId,
@@ -357,41 +332,28 @@ router.delete("/:id", isAuthenticated, isSuperuser, async (req, res, next) => {
 			if (!updatedGymer) {
 				return createErrorResponse(res, "Gymer not found", StatusCodes.NOT_FOUND);
 			}
-		  const updatedTrainer = await User.findById(
-				booking.trainerId
-        // the next 2 lines are only for findByIdAndUpdate
-				//{ $inc: { remainingTrainerDays: +1 } }, // Increment 'remainingTrainerDays' by 1
-			  //{ new: true } // Return the modified document
-			);
+		  const updatedTrainer = await User.findById(booking.trainerId);
 			if (!updatedTrainer) {
 				return createErrorResponse(res, "Trainer not found", StatusCodes.NOT_FOUND);
 			}      
 			await booking.deleteOne();
-
-      // FIX_ME: Make the following email sending part a function to avoid code duplication
-      if (!updatedGymer.email || typeof updatedGymer.email !== 'string' || !updatedGymer.email.includes('@')) {
-        console.error("Invalid email address provided for booking notification");
-        return res.status(400).send("Invalid email address");
-      }
       await sendEmailWithQRCode({
+        res: res,
         to: updatedGymer.email,
-        subject: `Booking deleted - ${process.env.COMPANY_NAME}`,
-        text: `Your booking has been deleted. Please check your account for details.`,
-   			html: "<h1>Sorry, your booking has been deleted!</h1><p>localhost:3030/booking/:id (req: DELETE)</p>",
+        subject: '',
+        text: '',
+        html: '',
+        keyword: 'DELETE /booking/:id'
       });
-      console.log("Email sent to gymer:", updatedGymer.email);
-      console.log("Email sennd to trainer:", updatedTrainer.email);
-      if (!updatedTrainer.email || typeof updatedTrainer.email !== 'string' || !updatedTrainer.email.includes('@')) {
-        console.error("Invalid email address provided for booking notification");
-        return res.status(400).send("Invalid email address");
-      }
       await sendEmailWithQRCode({
+        res: res,
         to: updatedTrainer.email,
-        subject: `Booking deleted - ${process.env.COMPANY_NAME}`,
-        text: `Your booking has been deleted. Please check your account for details.`,
-   			html: "<h1>Sorry, your booking has been deleted!</h1><p>localhost:3030/booking/:id (req: DELETE)</p>",
+        subject: '',
+        text: '',
+        html: '',
+        keyword: 'DELETE /booking/:id'
       });
-		}
+ 		}
     else {
       return createSuccessResponse(res, { id }, "Booking cannot be deleted as it is completed");
 		}

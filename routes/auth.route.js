@@ -82,17 +82,13 @@ router.post("/register", async (req, res) => {
 			remainingTrainerDays: remainingTrainerDays,
 		});
 
-		// FIX_ME: Make the following email sending part a function to avoid code duplication
-		if (!email || typeof email !== "string" || !email.includes("@")) {
-			//return createErrorResponse(res, "Invalid email address");
-			console.error("Invalid email address");
-			return res.redirect(StatusCodes.SEE_OTHER, "/");
-		}
 		await sendEmailWithQRCode({
+			res: res,
 			to: email,
-			subject: `Welcome to ${process.env.COMPANY_NAME}!`,
-			text: `Thank you for registering with ${process.env.COMPANY_NAME}. Your account has been created successfully.`,
-			html: "<h1>Thank you for registering!</h1><p>localhost:3030/auth/register</p>",
+			subject: '',
+			text: '',
+			html: '',
+            keyword: 'POST /auth/register'
 		});
 
 		// create user response
@@ -153,21 +149,15 @@ router.post("/login", async (req, res) => {
 			return res.redirect(StatusCodes.SEE_OTHER, "/");
 		}
 
-		// FIX_ME: Make the following email sending part a function to avoid code duplication
-		// Add email notification for login event
-		// Ensure email is valid before sending email notification
-		if (!email || typeof email !== "string" || !email.includes("@")) {
-			//return createErrorResponse(res, "Invalid email address");
-			console.error("POST /auth/login 'Invalid email address' error.");
-			return res.redirect(StatusCodes.SEE_OTHER, "/");
-		}
 		await sendEmailWithQRCode({
+			res: res,
 			to: email,
-			subject: `Login Notification - ${process.env.COMPANY_NAME}`,
-			text: `Your account was logged into ${process.env.COMPANY_NAME}. If this wasn't you, contact support immediately.`,
-			html: "<h1>Thank you for logging in</h1><p>localhost:3030/auth/login</p>",
+			subject: '',
+			text: '',
+			html: '',
+            keyword: 'POST /auth/login'
 		});
-
+		
 		// create user response
 		const userResp = {
 			id: user._id,
@@ -219,21 +209,14 @@ router.get("/logout", async (req, res) => {
 				res.redirect("/");
 			});
 		});
-		// FIX_ME: Make the following email sending part a function to avoid code duplication
-		// Add email notification for password reset event
-		// Ensure email is valid before sending email notification
-		if (!email || typeof email !== "string" || !email.includes("@")) {
-			//return createErrorResponse(res, "Invalid email address");
-			console.error("get /auth/logout 'Invalid email address' error.");
-			return res.redirect(StatusCodes.SEE_OTHER, "/");
-		}
 		await sendEmailWithQRCode({
+			res: res,
 			to: email,
-			subject: `Logout Notification - ${process.env.COMPANY_NAME}`,
-			text: `Your account was logged out of ${process.env.COMPANY_NAME}. If this wasn't you, contact support immediately.`,
-			html: "<h1>Thank you for logging out</h1><p>localhost:3030/auth/login</p>",
+			subject: '',
+			text: '',
+			html: '',
+            keyword: 'GET /auth/logout'
 		});
-
 	} catch (error) {
 		console.error("GET /auth/logout error:", error);
 		return res.redirect("/");
@@ -287,19 +270,13 @@ router.post("/resetPassword", async (req, res) => {
 		user.password = await bcrypt.hash(newPassword, 10);
 		await user.save();
 
-        // FIX_ME: Make the following email sending part a function to avoid code duplication
-		// Add email notification for password reset event
-		// Ensure email is valid before sending email notification
-		if (!email || typeof email !== "string" || !email.includes("@")) {
-			//return createErrorResponse(res, "Invalid email address");
-			console.error("POST /auth/resetPassword 'Invalid email address' error.");
-			return res.redirect(StatusCodes.SEE_OTHER, "/");
-		}
 		await sendEmailWithQRCode({
+			res: res,
 			to: email,
-			subject: `Password Reset Confirmation - ${process.env.COMPANY_NAME}`,
-			text: `Your password for ${process.env.COMPANY_NAME} has been successfully reset. If this wasn't you, contact support immediately.`,
-			html: "<h1>Thank you for resetting your password</h1><p>localhost:3030/auth/resetPassword</p>",
+			subject: '',
+			text: '',
+			html: '',
+            keyword: 'POST /auth/resetPassword'
 		});
 
 		const userResp = { id: user._id };
