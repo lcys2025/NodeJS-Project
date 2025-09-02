@@ -3,13 +3,6 @@ import User from "../models/User.model.js";
 
 const router = express.Router();
 
-// Store recognized users (in production, use a database)
-const recognizedUsers = {
-    'chan_tai_man': { name: 'Chan Tai Man' },
-    'john_doe': { name: 'John Doe' },
-    'jane_smith': { name: 'Jane Smith' },
-};
-
 // GET route for the face recognition page
 router.get("/", (req, res) => {
     res.render("face");
@@ -33,7 +26,6 @@ router.post("/login", async (req, res) => {
             }
         ]
     });
-    console.log('documentUser:', documentUser);
 
     // Validate the user exists
     if (!documentUser) {
@@ -51,7 +43,6 @@ router.post("/login", async (req, res) => {
         });
     }
     const user = await User.findOne({ name: documentUser.name });
-    console.log('user:', user);
     if (!user) {
         return res.json({
             success: false,
