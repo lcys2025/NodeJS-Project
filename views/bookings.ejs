@@ -5,108 +5,50 @@
 
     <% if (bookings.length===0) { %>
       <p>You have no bookings yet.</p>
-      <% } else { %>
-        <table class="bookings-table">
-          <thead>
+    <% } else { %>
+      <table class="bookings-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Trainer ID</th>
+            <th>Date</th>
+            <th>Session Type</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% bookings.forEach(booking=> { %>
             <tr>
-              <th>ID</th>
-              <th>User ID</th>
-              <th>Trainer ID</th>
-              <th>Date</th>
-              <th>Session Type</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <td>
+                <%= booking._id %>
+              </td>
+              <td>
+                <%= booking.userId %>
+              </td>
+              <td>
+                <%= booking.trainerId %>
+              </td>
+              <td>
+                <%= booking.bookingDate %>
+              </td>
+              <td>
+                <%= booking.sessionType %>
+              </td>
+              <td>
+                <%= booking.status %>
+              </td>
+              <td>
+                <% if (booking.status==='pending' ) { %>
+                  <button class="cancel-btn" data-id="<%= booking._id %>">Cancel</button>
+                  <% } %>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            <% bookings.forEach(booking=> { %>
-              <tr>
-                <td>
-                  <%= booking._id %>
-                </td>
-                <td>
-                  <%= booking.userId %>
-                </td>
-                <td>
-                  <%= booking.trainerId %>
-                </td>
-                <td>
-                  <%= booking.bookingDate %>
-                </td>
-                <td>
-                  <%= booking.sessionType %>
-                </td>
-                <td>
-                  <%= booking.status %>
-                </td>
-                <td>
-                  <% if (booking.status==='pending' ) { %>
-                    <button class="cancel-btn" data-id="<%= booking._id %>">Cancel</button>
-                    <% } %>
-                </td>
-              </tr>
-              <% }); %>
+            <% }); %>
           </tbody>
         </table>
-        <div></div>
-        <div></div>
-        <table class="users-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>name</th>
-              <th>password</th>
-              <th>email</th>
-              <th>plan</th>
-              <th>role</th>
-              <th>remainingTrainerDays</th>
-              <th>payment.amount</th>
-              <th>payment.currency</th>
-              <th>payment.status</th>
-              <th>payment.method</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% users.forEach(user=> { %>
-              <tr>
-                <td>
-                  <%= user._id %>
-                </td>
-                <td>
-                  <%= user.name %>
-                </td>
-                <td>
-                  <%= user.password %>
-                </td>
-                <td>
-                  <%= user.email %>
-                </td>
-                <td>
-                  <%= user.plan %>
-                </td>
-                <td>
-                  <%= user.role %>
-                </td>
-                <td>
-                  <%= user.remainingTrainerDays %>
-                </td>
-                <td>
-                  <%= user.payment.amount %>
-                </td>
-                <td>
-                  <%= user.payment.currency %>
-                </td>
-                <td>
-                  <%= user.payment.status %>
-                </td>
-                <td>
-                  <%= user.payment.method %>
-                </td>
-              </tr>
-              <% }); %>
-          </tbody>
-        </table>
-        <% } %>
+    <% } %>
 
           <div class="actions">
             <a href="/booking/create" class="btn primary">Book New Session</a>
