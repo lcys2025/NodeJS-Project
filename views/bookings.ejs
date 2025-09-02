@@ -114,10 +114,6 @@
   </div>
 
   <script>
-    document.getElementById("newBookingBtn").addEventListener("click", () => {
-      window.location.href = "/booking/create";
-    });
-
     document.querySelectorAll(".cancel-btn").forEach(btn => {
       btn.addEventListener("click", async function () {
         const bookingId = this.dataset.id;
