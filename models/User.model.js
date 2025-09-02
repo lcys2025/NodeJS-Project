@@ -62,6 +62,15 @@ const userSchema = new mongoose.Schema(
 			},
 			method: String
 		},
+		face: {
+			lookup: {
+				type: Object,
+				default: {
+					dirname: 'chan_tai_man',
+					name: 'Chan Tai Man'
+				}
+			}
+		},
 	},
 	{
 		collection: "users",
