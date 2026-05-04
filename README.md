@@ -9,17 +9,17 @@
    - SUPERUSER:
      - superuser 1:
         - email: Lcys20252025@gmail.com
-        - password: Erbscope2025
+        - password: Erbscope2025 or Erbscope
    - USER:
       - User 1. email: Lcys20252025+1@gmail.com
-      -         password: Erbscope2025
+      -         password: Erbscope2025 or Erbscope
       - User 2. email: Lcys20252025+2@gmail.com
-      -         password: Erbscope2025
+      -         password: Erbscope2025 or Erbscope
       - User 3. email: Lcys20252025+3@gmail.com
-      -         password: Erbscope2025
+      -         password: Erbscope2025 or Erbscope
 5. All associated 'resource' accounts are using 'project' outlook email address.
    - username: Lcys2025@outlook.com
-   - password: Erbscope
+   - password: Erbscope or Erbscope2025
    - Outlook, Github, Mongoose
    - e.g.
      - mongoose: username: Lcys2025@outlook.com
