@@ -23,10 +23,10 @@
    - Outlook, Github, Mongoose
    - e.g.
      - mongoose: username: Lcys2025@outlook.com
-     - mongoose: password: Erbscope
+     - mongoose: password: Erbscope or Erbscope2025
 
 ## Team Member Name (4 members)
-1. L - LI,Man Hei (student#: 7)
+1. L - LI, Man Hei (student#: 7)
 2. C - CHUK, For Pui (student#: 18)
 3. Y - YUNG, Wai Ming (student#: 24)
 4. S - SUAN, Guan Li (student#: 22) 'also as: XIAO, Guan Li (student#: 22)'
